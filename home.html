@@ -15,28 +15,30 @@
     <title>OSTR | Unleash Your Style</title>
   </head>
   <body class="bg-bg_clr text-t_clr">
-    <nav>
+    <nav class="w-full h-full flex justify-around my-10">
       <label class="logo"> <a href="homepage.html">OSTR</a></label>
-      <ul>
-        <li><a href="homepage.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="login.html">Login - SignUp</a></li>
+      <ul class="flex gap-10 font-semibold">
+        <li class="hover:bg-sky-700"><a href="home.html">Home</a></li>
+        <li class="hover:bg-sky-700"><a href="new.html">New</a></li>
+        <li class="hover:bg-sky-700"><a href="shop.html">Shop</a></li>
+        <li class="hover:bg-sky-700">
+          <a href="login.html">Login - SignUp</a>
+        </li>
       </ul>
-      <div class="nav__action">
-        <li>
-          <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
-        </li>
-        <li>
-          <a href="wishlist.html"><i class="fa-solid fa-heart"></i></a>
-        </li>
+      <div class="flex text-xl gap-20">
+        <a href="cart.html"
+          ><i class="fa-solid fa-cart-shopping hover:bg-sky-700"></i
+        ></a>
+        <a href="wishlist.html"
+          ><i class="fa-solid fa-heart hover:bg-sky-700"></i
+        ></a>
       </div>
     </nav>
-    <div class="bg-cn_clr p-6">
-      <p class="font-header text-3xl">Header</p>
-      <p class="font-paragraph text-lg">Paragraph</p>
+    <div class="first-content">
+      <h2>Get Up to 45% <br />off new products</h2>
+      <p>The biggest sale of the year is at <span>OSTR Clothes</span></p>
+      <button>Shop Now -></button>
     </div>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="script.js"></script>
   </body>
