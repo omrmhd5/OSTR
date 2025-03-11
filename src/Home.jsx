@@ -62,6 +62,59 @@ export default function Home() {
               </a>
             </div>
           </div>
+          <div class="bg-gray-100 p-10">
+            <div class="flex justify-center items-center space-x-10">
+              <div class="text-center">
+                <h2 class="text-4xl font-bold">200+</h2>
+                <p class="text-gray-600">International Brands</p>
+              </div>
+              <div class="border-l-2 border-gray-300 h-16"></div>
+              <div class="text-center">
+                <h2 class="text-4xl font-bold">2,000+</h2>
+                <p class="text-gray-600">High-Quality Products</p>
+              </div>
+              <div class="border-l-2 border-gray-300 h-16"></div>
+              <div class="text-center">
+                <h2 class="text-4xl font-bold">30,000+</h2>
+                <p class="text-gray-600">Happy Customers</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-black py-6">
+            <div class="flex justify-center space-x-25 text-white text-2xl font-semibold">
+              <span>VERSACE</span>
+              <span>H&M</span>
+              <span>VERSACE</span>
+              <span>ZARA</span>
+              <span>VERSACE</span>
+              <span>GUCCI</span>
+              <span class="font-bold">PRADA</span>
+              <span>Calvin Klein</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex w-full h-screen">
+        <div className="relative w-1/2 bg-cover bg-center">
+          <div className=" absolute inset-0 flex flex-col justify-center items-center text-white">
+            <video width="800" height="400" autoPlay muted>
+              <source src="src\assets\video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <div className="relative w-1/2 h-0.5 bg-cover bg-center">
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-black">
+            <p className="absolute text-sm tracking-widest mt-430">KOREATOWN</p>
+            <h1 className="absolute text-5xl font-serif mt-410">Los Angeles</h1>
+            <img
+              className="relative rounded-xl mt-210"
+              src="src\assets\img2.jpg"
+              alt="Sale"
+            />
+          </div>
         </div>
       </section>
     </div>
