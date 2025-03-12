@@ -1,10 +1,10 @@
 import Home from "./home";
-import ProductPage from "./productPage";
+import ProductPage from "./ProductPage";
 
 function App() {
   return (
     <>
-      <Home />
+      {/* <Home /> */}
       <ProductPage />
     </>
   );
