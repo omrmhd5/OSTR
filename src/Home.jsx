@@ -158,6 +158,25 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <div className="bg-bg_clr text-t_clr p-7 py-20 mt-50 rounded-3xl flex items-center justify-around">
+          <h3 className="text-4xl font-bold w-90 ">
+            STAY UP TO DATE ABOUT OUR LATEST OFFERS
+          </h3>
+          <div className=" mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
+            <span className="px-6 flex items-center bg-white">
+              <i className="fa-solid fa-envelope text-2xl"></i>
+            </span>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="p-6 bg-white text-black outline-none -ml-5 "
+            />
+            <button className=" bg-white text-t_clr font-bold ml-1">
+              Subscribe to Newsletter
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
