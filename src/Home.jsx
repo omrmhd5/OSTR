@@ -177,6 +177,116 @@ export default function Home() {
             </button>
           </div>
         </div>
+
+        <footer className=" text-t_clr text-center bg-grey-900 p-10 mt-50 ">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-6">
+            <div>
+              <h3 className="text-4xl font-extrabold text-left">OSTOR</h3>
+              <p className="text-sm mt-5 text-left">
+                We have clothes that suit your style and which you’re proud to
+                wear. <br /> From women to men.
+              </p>
+              <div className="flex gap-4 mt-5 text-2xl">
+                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
+                  <i class="fa-brands fa-facebook"></i>
+                </span>
+                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
+                  <i class="fa-brands fa-instagram"></i>
+                </span>
+                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
+                  <i class="fa-brands fa-tiktok"></i>
+                </span>
+                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
+                  <i class="fa-brands fa-twitter"></i>
+                </span>
+              </div>
+            </div>
+
+            <div className="mb-15">
+              <h4 className="font-semibold mb-5">COMPANY</h4>
+              <ul className="mt-2 space-y-2 text-sm">
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  About
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Features
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Works
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Career
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-5">HELP</h4>
+              <ul className="mt-2 space-y-2 text-sm">
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Customer Support
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Delivery Details
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Terms & Conditions
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Privacy Policy
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-5">FAQ</h4>
+              <ul className="mt-2 space-y-2 text-sm">
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Account
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Manage Deliveries
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Orders
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Payments
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-5">RESOURCES</h4>
+              <ul className="mt-2 space-y-2 text-sm ">
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Free eBooks
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  Development Tutorial
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  How to - Blog
+                </li>
+                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                  {" "}
+                  Youtube Playlist
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <hr />
+          <p className="text-sm text-left mt-5">
+            Ostor © 2020-2025, All Rights Reserved
+          </p>
+          <div className="flex gap-4 text-3xl justify-end -mt-5">
+            <i class="fa-brands fa-cc-visa"></i>
+            <i class="fa-brands fa-cc-mastercard"></i>
+            <i class="fa-brands fa-cc-paypal"></i>
+            <i class="fa-brands fa-cc-apple-pay"></i>
+          </div>
+        </footer>
       </div>
     </div>
   );
