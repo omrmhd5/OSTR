@@ -1,5 +1,22 @@
 import React from "react";
 
+const reviews = [
+  {
+    name: "Sarah M.",
+    review:
+      "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations.",
+  },
+  {
+    name: "Alex K.",
+    review:
+      "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes and occasions.",
+  },
+  {
+    name: "James L.",
+    review:
+      "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
+  },
+];
 export default function Home() {
   return (
     <div className="bg-bg_clr text-t_clr ">
@@ -28,10 +45,10 @@ export default function Home() {
 
         <div className="flex text-xl gap-10">
           <a href="cart.html">
-            <i className="fa-solid fa-cart-shopping hover:text-sky-950 hover:underline underline-offset-4"></i>
+            <i className="fa-solid fa-cart-shopping hover:text-sky-950 hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out"></i>
           </a>
           <a href="wishlist.html">
-            <i className="fa-solid fa-heart hover:text-sky-950 hover:underline underline-offset-4"></i>
+            <i className="fa-solid fa-heart hover:text-sky-950 hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out"></i>
           </a>
         </div>
       </nav>
@@ -99,7 +116,7 @@ export default function Home() {
       <section className="flex w-full h-screen">
         <div className="relative w-1/2 bg-cover bg-center">
           <div className=" absolute inset-0 flex flex-col justify-center items-center text-white">
-            <video width="800" height="400" autoPlay muted>
+            <video width="800" height="400" autoPlay muted loop>
               <source src="src\assets\video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
@@ -117,6 +134,31 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <div className="bg-gray-100 p-10">
+        <h2 className="text-4xl font-bold text-left mb-6 ml-5 mt-10">
+          OUR HAPPY CUSTOMERS
+        </h2>
+        <div className="flex gap-4 overflow-x-auto">
+          {reviews.map((review, index) => (
+            <div
+              key={index}
+              className="bg-white p-6 rounded-lg shadow-md min-w-[300px]"
+            >
+              <div className="flex gap-1  text-yellow-400">
+                {[...Array(5)].map(() => (
+                  <i className="fa-solid fa-star"></i>
+                ))}
+              </div>
+              <h3 className="font-bold mt-2">
+                {review.name}
+                <i class="fa-solid fa-circle-check"></i>
+              </h3>
+
+              <p className="text-gray-600 mt-2">{review.review}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
