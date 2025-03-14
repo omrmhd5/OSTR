@@ -8,7 +8,7 @@ const Profile = () => {
         case "Profile":
           return (
             <div className= "text-t_clr">
-                <img src="/src/assets/profile.jpg" alt= "profile photo" className="w-50 h-50 rounded-full m-4"></img>
+                <img src="/src/assets/Nemo.png" alt= "profile photo" className="w-50 h-50 rounded-full m-4"></img>
                 <form className="grid grid-cols-2 gap-4 mt-10">
               <label className="block">
                 <span>First Name</span>
@@ -27,18 +27,24 @@ const Profile = () => {
                 <input type="email" className="border p-2 w-full" defaultValue="Tasnim12@gmail.com" />
               </label>
               <label className="block">
-                <span>Website</span>
-                <input type="text" className="border p-2 w-full" defaultValue="www.tasnim.com" />
+                <span>Phone Number</span>
+                <input type="text" className="border p-2 w-full" defaultValue="01024239881" />
               </label>
-              <label className="block">
+              <div className="block">
                 <span>Gender</span>
-                <select className="border p-2 w-full">
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                <div className="flex gap-4 mt-2">
+                  <label className="flex items-center border-1 w-55 p-1 ">
+                    <input type="radio" name="gender" value="male" className="mr-2" /> Male
+                  </label>
+                  <label className="flex items-center border-1 w-55 p-1">
+                    <input type="radio" name="gender" value="female" className="mr-2" /> Female
+                  </label>
                   
-                </select>
-              </label>
+                </div>
+              </div>
             </form>
+
+            <button className="mt-10 bg-bg_clr p-1 w-40">Save</button>
           </div>
           );
         case "Orders History":
@@ -57,7 +63,7 @@ const Profile = () => {
     return (
       <div className="flex h-screen">
         <aside className="w-1/4 bg-bg_clr p-4 text-t_clr">
-        <img src="/src/assets/profile.jpg" alt= "profile photo" className="w-50 h-50 rounded-full m-4"></img>
+        <img src="/src/assets/Nemo.png" alt= "profile photo" className="w-50 h-50 rounded-full m-4"></img>
           <ul>
             {["Profile", "Orders History", "Settings", "Coupons", "Wallet"].map((item) => (
               <li key={item} className={`p-2 cursor-pointer ${activeTab === item ? "bg-cn_clr" : ""}`} onClick={() => setActiveTab(item)}>
