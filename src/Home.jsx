@@ -1,4 +1,31 @@
 import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const CustomPrevArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <button
+      className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
+      onClick={onClick}
+    >
+      <i className="fa-solid fa-arrow-left"></i>
+    </button>
+  );
+};
+
+const CustomNextArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <button
+      className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
+      onClick={onClick}
+    >
+      <i className="fa-solid fa-arrow-right"></i>
+    </button>
+  );
+};
 
 const reviews = [
   {
@@ -9,17 +36,63 @@ const reviews = [
   {
     name: "Alex K.",
     review:
-      "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes and occasions.",
+      "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes.",
   },
   {
     name: "James L.",
     review:
       "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
   },
+  {
+    name: "Bernice Levy",
+    review:
+      "I love the clothes from this website!! I am so glad I found them.....everything has been spot on, fits wonderfully, styles are trendy and lots to choose from!! Thanks for being here for us!!!",
+  },
+  {
+    name: "Connie",
+    review:
+      "I absolutely adore the trendy styles this store offers. The clothes fit so well and they look amazing on a curvy figure. I really appreciate this option and the quality of the goods is so great that I will order product in the future!",
+  },
 ];
 export default function Home() {
+  // const [currentIndex, setCurrentIndex] = useState(0);
+
+  // const nextReview = () => {
+  //   setCurrentIndex((prevIndex) =>
+  //     prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+  //   );
+  // };
+
+  // const prevReview = () => {
+  //   setCurrentIndex((prevIndex) =>
+  //     prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
+  //   );
+  // };
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
   return (
-    <div className="bg-bg_clr text-t_clr ">
+    <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <nav className="w-full h-full flex justify-around p-6 z-5 bg-white ">
         <label className="text-4xl font-bold delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
           <a href="homepage.html">OSTR</a>
@@ -102,9 +175,9 @@ export default function Home() {
             <div class="flex justify-center space-x-25 text-white text-2xl font-semibold">
               <span>VERSACE</span>
               <span>H&M</span>
-              <span>VERSACE</span>
+              <span>New Yorker</span>
               <span>ZARA</span>
-              <span>VERSACE</span>
+              <span>Mango</span>
               <span>GUCCI</span>
               <span class="font-bold">PRADA</span>
               <span>Calvin Klein</span>
@@ -134,33 +207,35 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       <div className="bg-gray-100 p-10">
-        <h2 className="text-4xl font-bold text-left mb-6 ml-5 mt-10">
+        <h2 className="text-4xl font-bold text-left mb-6 ml-5 mt-10 mb-20">
           OUR HAPPY CUSTOMERS
         </h2>
-        <div className="flex gap-4 overflow-x-auto">
-          {reviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-md min-w-[300px]"
-            >
-              <div className="flex gap-1  text-yellow-400">
-                {[...Array(5)].map(() => (
-                  <i className="fa-solid fa-star"></i>
-                ))}
+        <div className="max-w-5xl mx-auto px-3">
+          <Slider {...settings}>
+            {reviews.map((review, index) => (
+              <div key={index} className="px-3 py-6 h-80">
+                {" "}
+                <div className="bg-white p-5 rounded-lg shadow-md">
+                  <div className="flex gap-1 text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <i key={i} className="fa-solid fa-star"></i>
+                    ))}
+                  </div>
+                  <h3 className="font-bold mt-2 flex items-center gap-2">
+                    {review.name}
+                    <i className="fa-solid fa-circle-check text-green-500"></i>
+                  </h3>
+                  <p className="text-gray-600 mt-2">{review.review}</p>
+                </div>
               </div>
-              <h3 className="font-bold mt-2">
-                {review.name}
-                <i class="fa-solid fa-circle-check"></i>
-              </h3>
-
-              <p className="text-gray-600 mt-2">{review.review}</p>
-            </div>
-          ))}
+            ))}
+          </Slider>
         </div>
 
-        <div className="bg-bg_clr text-t_clr p-7 py-20 mt-50 rounded-3xl flex items-center justify-around">
-          <h3 className="text-4xl font-bold w-90 ">
+        <div className="bg-bg_clr text-t_clr p-7 py-25 mt-50 rounded-3xl flex items-center justify-around">
+          <h3 className="text-4xl font-bold w-70 ">
             STAY UP TO DATE ABOUT OUR LATEST OFFERS
           </h3>
           <div className=" mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
