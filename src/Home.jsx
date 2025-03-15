@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -55,19 +55,6 @@ const reviews = [
   },
 ];
 export default function Home() {
-  // const [currentIndex, setCurrentIndex] = useState(0);
-
-  // const nextReview = () => {
-  //   setCurrentIndex((prevIndex) =>
-  //     prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
-  //   );
-  // };
-
-  // const prevReview = () => {
-  //   setCurrentIndex((prevIndex) =>
-  //     prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
-  //   );
-  // };
   const settings = {
     dots: true,
     infinite: true,
@@ -91,6 +78,29 @@ export default function Home() {
       },
     ],
   };
+
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+
+  const showMessage = (text) => {
+    //+
+    setMessage(text); //+
+    setTimeout(() => setMessage(""), 5000); // Hide after 2 seconds//+
+  }; //
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleSubscribe = () => {
+    if (validateEmail(email)) {
+      showMessage("You're Subscribed successfully!");
+    } else {
+      showMessage("Wrong Email, Please Try Again!");
+    }
+  };
+
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <nav className="w-full h-full flex justify-around p-6 z-5 bg-white ">
@@ -233,9 +243,13 @@ export default function Home() {
             ))}
           </Slider>
         </div>
-
+        {message && (
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-[#976c60] text-white px-4 py-2 rounded shadow-md">
+            {message}
+          </div>
+        )}
         <div className="bg-bg_clr text-t_clr p-7 py-25 mt-50 rounded-3xl flex items-center justify-around">
-          <h3 className="text-4xl font-bold w-70 ">
+          <h3 className="text-4xl font-bold w-120 ">
             STAY UP TO DATE ABOUT OUR LATEST OFFERS
           </h3>
           <div className=" mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
@@ -245,10 +259,15 @@ export default function Home() {
             <input
               type="email"
               placeholder="Enter your email address"
-              className="p-6 bg-white text-black outline-none -ml-5 "
+              className="p-5 bg-white text-black outline-none -ml-5 w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <button className=" bg-white text-t_clr font-bold ml-1">
-              Subscribe to Newsletter
+            <button
+              className="bg-white text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
+              onClick={handleSubscribe}
+            >
+              Subscribe
             </button>
           </div>
         </div>
