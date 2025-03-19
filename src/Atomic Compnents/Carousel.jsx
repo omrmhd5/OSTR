@@ -8,8 +8,9 @@ export default function Carousel({
 }) {
   const [current, setCurrent] = useState(currentIndex || 0);
 
+  // Update state when `currentIndex` changes
   useEffect(() => {
-    setCurrent(currentIndex);
+    if (currentIndex !== undefined) setCurrent(currentIndex);
   }, [currentIndex]);
 
   const prev = () =>
@@ -20,9 +21,11 @@ export default function Carousel({
 
   useEffect(() => {
     if (!autoSlide) return;
+
     const slideInterval = setInterval(next, autoSlideInterval);
+
     return () => clearInterval(slideInterval);
-  }, []);
+  }, [current]); // Fix: Reset the interval when `current` changes
 
   return (
     <div className="overflow-hidden relative">

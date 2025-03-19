@@ -6,7 +6,7 @@ const StarRating = ({ rating, totalStars = 5, size = "text-xl" }) => {
         return (
           <i
             key={index}
-            className={`fa-solid ${size} ${
+            className={`hover:scale-150 transition-transform ease-in-out duration-200 fa-solid ${size} ${
               rating >= starValue
                 ? "fa-star"
                 : rating >= starValue - 0.5
