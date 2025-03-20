@@ -139,7 +139,7 @@ export default function ProductPage({
             </div>
             <button
               className={` py-1.5 px-32 bg-black rounded-lg text-white mt-4 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 ${
-                added ? "bg-green-600" : "animate-bounce"
+                added ? "bg-green-600" : "hover:animate-bounce"
               }`}
               onClick={() => setAdded((added) => !added)}>
               {added ? (
@@ -241,7 +241,7 @@ export default function ProductPage({
                 </div>
 
                 <div className="mt-1 text-lg flex justify-between items-baseline">
-                  <p className="font-semibold">{product.price}.00$</p>
+                  <p className="font-semibold">${product.price}.00</p>
                   <button className="py-1.5 px-3 text-lg bg-black rounded-lg text-white cursor-pointer hover:animate-bounce">
                     <i class="ri-shopping-cart-2-line"></i>
                   </button>
