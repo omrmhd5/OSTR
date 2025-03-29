@@ -1,5 +1,5 @@
 import Home from "./home";
-import ProductPage from "./productPage";
+
 import ShopPage from "./ShopPage";
 
 function App() {

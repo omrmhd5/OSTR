@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const productsmen = [
   { id: 1, name: "Backpack", price: 299, image: "src/assets/shirt.jpeg" },
   { id: 2, name: "Watch", price: 299, image: "src/assets/shirt.jpeg" },
@@ -30,16 +31,15 @@ const allProducts = [...productsmen, ...productswomen, ...productschildren];
 export default function ShopPage() {
   const [selectedProducts, setSelectedProducts] = useState(allProducts);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState(""); // Sorting state
+  const [sortBy, setSortBy] = useState("");
   const [message, setMessage] = useState("");
+  const [wishlist, setWishlist] = useState([]); // Wishlist state
 
-  // Function to show a temporary message
   const showMessage = (text) => {
     setMessage(text);
-    setTimeout(() => setMessage(""), 2000); // Hide after 2 seconds
+    setTimeout(() => setMessage(""), 2000);
   };
 
-  // Function to handle sorting
   const handleSort = (e) => {
     const value = e.target.value;
     setSortBy(value);
@@ -55,39 +55,44 @@ export default function ShopPage() {
     setSelectedProducts(sortedProducts);
   };
 
-  // Function to handle search filtering
+  // Function to handle adding/removing from wishlist
+  const toggleWishlist = (product) => {
+    setWishlist((prevWishlist) => {
+      const isAlreadyInWishlist = prevWishlist.some((item) => item.id === product.id);
+      
+      if (isAlreadyInWishlist) {
+        showMessage("Item removed from wishlist!");
+        return prevWishlist.filter((item) => item.id !== product.id);
+      } else {
+        showMessage("Item added to wishlist successfully!");
+        return [...prevWishlist, product];
+      }
+    });
+  };
+
   const filteredProducts = selectedProducts.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph">
+    <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph relative">
       <header className="flex justify-between items-center border-b pb-2 mb-4 p-4">
         <h1 className="text-xl font-bold font-header">Shop</h1>
       </header>
 
-      {/* Search & Sort Section */}
-      <div className="flex justify-between items-center mb-4 p-4">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="p-2 border rounded w-1/3 text-t_clr"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-[#976c60] text-white px-4 py-2 rounded shadow-md transition-opacity duration-300" style={{ display: message ? 'block' : 'none' }}>
+        {message}
+      </div>
 
-        <select
-          className="p-2 border rounded text-t_clr"
-          value={sortBy}
-          onChange={handleSort}
-        >
+      <div className="flex justify-between items-center mb-4 p-4">
+        <input type="text" placeholder="Search products..." className="p-2 border rounded w-1/3 text-t_clr" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <select className="p-2 border rounded text-t_clr" value={sortBy} onChange={handleSort}>
           <option value="">Sort By</option>
           <option value="low-to-high">Price: Low to High</option>
           <option value="high-to-low">Price: High to Low</option>
         </select>
       </div>
 
-      {/* Category Buttons */}
       <div className="flex items-center justify-center space-x-2 mb-4">
         <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(productsmen)}>Men</button>
         <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(productswomen)}>Women</button>
@@ -95,14 +100,6 @@ export default function ShopPage() {
         <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(allProducts)}>View All</button>
       </div>
 
-      {/* Success Message */}
-      {message && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-[#976c60] text-white px-4 py-2 rounded shadow-md">
-          {message}
-        </div>
-      )}
-
-      {/* Product Grid */}
       <div className="grid grid-cols-4 gap-4 p-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -110,19 +107,12 @@ export default function ShopPage() {
               <img src={product.image} alt={product.name} className="w-full h-40 object-cover" />
               <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
               <p className="text-t_clr">${product.price}</p>
-
               <div className="flex justify-center gap-2 mt-2">
-                <button 
-                  className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
-                  onClick={() => showMessage("Item added to cart successfully!")}
-                >
+                <button className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr" onClick={() => showMessage("Item added to cart successfully!")}> 
                   <img src="/src/assets/cart.png" alt="Cart" className="w-6 h-6" />
                 </button>
-                <button 
-                  className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
-                  onClick={() => showMessage("Item added to wishlist successfully!")}
-                >
-                  <img src="/src/assets/wishlist.png" alt="wishlist" className="w-6 h-6" />
+                <button className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr" onClick={() => toggleWishlist(product)}>
+                  <img src={wishlist.some((item) => item.id === product.id) ? "/src/assets/RemoveWishlist.png" : "/src/assets/wishlist.png"} alt="wishlist" className="w-6 h-6" />
                 </button>
               </div>
             </div>
