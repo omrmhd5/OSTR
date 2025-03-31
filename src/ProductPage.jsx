@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import StarRating from "./Atomic Compnents/StarRating";
-import Carousel from "./Atomic Compnents/Carousel";
+import { useEffect, useRef, useState } from "react";
+import StarRating from "./components/ui/StarRating";
+import Slideshow from "./components/ui/Slideshow";
+import Slider from "react-slick";
 
 export default function ProductPage({
   name,
@@ -23,13 +24,24 @@ export default function ProductPage({
   const [isPlusClicked, setIsPlusClicked] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [added, setAdded] = useState(false);
+  const sliderRef = useRef(null);
+
+  const settings = {
+    className: "slider variable-width",
+    dots: false,
+    infinite: true,
+    speed: 750,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+  };
 
   return (
     <section className=" h-dvh w-full bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <section className="bg-cn_clr py-6 px-20 m-24 rounded-lg w-3/4 justify-self-center ">
         <div className="flex flex-row gap-10">
-          <div className="max-w-1/2 max-h-[768px] shadow-2xl shadow-black/60">
-            <Carousel
+          <div className="max-w-1/2 max-h-[768px] shadow-lg shadow-black/60">
+            <Slideshow
               slides={photos.map((photo) => (
                 <img
                   key={photo.src}
@@ -152,7 +164,7 @@ export default function ProductPage({
             </button>
           </div>
         </div>
-        <div className="slideShow flex flex-wrap gap-4 mt-8 w-full">
+        <div className="slideShow flex gap-4 mt-8 w-full">
           {photos.map((photo, index) => (
             <img
               key={photo.src}
@@ -185,7 +197,10 @@ export default function ProductPage({
             Reviews
           </h1>
         </div>
-        <div className="reviewsContent mt-2 w-full">
+        <div
+          className={`reviewsContent mt-2 w-full transition-all duration-500 ease opacity-0 -translate-y-4 ${
+            activeTab == "reviews" ? "opacity-100 translate-y-0" : ""
+          }`}>
           {activeTab == "reviews"
             ? reviews.map((review) => (
                 <div className="w-2/4 mt-6 pb-5 border-b">
@@ -210,7 +225,10 @@ export default function ProductPage({
               ))
             : ""}
         </div>
-        <p className="mt-2 text-lg">
+        <p
+          className={`mt-2 text-lg transition-all duration-1000 ease opacity-0 -translate-y-4 ${
+            activeTab == "description" ? "opacity-100 translate-y-0" : ""
+          }`}>
           {activeTab == "description" ? description : ""}
         </p>
         <section className="mt-30">
@@ -218,37 +236,46 @@ export default function ProductPage({
             <h1 className="text-2xl font-semibold self-end ">
               Related Products
             </h1>
-            <div className="text-xl flex gap-2">
-              <button className="px-2 py-1 bg-bg_clr rounded cursor-pointer  hover:rounded-lg hover:scale-120 ease-in-out duration-150 transition">
-                <i class="ri-arrow-left-line"></i>
+            <div className="flex gap-2 justify-center">
+              <button
+                onClick={() =>
+                  sliderRef.current ? sliderRef.current.slickPrev() : ""
+                }
+                className="px-2 py-1 bg-bg_clr rounded cursor-pointer hover:rounded-lg hover:scale-120 ease-in-out duration-150 transition">
+                <i className="ri-arrow-left-line"></i>
               </button>
-              <button className="px-2 py-1 bg-bg_clr rounded cursor-pointer hover:rounded-lg hover:scale-120 ease-in-out duration-150 transition">
-                <i class="ri-arrow-right-line"></i>
+              <button
+                onClick={() =>
+                  sliderRef.current ? sliderRef.current.slickNext() : ""
+                }
+                className="px-2 py-1 bg-bg_clr rounded cursor-pointer hover:rounded-lg hover:scale-120 ease-in-out duration-150 transition">
+                <i className="ri-arrow-right-line"></i>
               </button>
             </div>
           </div>
-          <div className="size-100 flex gap-8 mt-3 w-full overflow-hidden h-full">
+          <Slider ref={sliderRef} className="w-full" {...settings}>
             {relatedProducts.map((product) => (
-              <div key={product.src} className="max-w-1/4 min-w-1/4">
-                <img
-                  src={product.src}
-                  alt="Product Photo"
-                  className="rounded-lg object-cover cursor-pointer"
-                />
-                <div className="flex justify-between items-baseline">
-                  <h1 className="text-lg mt-2 w-1/2">{product.name}</h1>
-                  <StarRating rating={product.rating} size="text-sm" />
-                </div>
-
-                <div className="mt-1 text-lg flex justify-between items-baseline">
-                  <p className="font-semibold">${product.price}.00</p>
-                  <button className="py-1.5 px-3 text-lg bg-black rounded-lg text-white cursor-pointer hover:animate-bounce">
-                    <i class="ri-shopping-cart-2-line"></i>
-                  </button>
+              <div key={product.src} className="px-3 mt-3">
+                <div className="max-w-full">
+                  <img
+                    src={product.src}
+                    alt="Product Photo"
+                    className="rounded-lg object-cover cursor-pointer w-full hover:scale-105 hover:-translate-y-0.5 ease-in-out transition-all duration-300 hover:shadow-xl hover:shadow-gray-500/40"
+                  />
+                  <div className="flex justify-between items-baseline">
+                    <h1 className="text-lg mt-2 w-1/2">{product.name}</h1>
+                    <StarRating rating={product.rating} size="text-sm" />
+                  </div>
+                  <div className="mt-1 text-lg flex justify-between items-baseline">
+                    <p className="font-semibold">${product.price}.00</p>
+                    <button className="py-1.5 px-3 text-lg bg-black rounded-lg text-white cursor-pointer hover:animate-bounce">
+                      <i className="ri-shopping-cart-2-line"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
-          </div>
+          </Slider>
         </section>
       </section>
     </section>
