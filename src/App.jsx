@@ -100,6 +100,8 @@ function App() {
   return (
     <>
       <Home />
+      <ShopPage />
+      <Profile />
       {
         <ProductPage
           name="Modern Fit Blazer Jacket"
@@ -114,8 +116,6 @@ function App() {
           relatedProducts={relatedProducts}
         />
       }
-       <Profile/>
-      <ShopPage />
     </>
   );
 }
