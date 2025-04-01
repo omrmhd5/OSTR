@@ -252,8 +252,7 @@ export default function Home() {
             />
             <button
               className="bg-white text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
-              onClick={handleSubscribe}
-            >
+              onClick={handleSubscribe}>
               Subscribe
             </button>
           </div>

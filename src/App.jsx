@@ -1,6 +1,9 @@
 import Home from "./home";
+import Profile from "./Profile";
 import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Layout from "./Layout";
 
 function App() {
   const photos = [
@@ -98,22 +101,32 @@ function App() {
 
   return (
     <>
-      <Home />
-      <ShopPage />
-      {
-        <ProductPage
-          name="Modern Fit Blazer Jacket"
-          photos={photos}
-          tagline="Elevate Your Style – The Perfect Blend of Sophistication & Comfort."
-          rating="4.2"
-          reviewCount="210"
-          price="2999"
-          colors={colors}
-          description="The Modern Fit Blazer Jacket combines sleek sophistication with all-day comfort. Designed for a tailored yet flexible fit, this versatile piece effortlessly transitions from business meetings to casual outings. Crafted from premium materials, it offers a refined silhouette, impeccable detailing, and a timeless appeal—making it an essential addition to any wardrobe."
-          reviews={reviews}
-          relatedProducts={relatedProducts}
-        />
-      }
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route
+              path="/product"
+              element={
+                <ProductPage
+                  name="Modern Fit Blazer Jacket"
+                  photos={photos}
+                  tagline="Elevate Your Style – The Perfect Blend of Sophistication & Comfort."
+                  rating="4.2"
+                  reviewCount="210"
+                  price="2999"
+                  colors={colors}
+                  description="The Modern Fit Blazer Jacket combines sleek sophistication with all-day comfort. Designed for a tailored yet flexible fit, this versatile piece effortlessly transitions from business meetings to casual outings. Crafted from premium materials, it offers a refined silhouette, impeccable detailing, and a timeless appeal—making it an essential addition to any wardrobe."
+                  reviews={reviews}
+                  relatedProducts={relatedProducts}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

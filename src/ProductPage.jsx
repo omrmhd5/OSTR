@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import StarRating from "./components/ui/StarRating";
 import Slideshow from "./components/ui/Slideshow";
 import Slider from "react-slick";
@@ -37,8 +37,8 @@ export default function ProductPage({
   };
 
   return (
-    <section className=" h-dvh w-full bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
-      <section className="bg-cn_clr py-6 px-20 m-24 rounded-lg w-3/4 justify-self-center ">
+    <section className="min-h-screen w-full bg-bg_clr py-7 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+      <section className="bg-cn_clr py-6 px-20 rounded-lg w-3/4 justify-self-center">
         <div className="flex flex-row gap-10">
           <div className="max-w-1/2 max-h-[768px] shadow-lg shadow-black/60">
             <Slideshow
@@ -231,7 +231,7 @@ export default function ProductPage({
           }`}>
           {activeTab == "description" ? description : ""}
         </p>
-        <section className="mt-30">
+        <section className="mt-20">
           <div className="flex justify-between border-b-2 border-gray-300 my-1 pb-1">
             <h1 className="text-2xl font-semibold self-end ">
               Related Products
