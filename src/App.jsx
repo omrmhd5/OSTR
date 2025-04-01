@@ -1,4 +1,5 @@
 import Home from "./home";
+import Profile from "./Profile";
 import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
 
@@ -99,7 +100,6 @@ function App() {
   return (
     <>
       <Home />
-      <ShopPage />
       {
         <ProductPage
           name="Modern Fit Blazer Jacket"
@@ -114,6 +114,8 @@ function App() {
           relatedProducts={relatedProducts}
         />
       }
+       <Profile/>
+      <ShopPage />
     </>
   );
 }
