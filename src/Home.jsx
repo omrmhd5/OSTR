@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router";
 
 export default function Home() {
   const CustomPrevArrow = (props) => {
@@ -9,8 +10,7 @@ export default function Home() {
     return (
       <button
         className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <i className="fa-solid fa-arrow-left"></i>
       </button>
     );
@@ -21,8 +21,7 @@ export default function Home() {
     return (
       <button
         className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <i className="fa-solid fa-arrow-right"></i>
       </button>
     );
@@ -77,6 +76,8 @@ export default function Home() {
     autoplay: true,
     autoplaySpeed: 2000,
     cssEase: "linear",
+    draggable: false,
+    pauseOnHover: false,
   };
 
   const settings2 = {
@@ -147,12 +148,11 @@ export default function Home() {
             </p>
 
             <div className="flex gap-10 text-right">
-              {/* <Link
+              <Link
                 to="/shop"
-                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white"
-              > */}
-              Shop Now
-              {/* </Link> */}
+                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white">
+                Shop Now
+              </Link>
             </div>
           </div>
 
