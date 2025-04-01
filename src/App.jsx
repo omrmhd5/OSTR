@@ -98,8 +98,7 @@ function App() {
 
   return (
     <>
-      {/* <Home />
-      <ProductPage /> */}
+      <Home />
       <ShopPage />
       {
         <ProductPage
