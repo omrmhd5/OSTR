@@ -27,8 +27,8 @@ export default function ProductPage({
   const sliderRef = useRef(null);
 
   const settings = {
-    className: "slider variable-width",
     dots: false,
+    draggable: false,
     infinite: true,
     speed: 750,
     slidesToShow: 3,
