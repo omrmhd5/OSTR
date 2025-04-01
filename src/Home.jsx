@@ -3,58 +3,86 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const CustomPrevArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
-      onClick={onClick}>
-      <i className="fa-solid fa-arrow-left"></i>
-    </button>
-  );
-};
-
-const CustomNextArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
-      onClick={onClick}>
-      <i className="fa-solid fa-arrow-right"></i>
-    </button>
-  );
-};
-
-const reviews = [
-  {
-    name: "Sarah M.",
-    review:
-      "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations.",
-  },
-  {
-    name: "Alex K.",
-    review:
-      "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes.",
-  },
-  {
-    name: "James L.",
-    review:
-      "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
-  },
-  {
-    name: "Bernice Levy",
-    review:
-      "I love the clothes from this website!! I am so glad I found them.....everything has been spot on, fits wonderfully, styles are trendy and lots to choose from!! Thanks for being here for us!!!",
-  },
-  {
-    name: "Connie",
-    review:
-      "I absolutely adore the trendy styles this store offers. The clothes fit so well and they look amazing on a curvy figure. I really appreciate this option and the quality of the goods is so great that I will order product in the future!",
-  },
-];
 export default function Home() {
+  const CustomPrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <button
+        className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
+        onClick={onClick}
+      >
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+    );
+  };
+
+  const CustomNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <button
+        className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
+        onClick={onClick}
+      >
+        <i className="fa-solid fa-arrow-right"></i>
+      </button>
+    );
+  };
+
+  const brands = [
+    "VERSACE",
+    "H&M",
+    "New Yorker",
+    "ZARA",
+    "Mango",
+    "GUCCI",
+    "PRADA",
+    "Calvin Klein",
+  ];
+
+  const reviews = [
+    {
+      name: "Sarah M.",
+      review:
+        "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations.",
+    },
+    {
+      name: "Alex K.",
+      review:
+        "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes.",
+    },
+    {
+      name: "James L.",
+      review:
+        "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
+    },
+    {
+      name: "Bernice Levy",
+      review:
+        "I love the clothes from this website!! I am so glad I found them.....everything has been spot on, fits wonderfully, styles are trendy and lots to choose from!! Thanks for being here for us!!!",
+    },
+    {
+      name: "Connie",
+      review:
+        "I absolutely adore the trendy styles this store offers. The clothes fit so well and they look amazing on a curvy figure. I really appreciate this option and the quality of the goods is so great that I will order product in the future!",
+    },
+  ];
+
   const settings = {
-    dots: true,
+    dots: false,
+    infinite: true,
+    speed: 2000,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    cssEase: "linear",
+  };
+
+  const settings2 = {
+    centerMode: true,
+    centerPadding: "60px",
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -119,44 +147,39 @@ export default function Home() {
             </p>
 
             <div className="flex gap-10 text-right">
-              <a
-                href="shop.html"
-                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white">
-                Shop Now
-              </a>
-            </div>
-          </div>
-          <div class="bg-gray-100 p-10">
-            <div class="flex justify-center items-center space-x-10">
-              <div class="text-center">
-                <h2 class="text-4xl font-bold">200+</h2>
-                <p class="text-gray-600">International Brands</p>
-              </div>
-              <div class="border-l-2 border-gray-300 h-16"></div>
-              <div class="text-center">
-                <h2 class="text-4xl font-bold">2,000+</h2>
-                <p class="text-gray-600">High-Quality Products</p>
-              </div>
-              <div class="border-l-2 border-gray-300 h-16"></div>
-              <div class="text-center">
-                <h2 class="text-4xl font-bold">30,000+</h2>
-                <p class="text-gray-600">Happy Customers</p>
-              </div>
+              {/* <Link
+                to="/shop"
+                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white"
+              > */}
+              Shop Now
+              {/* </Link> */}
             </div>
           </div>
 
-          <div class="bg-black py-6">
-            <div class="flex justify-center space-x-25 text-white text-2xl font-semibold">
-              <span>VERSACE</span>
-              <span>H&M</span>
-              <span>New Yorker</span>
-              <span>ZARA</span>
-              <span>Mango</span>
-              <span>GUCCI</span>
-              <span class="font-bold">PRADA</span>
-              <span>Calvin Klein</span>
+          <div className="bg-gray-100 p-10">
+            <div className="flex justify-center items-center space-x-10">
+              {[
+                { value: "200+", label: "International Brands" },
+                { value: "2,000+", label: "High-Quality Products" },
+                { value: "30,000+", label: "Happy Customers" },
+              ].map((item) => (
+                <>
+                  <div className="text-center border-r-2 pr-6 border-gray-300">
+                    <h2 className="text-4xl font-bold">{item.value}</h2>
+                    <p className="text-gray-600">{item.label}</p>
+                  </div>
+                </>
+              ))}
             </div>
           </div>
+
+          <Slider {...settings} className="bg-black text-white p-4">
+            {brands.map((brand, index) => (
+              <div key={index} className="mx-4 text-xl font-bold">
+                {brand}
+              </div>
+            ))}
+          </Slider>
         </div>
       </section>
 
@@ -183,11 +206,11 @@ export default function Home() {
       </section>
 
       <div className="bg-gray-100 p-10">
-        <h2 className="text-4xl font-bold text-left mb-6 ml-5 mt-10 mb-20">
+        <h2 className="text-4xl font-bold text-left ml-5 mt-10 mb-20">
           OUR HAPPY CUSTOMERS
         </h2>
         <div className="max-w-5xl mx-auto px-3">
-          <Slider {...settings}>
+          <Slider {...settings2}>
             {reviews.map((review, index) => (
               <div key={index} className="px-3 py-6 h-80">
                 {" "}
@@ -213,7 +236,7 @@ export default function Home() {
           </div>
         )}
         <div className="bg-bg_clr text-t_clr p-7 py-25 mt-50 rounded-3xl flex items-center justify-around">
-          <h3 className="text-4xl font-bold w-120 ">
+          <h3 className="text-4xl font-bold w-120 animate-bounce">
             STAY UP TO DATE ABOUT OUR LATEST OFFERS
           </h3>
           <div className=" mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
