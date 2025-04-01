@@ -1,4 +1,5 @@
 import Home from "./home";
+import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
 
 function App() {
@@ -97,6 +98,9 @@ function App() {
 
   return (
     <>
+      {/* <Home />
+      <ProductPage /> */}
+      <ShopPage />
       {
         <ProductPage
           name="Modern Fit Blazer Jacket"
