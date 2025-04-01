@@ -3,58 +3,71 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const CustomPrevArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
-      onClick={onClick}
-    >
-      <i className="fa-solid fa-arrow-left"></i>
-    </button>
-  );
-};
-
-const CustomNextArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
-      onClick={onClick}
-    >
-      <i className="fa-solid fa-arrow-right"></i>
-    </button>
-  );
-};
-
-const reviews = [
-  {
-    name: "Sarah M.",
-    review:
-      "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations.",
-  },
-  {
-    name: "Alex K.",
-    review:
-      "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes.",
-  },
-  {
-    name: "James L.",
-    review:
-      "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
-  },
-  {
-    name: "Bernice Levy",
-    review:
-      "I love the clothes from this website!! I am so glad I found them.....everything has been spot on, fits wonderfully, styles are trendy and lots to choose from!! Thanks for being here for us!!!",
-  },
-  {
-    name: "Connie",
-    review:
-      "I absolutely adore the trendy styles this store offers. The clothes fit so well and they look amazing on a curvy figure. I really appreciate this option and the quality of the goods is so great that I will order product in the future!",
-  },
-];
 export default function Home() {
+  const CustomPrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <button
+        className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
+        onClick={onClick}
+      >
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+    );
+  };
+
+  const CustomNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <button
+        className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
+        onClick={onClick}
+      >
+        <i className="fa-solid fa-arrow-right"></i>
+      </button>
+    );
+  };
+
+  const reviews = [
+    {
+      name: "Sarah M.",
+      review:
+        "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations.",
+    },
+    {
+      name: "Alex K.",
+      review:
+        "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes.",
+    },
+    {
+      name: "James L.",
+      review:
+        "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
+    },
+    {
+      name: "Bernice Levy",
+      review:
+        "I love the clothes from this website!! I am so glad I found them.....everything has been spot on, fits wonderfully, styles are trendy and lots to choose from!! Thanks for being here for us!!!",
+    },
+    {
+      name: "Connie",
+      review:
+        "I absolutely adore the trendy styles this store offers. The clothes fit so well and they look amazing on a curvy figure. I really appreciate this option and the quality of the goods is so great that I will order product in the future!",
+    },
+  ];
+
+  const settings2 = {
+    dots: false,
+    infinite: true,
+    speed: 3000,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    cssEase: "linear",
+  };
+
   const settings = {
     dots: true,
     infinite: true,
@@ -100,6 +113,16 @@ export default function Home() {
       showMessage("Wrong Email, Please Try Again!");
     }
   };
+  const brands = [
+    "VERSACE",
+    "H&M",
+    "New Yorker",
+    "ZARA",
+    "Mango",
+    "GUCCI",
+    "PRADA",
+    "Calvin Klein",
+  ];
 
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
@@ -181,18 +204,20 @@ export default function Home() {
             </div>
           </div>
 
-          <div class="bg-black py-6">
-            <div class="flex justify-center space-x-25 text-white text-2xl font-semibold">
-              <span>VERSACE</span>
-              <span>H&M</span>
-              <span>New Yorker</span>
-              <span>ZARA</span>
-              <span>Mango</span>
-              <span>GUCCI</span>
-              <span class="font-bold">PRADA</span>
-              <span>Calvin Klein</span>
-            </div>
-          </div>
+          <Slider {...settings2} className="bg-black text-white p-4">
+            {brands.map((brand, index) => (
+              <div
+                key={index}
+                style={{
+                  //   transform: `translateX(${positions[index]}px)`,
+                  transition: "transform 0.5s ease",
+                }}
+                className="mx-4 text-xl font-bold"
+              >
+                {brand}
+              </div>
+            ))}
+          </Slider>
         </div>
       </section>
 
