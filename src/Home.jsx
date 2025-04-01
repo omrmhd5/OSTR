@@ -8,8 +8,7 @@ const CustomPrevArrow = (props) => {
   return (
     <button
       className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <i className="fa-solid fa-arrow-left"></i>
     </button>
   );
@@ -20,8 +19,7 @@ const CustomNextArrow = (props) => {
   return (
     <button
       className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <i className="fa-solid fa-arrow-right"></i>
     </button>
   );
@@ -103,39 +101,6 @@ export default function Home() {
 
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
-      <nav className="w-full h-full flex justify-around p-6 z-5 bg-white ">
-        <label className="text-4xl font-bold delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
-          <a href="homepage.html">OSTR</a>
-        </label>
-        <ul className="flex gap-10 font-semibold items-baseline">
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="home.html">Home</a>
-          </li>
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="new.html">New</a>
-          </li>
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="shop.html">Shop &#x25BE;</a>
-          </li>
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="login.html">Login - SignUp</a>
-          </li>
-          <div className="me-50 py-1 px-4 text-m font-semibold flex bg-gray-200 rounded-2xl gap-5 items-baseline">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="filter" placeholder="Search for..." />
-          </div>
-        </ul>
-
-        <div className="flex text-xl gap-10">
-          <a href="cart.html">
-            <i className="fa-solid fa-cart-shopping hover:text-sky-950 hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out"></i>
-          </a>
-          <a href="wishlist.html">
-            <i className="fa-solid fa-heart hover:text-sky-950 hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out"></i>
-          </a>
-        </div>
-      </nav>
-
       <section className=" flex ">
         <div className="w-full rounded-xl text-center">
           <img
@@ -156,8 +121,7 @@ export default function Home() {
             <div className="flex gap-10 text-right">
               <a
                 href="shop.html"
-                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white"
-              >
+                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white">
                 Shop Now
               </a>
             </div>
@@ -265,122 +229,11 @@ export default function Home() {
             />
             <button
               className="bg-white text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
-              onClick={handleSubscribe}
-            >
+              onClick={handleSubscribe}>
               Subscribe
             </button>
           </div>
         </div>
-
-        <footer className=" text-t_clr text-center bg-grey-900 p-10 mt-50 ">
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-6">
-            <div>
-              <h3 className="text-4xl font-extrabold text-left">OSTOR</h3>
-              <p className="text-sm mt-5 text-left">
-                We have clothes that suit your style and which you’re proud to
-                wear. <br /> From women to men.
-              </p>
-              <div className="flex gap-4 mt-5 text-2xl">
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-facebook"></i>
-                </span>
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-instagram"></i>
-                </span>
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-tiktok"></i>
-                </span>
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-twitter"></i>
-                </span>
-              </div>
-            </div>
-
-            <div className="mb-15">
-              <h4 className="font-semibold mb-5">COMPANY</h4>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  About
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Features
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Works
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Career
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-5">HELP</h4>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Customer Support
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Delivery Details
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Terms & Conditions
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Privacy Policy
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-5">FAQ</h4>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Account
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Manage Deliveries
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Orders
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Payments
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-5">RESOURCES</h4>
-              <ul className="mt-2 space-y-2 text-sm ">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Free eBooks
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Development Tutorial
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  How to - Blog
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  {" "}
-                  Youtube Playlist
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <hr />
-          <p className="text-sm text-left mt-5">
-            Ostor © 2020-2025, All Rights Reserved
-          </p>
-          <div className="flex gap-4 text-3xl justify-end -mt-5">
-            <i class="fa-brands fa-cc-visa"></i>
-            <i class="fa-brands fa-cc-mastercard"></i>
-            <i class="fa-brands fa-cc-paypal"></i>
-            <i class="fa-brands fa-cc-apple-pay"></i>
-          </div>
-        </footer>
       </div>
     </div>
   );
