@@ -28,6 +28,17 @@ export default function Home() {
     );
   };
 
+  const brands = [
+    "VERSACE",
+    "H&M",
+    "New Yorker",
+    "ZARA",
+    "Mango",
+    "GUCCI",
+    "PRADA",
+    "Calvin Klein",
+  ];
+
   const reviews = [
     {
       name: "Sarah M.",
@@ -56,20 +67,22 @@ export default function Home() {
     },
   ];
 
-  const settings2 = {
+  const settings = {
     dots: false,
     infinite: true,
-    speed: 3000,
+    speed: 2000,
     slidesToShow: 5,
     slidesToScroll: 1,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
     cssEase: "linear",
   };
 
-  const settings = {
-    dots: true,
+  const settings2 = {
+    centerMode: true,
+    centerPadding: "60px",
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -113,52 +126,9 @@ export default function Home() {
       showMessage("Wrong Email, Please Try Again!");
     }
   };
-  const brands = [
-    "VERSACE",
-    "H&M",
-    "New Yorker",
-    "ZARA",
-    "Mango",
-    "GUCCI",
-    "PRADA",
-    "Calvin Klein",
-  ];
 
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
-      <nav className="w-full h-full flex justify-around p-6 z-5 bg-white ">
-        <label className="text-4xl font-bold delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
-          <a href="homepage.html">OSTR</a>
-        </label>
-        <ul className="flex gap-10 font-semibold items-baseline">
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="home.html">Home</a>
-          </li>
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="new.html">New</a>
-          </li>
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="shop.html">Shop &#x25BE;</a>
-          </li>
-          <li className="hover:text-sky-950 hover:underline underline-offset-4">
-            <a href="login.html">Login - SignUp</a>
-          </li>
-          <div className="me-50 py-1 px-4 text-m font-semibold flex bg-gray-200 rounded-2xl gap-5 items-baseline">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="filter" placeholder="Search for..." />
-          </div>
-        </ul>
-
-        <div className="flex text-xl gap-10">
-          <a href="cart.html">
-            <i className="fa-solid fa-cart-shopping hover:text-sky-950 hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out"></i>
-          </a>
-          <a href="wishlist.html">
-            <i className="fa-solid fa-heart hover:text-sky-950 hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out"></i>
-          </a>
-        </div>
-      </nav>
-
       <section className=" flex ">
         <div className="w-full rounded-xl text-center">
           <img
@@ -177,43 +147,35 @@ export default function Home() {
             </p>
 
             <div className="flex gap-10 text-right">
-              <a
-                href="shop.html"
+              {/* <Link
+                to="/shop"
                 className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white"
-              >
-                Shop Now
-              </a>
-            </div>
-          </div>
-          <div class="bg-gray-100 p-10">
-            <div class="flex justify-center items-center space-x-10">
-              <div class="text-center">
-                <h2 class="text-4xl font-bold">200+</h2>
-                <p class="text-gray-600">International Brands</p>
-              </div>
-              <div class="border-l-2 border-gray-300 h-16"></div>
-              <div class="text-center">
-                <h2 class="text-4xl font-bold">2,000+</h2>
-                <p class="text-gray-600">High-Quality Products</p>
-              </div>
-              <div class="border-l-2 border-gray-300 h-16"></div>
-              <div class="text-center">
-                <h2 class="text-4xl font-bold">30,000+</h2>
-                <p class="text-gray-600">Happy Customers</p>
-              </div>
+              > */}
+              Shop Now
+              {/* </Link> */}
             </div>
           </div>
 
-          <Slider {...settings2} className="bg-black text-white p-4">
+          <div className="bg-gray-100 p-10">
+            <div className="flex justify-center items-center space-x-10">
+              {[
+                { value: "200+", label: "International Brands" },
+                { value: "2,000+", label: "High-Quality Products" },
+                { value: "30,000+", label: "Happy Customers" },
+              ].map((item) => (
+                <>
+                  <div className="text-center border-r-2 pr-6 border-gray-300">
+                    <h2 className="text-4xl font-bold">{item.value}</h2>
+                    <p className="text-gray-600">{item.label}</p>
+                  </div>
+                </>
+              ))}
+            </div>
+          </div>
+
+          <Slider {...settings} className="bg-black text-white p-4">
             {brands.map((brand, index) => (
-              <div
-                key={index}
-                style={{
-                  //   transform: `translateX(${positions[index]}px)`,
-                  transition: "transform 0.5s ease",
-                }}
-                className="mx-4 text-xl font-bold"
-              >
+              <div key={index} className="mx-4 text-xl font-bold">
                 {brand}
               </div>
             ))}
@@ -244,11 +206,11 @@ export default function Home() {
       </section>
 
       <div className="bg-gray-100 p-10">
-        <h2 className="text-4xl font-bold text-left mb-6 ml-5 mt-10 mb-20">
+        <h2 className="text-4xl font-bold text-left ml-5 mt-10 mb-20">
           OUR HAPPY CUSTOMERS
         </h2>
         <div className="max-w-5xl mx-auto px-3">
-          <Slider {...settings}>
+          <Slider {...settings2}>
             {reviews.map((review, index) => (
               <div key={index} className="px-3 py-6 h-80">
                 {" "}
@@ -274,7 +236,7 @@ export default function Home() {
           </div>
         )}
         <div className="bg-bg_clr text-t_clr p-7 py-25 mt-50 rounded-3xl flex items-center justify-around">
-          <h3 className="text-4xl font-bold w-120 ">
+          <h3 className="text-4xl font-bold w-120 animate-bounce">
             STAY UP TO DATE ABOUT OUR LATEST OFFERS
           </h3>
           <div className=" mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
@@ -296,116 +258,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-
-        <footer className=" text-t_clr text-center bg-grey-900 p-10 mt-50 ">
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-6">
-            <div>
-              <h3 className="text-4xl font-extrabold text-left">OSTOR</h3>
-              <p className="text-sm mt-5 text-left">
-                We have clothes that suit your style and which you’re proud to
-                wear. <br /> From women to men.
-              </p>
-              <div className="flex gap-4 mt-5 text-2xl">
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-facebook"></i>
-                </span>
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-instagram"></i>
-                </span>
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-tiktok"></i>
-                </span>
-                <span className="bg-gray-100 p-2 rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 delay-150 duration-300 ease-in-out">
-                  <i class="fa-brands fa-twitter"></i>
-                </span>
-              </div>
-            </div>
-
-            <div className="mb-15">
-              <h4 className="font-semibold mb-5">COMPANY</h4>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  About
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Features
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Works
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Career
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-5">HELP</h4>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Customer Support
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Delivery Details
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Terms & Conditions
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Privacy Policy
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-5">FAQ</h4>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Account
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Manage Deliveries
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Orders
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Payments
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-5">RESOURCES</h4>
-              <ul className="mt-2 space-y-2 text-sm ">
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Free eBooks
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  Development Tutorial
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  How to - Blog
-                </li>
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
-                  {" "}
-                  Youtube Playlist
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <hr />
-          <p className="text-sm text-left mt-5">
-            Ostor © 2020-2025, All Rights Reserved
-          </p>
-          <div className="flex gap-4 text-3xl justify-end -mt-5">
-            <i class="fa-brands fa-cc-visa"></i>
-            <i class="fa-brands fa-cc-mastercard"></i>
-            <i class="fa-brands fa-cc-paypal"></i>
-            <i class="fa-brands fa-cc-apple-pay"></i>
-          </div>
-        </footer>
       </div>
     </div>
   );
