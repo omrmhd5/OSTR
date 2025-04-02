@@ -35,7 +35,7 @@ export default function ShopPage() {
   const [sortBy, setSortBy] = useState("");
   const [message, setMessage] = useState("");
 
-  const { wishlist, toggleWishlist } = useWishlist(); // Use context for wishlist
+  const { wishlist, toggleWishlist } = useWishlist();
 
   const showMessage = (text) => {
     setMessage(text);
@@ -45,7 +45,6 @@ export default function ShopPage() {
   const handleSort = (e) => {
     const value = e.target.value;
     setSortBy(value);
-
     let sortedProducts = [...selectedProducts];
 
     if (value === "low-to-high") {
@@ -53,7 +52,6 @@ export default function ShopPage() {
     } else if (value === "high-to-low") {
       sortedProducts.sort((a, b) => b.price - a.price);
     }
-
     setSelectedProducts(sortedProducts);
   };
 
@@ -67,11 +65,41 @@ export default function ShopPage() {
         <h1 className="text-xl font-bold font-header">Shop</h1>
       </header>
 
-      <div
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-[#976c60] text-white px-4 py-2 rounded shadow-md transition-opacity duration-300"
-        style={{ display: message ? "block" : "none" }}
-      >
-        {message}
+      <div className="flex justify-between items-center mb-4 px-4">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="p-2 border rounded w-1/3 text-t_clr"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div className="flex space-x-2">
+          <button
+            className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
+            onClick={() => setSelectedProducts(productsmen)}
+          >Men</button>
+          <button
+            className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
+            onClick={() => setSelectedProducts(productswomen)}
+          >Women</button>
+          <button
+            className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
+            onClick={() => setSelectedProducts(productschildren)}
+          >Kids</button>
+          <button
+            className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
+            onClick={() => setSelectedProducts(allProducts)}
+          >View All</button>
+        </div>
+        <select
+          className="p-2 border rounded text-t_clr"
+          value={sortBy}
+          onChange={handleSort}
+        >
+          <option value="">Sort By</option>
+          <option value="low-to-high">Price: Low to High</option>
+          <option value="high-to-low">Price: High to Low</option>
+        </select>
       </div>
 
       <div className="grid grid-cols-4 gap-4 p-4">
