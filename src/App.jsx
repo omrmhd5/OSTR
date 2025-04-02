@@ -4,6 +4,7 @@ import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
+import StyleYours from "./StyleYours";
 
 function App() {
   const photos = [
@@ -107,6 +108,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/style" element={<StyleYours />} />
+
             <Route
               path="/product"
               element={
