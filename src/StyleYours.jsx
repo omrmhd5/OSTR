@@ -16,10 +16,32 @@ export default function StyleYours() {
     a: "1",
   });
   // destructuring rgba from state
-  const { r, g, b, a } = sketchPickerColor;
+  const sizes = ["S", "M", "L", "XL", "2XL", "3XL"];
+  const sizeschart = [
+    { size: "S", A: 26.5, B: 20.0, C: 23.98 },
+    { size: "M", A: 27.48, B: 21.97, C: 24.29 },
+    { size: "L", A: 28.46, B: 23.98, C: 24.37 },
+    { size: "XL", A: 29.49, B: 25.98, C: 24.76 },
+    { size: "2XL", A: 30.0, B: 27.95, C: 25.0 },
+    { size: "3XL", A: 30.51, B: 30.0, C: 25.91 },
+  ];
+  // const SizeSelector = () => {
+  //   const [quantities, setQuantities] = useState(Array(sizes.length).fill(0));
 
-  //creating state to store our color and also set color using onChange event for block picker
-  const [blockPickerColor, setBlockPickerColor] = useState("#37d67a");
+  //   const handleIncrement = (index) => {
+  //     setQuantities((prev) => prev.map((q, i) => (i === index ? q + 1 : q)));
+  //   };
+
+  //   const handleDecrement = (index) => {
+  //     setQuantities((prev) =>
+  //       prev.map((q, i) => (i === index && q > 0 ? q - 1 : q))
+  //     );
+  //   };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -38,8 +60,79 @@ export default function StyleYours() {
         </Select>
       </div>
 
-      <div className="flex justify-center items-center mt-20 mb-20 ">
+      <div className="flex justify-center items-center mt-20 mb-20  ">
+        <div className="p-4 w-full max-w-xs ml-10 mt-10 ">
+          <h2 className="text-center text-xl font-bold mb-4">Select size</h2>
+          <div className="divide-y divide-gray-300">
+            {sizes.map((size, index) => (
+              <div
+                key={size}
+                className={`flex justify-between items-center py-2 ${
+                  index >= 5 ? "text-gray-400" : ""
+                }`}
+              >
+                <span>{size}</span>
+              </div>
+            ))}
+            <button
+              className="bg-gray-600 rounded-lg p-2 text-m font-semibold inline-block transition duration-150 ease-in-out  text-white mt-10 hover:bg-gray-400"
+              onClick={toggleModal}
+            >
+              Size Chart
+            </button>
+            {isOpen && (
+              <div className="fixed inset-0 bg-bg_clr bg-opacity-50 flex justify-center items-center z-50">
+                <div className="bg-cn_clr p-6 rounded-lg shadow-lg max-w-xs">
+                  <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
+                  <p className="text-gray-700 mb-10">
+                    Here’s your size chart content...
+                  </p>
+                  <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                    <thead>
+                      <tr className="bg-gray-200 text-gray-700 uppercase text-sm">
+                        <th className="py-2 px-4 border">Size</th>
+                        <th className="py-2 px-4 border">A (in)</th>
+                        <th className="py-2 px-4 border">B (in)</th>
+                        <th className="py-2 px-4 border">C (in)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sizeschart.map((item, index) => (
+                        <tr
+                          key={item.size}
+                          className={
+                            index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                          }
+                        >
+                          <td className="py-2 px-4 border text-center">
+                            {item.size}
+                          </td>
+                          <td className="py-2 px-4 border text-center">
+                            {item.A}
+                          </td>
+                          <td className="py-2 px-4 border text-center">
+                            {item.B}
+                          </td>
+                          <td className="py-2 px-4 border text-center">
+                            {item.C}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <button
+                    className="bg-gray-500 rounded-xl p-4 text-m font-semibold inline-block mt-10 px-3 py-1 text-whit hover:bg-gray-200 transition duration-300 ease-in-out   "
+                    onClick={toggleModal}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}{" "}
+          </div>
+        </div>
         <svg
+          className="ml-20"
           height="400px"
           width="400px"
           version="1.1"
@@ -63,6 +156,7 @@ export default function StyleYours() {
                   style={{ fill: "#ffffff" }}
                   d="M141.933,92.867c-8.533,8.533-14.507,17.067-14.507,17.067 c-63.147,98.133-51.2,392.533-51.2,392.533h34.133l24.747-59.733C127.427,202.947,141.933,93.72,141.933,92.867"
                 />
+                4XL", "5XL"
                 <path
                   style={{ fill: "#ffffff" }}
                   d="M368.067,92.867c8.533,8.533,14.507,17.067,14.507,17.067c63.147,98.133,51.2,392.533,51.2,392.533 H399.64l-24.747-59.733C382.573,202.947,368.067,93.72,368.067,92.867"
@@ -122,47 +216,17 @@ export default function StyleYours() {
             </g>
           </g>
         </svg>
-      </div>
-      <div
-        className="App"
-        style={{ display: "flex", justifyContent: "space-around" }}
-      >
-        <div className="sketchpicker">
-          <h6>Sketch Picker</h6>
+
+        <div className="sketchpicker justify-end pl-50 pt-20">
+          <h6 className="font-bold text-xl">Pick The Color</h6>
           {/* Div to display the color  */}
-          <div
-            style={{
-              backgroundColor: `rgba(${r},${g},${b},${a})`,
-              width: 100,
-              height: 50,
-              border: "2px solid white",
-            }}
-          ></div>
+          <div className="bg-rgba-{{r}}-{{g}}-{{b}}-{{a}} border-2 border-white pr-5"></div>
           {/* Sketch Picker from react-color and handling color on onChange event */}
           <SketchPicker
             onChange={(color) => {
               setSketchPickerColor(color.rgb);
             }}
             color={sketchPickerColor}
-          />
-        </div>
-        <div className="blockpicker">
-          <h6>Color Picker</h6>
-          {/* Div to display the color  */}
-          <div
-            style={{
-              backgroundColor: `${blockPickerColor}`,
-              width: 100,
-              height: 50,
-              border: "2px solid white",
-            }}
-          ></div>
-          {/* Block Picker from react-color and handling color on onChange event */}
-          <BlockPicker
-            color={blockPickerColor}
-            onChange={(color) => {
-              setBlockPickerColor(color.hex);
-            }}
           />
         </div>
       </div>
