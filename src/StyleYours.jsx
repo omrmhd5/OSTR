@@ -1,5 +1,7 @@
 import { SketchPicker, BlockPicker } from "react-color";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+
 import {
   Select,
   SelectContent,
@@ -15,8 +17,36 @@ export default function StyleYours() {
     b: "19",
     a: "1",
   });
-  // destructuring rgba from state
+
+  const [color, setColor] = useState("#FFFFFF");
+
   const sizes = ["S", "M", "L", "XL", "2XL", "3XL"];
+
+  const [quantities, setQuantities] = useState(
+    sizes.reduce((acc, size) => ({ ...acc, [size]: 0 }), {})
+  );
+
+  const handleQuantityChange = (size, change) => {
+    setQuantities((prev) => {
+      const newQuantity = Math.max(0, prev[size] + change);
+      return { ...prev, [size]: newQuantity };
+    });
+  };
+
+  const totalItems = Object.values(quantities).reduce(
+    (sum, qty) => sum + qty,
+    0
+  );
+  const pricePerItem = 29.99;
+  const discount = totalItems >= 4 ? 0.1 : 0;
+  const totalPrice = totalItems * pricePerItem * (1 - discount);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const handleAddToCart = () => {
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 2000);
+  };
+
   const sizeschart = [
     { size: "S", A: 26.5, B: 20.0, C: 23.98 },
     { size: "M", A: 27.48, B: 21.97, C: 24.29 },
@@ -25,6 +55,7 @@ export default function StyleYours() {
     { size: "2XL", A: 30.0, B: 27.95, C: 25.0 },
     { size: "3XL", A: 30.51, B: 30.0, C: 25.91 },
   ];
+
   // const SizeSelector = () => {
   //   const [quantities, setQuantities] = useState(Array(sizes.length).fill(0));
 
@@ -44,9 +75,8 @@ export default function StyleYours() {
   };
 
   return (
-    <>
-      {/* hoodie */}
-      <div className="flex justify-center items-center mt-30 text-4xl font-bold">
+    <div className="font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+      <div className="flex justify-center items-center mt-30 text-4xl font-bold ">
         <h2>Create Your Own </h2>
         <Select>
           <SelectTrigger className="w-[180px] ml-5">
@@ -64,30 +94,54 @@ export default function StyleYours() {
         <div className="p-4 w-full max-w-xs ml-10 mt-10 ">
           <h2 className="text-center text-xl font-bold mb-4">Select size</h2>
           <div className="divide-y divide-gray-300">
-            {sizes.map((size, index) => (
+            {sizes.map((size) => (
               <div
                 key={size}
-                className={`flex justify-between items-center py-2 ${
-                  index >= 5 ? "text-gray-400" : ""
-                }`}
+                className="flex justify-between items-center border p-2 rounded-md "
               >
-                <span>{size}</span>
+                <span
+                  className={
+                    size.includes("X") ? "text-gray-400" : "text-black"
+                  }
+                >
+                  {size}
+                </span>
+                <div className=" gap-1 flex items-baseline ">
+                  <button
+                    className="cursor-pointer bg-bg_clr p-2 px-4 rounded-lg hover:animate-pulse "
+                    onClick={() => handleQuantityChange(size, -1)}
+                  >
+                    -
+                  </button>
+                  <p className="p-1 px-2">{quantities[size]}</p>
+                  <button
+                    className=" cursor-pointer bg-bg_clr p-2 px-4 rounded-lg hover:animate-pulse "
+                    onClick={() => handleQuantityChange(size, 1)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             ))}
-            <button
-              className="bg-gray-600 rounded-lg p-2 text-m font-semibold inline-block transition duration-150 ease-in-out  text-white mt-10 hover:bg-gray-400"
+            <Button
+              className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer"
               onClick={toggleModal}
             >
               Size Chart
-            </button>
+            </Button>
             {isOpen && (
-              <div className="fixed inset-0 bg-bg_clr bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-cn_clr p-6 rounded-lg shadow-lg max-w-xs">
+              <div className="fixed inset-0 bg-opacity-0 flex justify-center items-center z-50 ">
+                <div className="bg-cn_clr p-6 rounded-lg shadow-lg w-100">
                   <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
-                  <p className="text-gray-700 mb-10">
+                  <p className="text-gray-700 mb-5">
                     Here’s your size chart content...
                   </p>
-                  <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                  <img
+                    src="src\assets\sizechart.png"
+                    alt="sizechart"
+                    className="w-50 mb-10"
+                  />
+                  <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md w-80">
                     <thead>
                       <tr className="bg-gray-200 text-gray-700 uppercase text-sm">
                         <th className="py-2 px-4 border">Size</th>
@@ -104,7 +158,7 @@ export default function StyleYours() {
                             index % 2 === 0 ? "bg-gray-100" : "bg-white"
                           }
                         >
-                          <td className="py-2 px-4 border text-center">
+                          <td className="py-2 px-4 border text-center font-bold">
                             {item.size}
                           </td>
                           <td className="py-2 px-4 border text-center">
@@ -120,17 +174,43 @@ export default function StyleYours() {
                       ))}
                     </tbody>
                   </table>
-                  <button
-                    className="bg-gray-500 rounded-xl p-4 text-m font-semibold inline-block mt-10 px-3 py-1 text-whit hover:bg-gray-200 transition duration-300 ease-in-out   "
+
+                  <Button
+                    className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer"
                     onClick={toggleModal}
                   >
                     Close
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}{" "}
+            <div className="mt-4 border-t pt-4">
+              <p className=" text-m text-gray-500">
+                Product price: ${pricePerItem.toFixed(2)}
+              </p>
+              {discount > 0 && (
+                <p className=" absolute text-sm  text-red-500">
+                  4+ Articles – 10% off
+                </p>
+              )}
+              <p className="mt-6 font-semibold mb-2">
+                Total: ${totalPrice.toFixed(2)}
+              </p>
+            </div>
+            <Button
+              className="mt-4 w-full bg-green-500 text-white py-2 rounded-md cursor-pointer"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </Button>
+            {showPopup && (
+              <div className=" fixed text-center inset-y-105 inset-x-150 bg-black text-white p-3 rounded-md shadow-lg">
+                Your item has been added to your cart.
+              </div>
+            )}
           </div>
         </div>
+
         <svg
           className="ml-20"
           height="400px"
@@ -153,51 +233,51 @@ export default function StyleYours() {
             <g transform="translate(1 1)">
               <g>
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M141.933,92.867c-8.533,8.533-14.507,17.067-14.507,17.067 c-63.147,98.133-51.2,392.533-51.2,392.533h34.133l24.747-59.733C127.427,202.947,141.933,93.72,141.933,92.867"
                 />
                 4XL", "5XL"
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M368.067,92.867c8.533,8.533,14.507,17.067,14.507,17.067c63.147,98.133,51.2,392.533,51.2,392.533 H399.64l-24.747-59.733C382.573,202.947,368.067,93.72,368.067,92.867"
                 />
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M374.893,434.2L374.893,434.2c7.68-238.933-6.827-340.48-6.827-341.333 c-9.387-9.387-20.48-18.773-28.16-17.067c0,0,9.387-68.267-85.333-68.267S169.24,75.8,169.24,75.8 c-7.68-1.707-17.92,7.68-27.307,17.067c0,0.853-15.36,101.547-6.827,341.333c16.213,21.333,41.813,34.133,68.267,34.133h103.253 C333.08,468.333,358.68,455.533,374.893,434.2"
                 />
               </g>
               <g>
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M306.627,468.333H203.373c-18.773,0-36.693-5.973-51.2-17.067v42.667 c0,5.12,3.413,8.533,8.533,8.533H348.44c5.12,0,8.533-3.413,8.533-8.533V452.12C342.467,462.36,325.4,468.333,306.627,468.333"
                 />
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M274.2,89.453l20.48-25.6c4.267-5.12,0.853-13.653-6.827-13.653h-66.56 c-6.827,0-11.093,8.533-6.827,13.653l20.48,25.6c1.707,1.707,4.267,3.413,6.827,3.413h25.6 C269.933,92.867,272.493,92.013,274.2,89.453"
                 />
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M382.573,植物v1.707l17.067,40.96h34.133c0,0,0.853-16.213,0.853-42.667H382.573z"
                 />
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M127.427,459.8v1.707l-17.067,40.96H76.227c0,0-0.853-16.213-0.853-42.667H127.427z"
                 />
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M211.907,340.333c0,33.28-18.773,59.733-42.667,59.733V434.2h85.333v-93.867H211.907z"
                 />
                 <path
-                  style={{ fill: "#ffffff" }}
+                  style={{ fill: color }}
                   d="M297.24,340.333c0,33.28,18.773,59.733,42.667,59.733V434.2h-85.333v-93.867H297.24z"
                 />
               </g>
               <path
-                style={{ fill: "#ffffff" }}
+                style={{ fill: color }}
                 d="M381.72,109.933c0,0-6.827-8.533-14.507-17.067c0,0,1.707,10.24,3.413,30.72 c53.76,109.227,42.667,378.88,42.667,378.88h19.627C432.92,502.467,444.867,208.067,381.72,109.933"
               />
               <path
-                style={{ fill: "#ffffff" }}
+                style={{ fill: color }}
                 d="M127.427,109.933c0,0,6.827-8.533,14.507-17.067c0,0-1.707,10.24-3.413,30.72 c-53.76,109.227-42.667,378.88-42.667,378.88H76.227C76.227,502.467,64.28,208.067,127.427,109.933"
               />
               <path d="M110.36,511H76.227c-4.267,0-8.533-3.413-8.533-8.533C66.84,490.52,56.6,204.653,120.6,105.667 c0.853-0.853,7.68-9.387,16.213-17.92c1.707-3.413,5.973-4.267,9.387-2.56c3.413,1.707,5.12,5.12,4.267,9.387 c0,0.853-14.507,109.227-6.827,348.16c0,0.853,0,2.56-0.853,3.413L118.04,505.88C117.187,509.293,113.773,511,110.36,511z M84.76,493.933h20.48l21.333-52.907c-5.973-168.96,0-273.067,4.267-320C79.64,210.627,83.053,447,84.76,493.933z" />
@@ -217,19 +297,18 @@ export default function StyleYours() {
           </g>
         </svg>
 
-        <div className="sketchpicker justify-end pl-50 pt-20">
+        <div className=" justify-end pl-50 pt-20">
           <h6 className="font-bold text-xl">Pick The Color</h6>
-          {/* Div to display the color  */}
           <div className="bg-rgba-{{r}}-{{g}}-{{b}}-{{a}} border-2 border-white pr-5"></div>
-          {/* Sketch Picker from react-color and handling color on onChange event */}
           <SketchPicker
             onChange={(color) => {
               setSketchPickerColor(color.rgb);
+              setColor(color.hex);
             }}
             color={sketchPickerColor}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

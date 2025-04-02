@@ -22,7 +22,8 @@ export default function NavBar() {
               `transition-all ease-linear duration-100 
             hover:text-sky-950 hover:underline underline-offset-4
             ${isActive ? "text-sky-950 underline" : ""}`
-            }>
+            }
+          >
             <li>{item.name}</li>
           </NavLink>
         ))}
@@ -41,13 +42,15 @@ export default function NavBar() {
           { icon: "fa-heart", path: "/wishlist" },
         ].map((item) => (
           <NavLink
+            key={item.path}
             to={item.path}
             className={({ isActive }) =>
               `flex items-center justify-center transition-all duration-300 ease-in-out 
             hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
               isActive ? "text-sky-950" : "text-t_clr"
             }`
-            }>
+            }
+          >
             <i className={`fa-solid ${item.icon}`} />
           </NavLink>
         ))}

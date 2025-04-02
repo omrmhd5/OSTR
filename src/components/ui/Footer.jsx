@@ -18,8 +18,11 @@ export default function Footer() {
           <div className="flex gap-4 mt-5 text-2xl">
             {["fa-facebook", "fa-instagram", "fa-tiktok", "fa-twitter"].map(
               (brand) => (
-                <span className="bg-gray-100 p-2 px-3 cursor-pointer rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 duration-300 ease-in-out">
-                  <i class={`fa-brands ${brand} `} />
+                <span
+                  className="bg-gray-100 p-2 px-3 cursor-pointer rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 duration-300 ease-in-out"
+                  key={brand}
+                >
+                  <i className={`fa-brands ${brand} `} />
                 </span>
               )
             )}
@@ -52,7 +55,10 @@ export default function Footer() {
             <h4 className="font-semibold mb-5">{Object.keys(section)[0]}</h4>
             <ul className="mt-2 space-y-2 text-sm">
               {Object.values(section)[0].map((content) => (
-                <li className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer">
+                <li
+                  className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer"
+                  key={content}
+                >
                   {content}
                 </li>
               ))}
@@ -67,7 +73,7 @@ export default function Footer() {
       </p>
       <div className="flex gap-4 text-3xl justify-end -mt-5">
         {["visa", "mastercard", "paypal", "apple-pay"].map((payment) => (
-          <i class={`fa-brands fa-cc-${payment}`} />
+          <i className={`fa-brands fa-cc-${payment}`} />
         ))}
       </div>
     </footer>
