@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useWishlist } from './context/WishlistContext';
-
+import React, { useState } from "react";
+import { useWishlist } from "./context/WishlistContext";
 
 const productsmen = [
   { id: 1, name: "Backpack", price: 299, image: "src/assets/shirt.jpeg" },
@@ -39,7 +38,7 @@ export default function ShopPage() {
 
   const showMessage = (text) => {
     setMessage(text);
-    setTimeout(() => setMessage(""), 2000);
+    setTimeout(() => setMessage(""), 2000); // Message disappears after 2 seconds
   };
 
   const handleSort = (e) => {
@@ -65,6 +64,13 @@ export default function ShopPage() {
         <h1 className="text-xl font-bold font-header">Shop</h1>
       </header>
 
+      {/* Notification Message */}
+      {message && (
+        <div className= "fixed top-[80px] left-1/2 transform -translate-x-1/2 bg-[#976c60] text-white font-semibold px-6 py-3 rounded shadow-lg z-[9999] w-max">
+          {message}
+        </div>
+      )}
+
       <div className="flex justify-between items-center mb-4 px-4">
         <input
           type="text"
@@ -77,19 +83,27 @@ export default function ShopPage() {
           <button
             className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
             onClick={() => setSelectedProducts(productsmen)}
-          >Men</button>
+          >
+            Men
+          </button>
           <button
             className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
             onClick={() => setSelectedProducts(productswomen)}
-          >Women</button>
+          >
+            Women
+          </button>
           <button
             className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
             onClick={() => setSelectedProducts(productschildren)}
-          >Kids</button>
+          >
+            Kids
+          </button>
           <button
             className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold"
             onClick={() => setSelectedProducts(allProducts)}
-          >View All</button>
+          >
+            View All
+          </button>
         </div>
         <select
           className="p-2 border rounded text-t_clr"
@@ -119,6 +133,7 @@ export default function ShopPage() {
               </h2>
               <p className="text-t_clr">${product.price}</p>
               <div className="flex justify-center gap-2 mt-2">
+                {/* Cart Button */}
                 <button
                   className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
                   onClick={() => showMessage("Item added to cart successfully!")}
@@ -129,6 +144,8 @@ export default function ShopPage() {
                     className="w-6 h-6"
                   />
                 </button>
+
+                {/* Wishlist Button */}
                 <button
                   className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
                   onClick={() => {
