@@ -1,35 +1,50 @@
 import React from "react";
 import { useWishlist } from "./context/WishlistContext";
+import { motion } from "framer-motion"; 
 
 export default function Wishlist() {
   const { wishlist, toggleWishlist } = useWishlist();
+
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }, 
+  };
 
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph relative p-6">
       <h1 className="text-3xl font-bold text-center mb-6">My Wishlist ❤️</h1>
 
       {wishlist.length === 0 ? (
-        <p className="text-center text-xl text-gray-600">
+        <p className="text-center text-xl font-semibold text-t_clr">
           Your wishlist is empty. Start adding your favorite products! 🛍️
         </p>
       ) : (
         <div className="w-full max-w-4xl mx-auto">
           {/* Table Header */}
-          <div className="grid grid-cols-4 font-semibold text-lg border-b-2 border-gray-300 pb-2 mb-4">
+          <div className="grid grid-cols-4 font-bold text-lg border-b-2 border-[#976c60] pb-2 mb-4">
             <p>Product Image</p>
             <p>Product Name</p>
             <p>Price</p>
-            <p>Action</p>
+            <p>Remove From Wishlist</p>
           </div>
 
-          {/* Table Body */}
-          <div className="flex flex-col gap-4">
+          
+          <motion.div
+            className="flex flex-col gap-4 bg-cn_clr"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { transition: { staggerChildren: 0.15 } }, // Stagger effect
+            }}
+          >
             {wishlist.map((product) => (
-              <div
+              <motion.div
                 key={product.id}
-                className="grid grid-cols-4 items-center border-b border-gray-200 pb-2"
+                className="grid grid-cols-4 items-center border-b border-[#976c60] pb-2"
+                variants={itemVariants} // Apply animation
               >
-                {/* Product Image */}
+                
                 <div className="flex justify-center">
                   <img
                     src={product.image}
@@ -38,24 +53,29 @@ export default function Wishlist() {
                   />
                 </div>
 
-                {/* Product Name */}
-                <p className="text-gray-700">{product.name}</p>
+                
+                <p className="text-t_clr font-semibold">{product.name}</p>
 
-                {/* Price */}
-                <p className="text-gray-600">${product.price}</p>
+                
+                <p className="text-t_clr font-semibold">${product.price}</p>
 
-                {/* Remove Button */}
+                
                 <button
-                  className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 transition"
+                  className="bg-cn_clr p-2 rounded-md hover:bg-bg_clr transition flex justify-center items-center"
                   onClick={() => toggleWishlist(product)}
                 >
-                  Remove ❌
+                  <img
+                    src="src/assets/trash.png"
+                    alt="Remove"
+                    className="w-8 h-8"
+                  />
                 </button>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       )}
     </div>
   );
 }
+
