@@ -5,10 +5,6 @@ const App = () => {
   //   const [isSignUp, setIsSignUp] = useState(false);
   const [activeTab, setActiveTab] = useState("SignIn");
 
-  //   const toggleForm = () => {
-  //     setIsSignUp(!isSignUp);
-  //   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <div className="relative w-[800px] h-[500px] bg-white rounded-4xl shadow-2xl overflow-hidden">
@@ -128,50 +124,6 @@ const App = () => {
             </div>
           )}
         </div>
-
-        {/* Sign Up Form */}
-        {/* <div
-          className={`absolute top-0 h-full w-1/2 transition-opacity duration-500 ${
-            activeTab == "SignUp" ? "opacity-100" : "opacity-0"
-          } ${activeTab == "SignUp" ? "left-1/2" : "left-0"}`}
-        >
-          {activeTab == "SignUp" ? (
-            <div className="flex flex-col items-center justify-center h-full px-8 mt-8">
-              <h2 className="text-3xl font-bold mb-6 ">Create Account</h2>
-              <div className="flex space-x-4 mb-6 font-bold">
-                <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100">
-                  G+
-                </button>
-                <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100">
-                  f
-                </button>
-              </div>
-              <p className="text-sm text-gray-500 mb-2">
-                or use your email for registration
-              </p>
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <button className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
-                SIGN UP
-              </button>
-            </div>
-          ) : (
-            ""
-          )}
-        </div> */}
       </div>
     </div>
   );
