@@ -62,8 +62,8 @@ export default function StyleYours() {
   };
 
   return (
-    <div className="bg-cn_clr w-full">
-      <div className=" py-6 px-20 rounded-lg w-3/4 justify-self-center  bg-bg_clr text-t_clr  font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+    <div className="bg-bg_clr w-full">
+      <div className=" py-6 px-20 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr  font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
         <div className="flex justify-center items-center mt-20 text-6xl font-bold ">
           <h2>Create Your Own </h2>
           <Select>
@@ -119,7 +119,7 @@ export default function StyleYours() {
               </Button>
               {isOpen && (
                 <div className="fixed inset-0 bg-opacity-0 flex justify-center items-center z-50 ">
-                  <div className="bg-cn_clr p-6 rounded-lg shadow-lg w-100">
+                  <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100">
                     <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
                     <p className="text-gray-700 mb-5">
                       Here’s your size chart content...

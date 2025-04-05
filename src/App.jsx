@@ -5,6 +5,7 @@ import ProductPage from "./ProductPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
 import StyleYours from "./StyleYours";
+import Login from "./Login";
 
 function App() {
   const photos = [
@@ -104,6 +105,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
+
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
