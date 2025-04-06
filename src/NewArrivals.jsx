@@ -206,6 +206,21 @@ export default function NewArrivals() {
             </Link>
           </div>
         </section>
+
+        {/* Best Sellers Section */}
+        <section className="flex flex-col items-center py-40 gap-20 w-full bg-white">
+          {/* Best Seller Text */}
+          <h1 className="text-7xl font-medium">Best Sellers</h1>
+          {/* Best Seller Products */}
+          <div className="flex">
+            {bestSellers.map((product) => (
+              <LazyLoadImage
+                src={product.src}
+                className="w-1/4 hover:scale-105 duration-300 hover:rounded-lg hover:shadow-2xl"
+              />
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   );
