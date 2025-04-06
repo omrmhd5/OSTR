@@ -11,8 +11,8 @@ export default function NavBar() {
       <ul className="flex gap-10 font-semibold items-baseline">
         {[
           { name: "Home", path: "" },
-          { name: "New", path: "new" },
           { name: "Shop", path: "shop" },
+          { name: "Style Yours", path: "style" },
           { name: "Login - SignUp", path: "login" },
         ].map((item) => (
           <NavLink

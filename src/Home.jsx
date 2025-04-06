@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router";
+import StarRating from "./components/ui/StarRating";
 
 export default function Home() {
   const CustomPrevArrow = (props) => {
@@ -10,7 +11,8 @@ export default function Home() {
     return (
       <button
         className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
-        onClick={onClick}>
+        onClick={onClick}
+      >
         <i className="fa-solid fa-arrow-left"></i>
       </button>
     );
@@ -21,7 +23,8 @@ export default function Home() {
     return (
       <button
         className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
-        onClick={onClick}>
+        onClick={onClick}
+      >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
     );
@@ -138,20 +141,20 @@ export default function Home() {
             alt="Sale"
           />
           <div className="absolute bottom-40 left-40 rounded-lg justify-content text-3xl p-10 ">
-            <h2 className=" mb-10 text-6xl text-sky-950 ">
+            <h2 className=" mb-10 text-6xl text-blue-950 ">
               Get Up to <span className="font-semibold">45%</span> <br />
               off new products
             </h2>
             <p className="text-left text-2xl ">
               The biggest sale of the year is at{" "}
-              <span className="text-sky-950">OSTR Clothes</span>
+              <span className="text-blue-950">OSTR Clothes</span>
             </p>
 
             <div className="flex gap-10 text-right">
-              <Link
-                to="/shop"
-                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white">
-                Shop Now
+              <Link to="/new">
+                <button className="cursor-pointer bg-sky-900 text-[#FBE4D6] px-10 mt-20 ml-60 bg- rounded-xl p-4 text-m font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-blue-950  ">
+                  New Collections !
+                </button>
               </Link>
             </div>
           </div>
@@ -184,8 +187,18 @@ export default function Home() {
       </section>
 
       <section className="flex w-full h-screen">
-        <div className="relative w-1/2 bg-cover bg-center">
-          <div className=" absolute inset-0 flex flex-col justify-center items-center text-white">
+        <div className="flex flex-col gap-20 justify-center items-center w-1/2 bg-cover bg-center">
+          <div className="flex flex-col gap-5 items-end">
+            <h2 className="text-4xl italic">
+              If You Can't Stop Thinking About It ...{" "}
+            </h2>
+            <Link to="/shop">
+              <button className=" cursor-pointer bg-orange-900 text-[#FBE4D6] px-6 rounded-xl p-3 text-xl font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-orange-950 ">
+                Shop Now
+              </button>
+            </Link>
+          </div>
+          <div className="flex flex-col justify-center items-center text-white">
             <video width="800" height="400" autoPlay muted loop>
               <source src="src\assets\video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
@@ -215,11 +228,8 @@ export default function Home() {
               <div key={index} className="px-3 py-6 h-80">
                 {" "}
                 <div className="bg-white p-5 rounded-lg shadow-md">
-                  <div className="flex gap-1 text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <i key={i} className="fa-solid fa-star"></i>
-                    ))}
-                  </div>
+                  <StarRating rating={5} size="text-sm" />
+
                   <h3 className="font-bold mt-2 flex items-center gap-2">
                     {review.name}
                     <i className="fa-solid fa-circle-check text-green-500"></i>
@@ -251,8 +261,9 @@ export default function Home() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button
-              className="bg-white text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
-              onClick={handleSubscribe}>
+              className="cursor-pointer bg-white text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
+              onClick={handleSubscribe}
+            >
               Subscribe
             </button>
           </div>
