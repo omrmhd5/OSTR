@@ -7,24 +7,28 @@ const productsmen = [
   { id: 3, name: "Shirt", price: 299, images: ["src/assets/Products/Men/berTshirt1.jpg", "src/assets/Products/Men/berTshirt2.jpg"] },
   { id: 4, name: "Shorts", price: 120, images: ["src/assets/Products/Men/shorts1.jpg", "src/assets/Products/Men/shorts2.jpg", "src/assets/Products/Men/shorts3.jpg"] },
   { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/Men/flipflop1.jpg", "src/assets/Products/Men/flipflop2.jpg","src/assets/Products/Men/flipflop3.jpg","src/assets/Products/Men/flipflop4.jpg" ] },
-  { id: 6, name: "Boots", price: 350, images: ["src/assets/Products/Men/boots1.jpg", "src/assets/Products/Men/boot2.jpg", "src/assets/Products/Men/boots3.jpg"] },
+  { id: 6, name: "Pants", price: 350, images: ["src/assets/Products/Men/pants1.jpg", "src/assets/Products/Men/pants2.jpg", "src/assets/Products/Men/pants3.jpg"] },
+  { id: 7, name: "Boots", price: 350, images: ["src/assets/Products/Men/boots1.jpg", "src/assets/Products/Men/boot2.jpg", "src/assets/Products/Men/boots3.jpg"] },
 ];
 
 const productswomen = [
-  { id: 7, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] },
-  { id: 8, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"] },
-  { id: 9, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] },
-  { id: 10, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] },
-  { id: 11, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"] },
-  { id: 12, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] },
-  { id: 13, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] },
+  { id: 8, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] },
+  { id: 9, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"] },
+  { id: 10, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] },
+  { id: 11, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] },
+  { id: 12, name: "Suit", price: 350, images: ["src/assets/Products/Women/suit1.jpg","src/assets/Products/Women/suit2.jpg","src/assets/Products/Women/suit3.jpg"] },
+  { id: 13, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"] },
+  { id: 14, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] },
+  { id: 15, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] },
+  
 ];
 
 const productschildren = [
-  { id: 14, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"] },
-  { id: 15, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"] },
-  { id: 16, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"] },
-  { id: 17, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"] },
+  { id: 16, name: "Dress", price: 50, images: ["src/assets/Products/Kids/dress1.jpg","src/assets/Products/Kids/dress2.jpg","src/assets/Products/Kids/dress3.jpg"] },
+  { id: 17, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"] },
+  { id: 18, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"] },
+  { id: 19, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"] },
+  { id: 20, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"] },
 ];
 
 const allProducts = [...productsmen, ...productswomen, ...productschildren];
@@ -106,9 +110,9 @@ export default function ShopPage() {
           </button>
         </div>
         <select className="p-2 border rounded text-t_clr" value={sortBy} onChange={handleSort}>
-          <option value="">Sort By</option>
-          <option value="low-to-high">Price: Low to High</option>
-          <option value="high-to-low">Price: High to Low</option>
+          <option className="bg-bg_clr" value="">Sort By</option>
+          <option className="bg-bg_clr" value="low-to-high">Price: Low to High</option>
+          <option className="bg-bg_clr" value="high-to-low">Price: High to Low</option>
         </select>
       </div>
 
@@ -131,13 +135,13 @@ export default function ShopPage() {
                   <>
                     <button
                       onClick={() => handleImageChange(product.id, -1)}
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-black px-2 rounded-full"
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] px-2 rounded-full hover:bg-cn_clr"
                     >
                       ◀
                     </button>
                     <button
                       onClick={() => handleImageChange(product.id, 1)}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-black px-2 rounded-full"
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] px-2 rounded-full hover:bg-cn_clr"
                     >
                       ▶
                     </button>
