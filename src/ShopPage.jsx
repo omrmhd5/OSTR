@@ -2,28 +2,29 @@ import React, { useState } from "react";
 import { useWishlist } from "./context/WishlistContext";
 
 const productsmen = [
-  { id: 1, name: "Suit", price: 299, images: ["src/assets/Products/BeigeSuit.jpg", "src/assets/Products/beigeSuit2.jpg", "src/assets/Products/BeigeSuit3.jpg", "src/assets/Products/beigesuit4.jpg"] },
-  { id: 2, name: "Watch", price: 299, images: ["src/assets/Products/blackWatch1.jpg", "src/assets/Products/blackWatch2.jpg", "src/assets/Products/blackWatch3.jpg"] },
-  { id: 3, name: "Shirt", price: 299, images: ["src/assets/Products/berTshirt1.jpg", "src/assets/Products/berTshirt2.jpg"] },
-  { id: 4, name: "Shorts", price: 120, images: ["src/assets/Products/shorts1.jpg", "src/assets/Products/shorts2.jpg", "src/assets/Products/shorts3.jpg"] },
-  { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/flipflop1.jpg", "src/assets/Products/flipflop2.jpg","src/assets/Products/flipflop3.jpg","src/assets/Products/flipflop4.jpg" ] },
-  { id: 6, name: "Boots", price: 350, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"] },
+  { id: 1, name: "Suit", price: 299, images: ["src/assets/Products/Men/BeigeSuit.jpg", "src/assets/Products/Men/beigeSuit2.jpg", "src/assets/Products/Men/BeigeSuit3.jpg", "src/assets/Products/Men/beigesuit4.jpg"] },
+  { id: 2, name: "Watch", price: 299, images: ["src/assets/Products/Men/blackWatch1.jpg", "src/assets/Products/Men/blackWatch2.jpg", "src/assets/Products/Men/blackWatch3.jpg"] },
+  { id: 3, name: "Shirt", price: 299, images: ["src/assets/Products/Men/berTshirt1.jpg", "src/assets/Products/Men/berTshirt2.jpg"] },
+  { id: 4, name: "Shorts", price: 120, images: ["src/assets/Products/Men/shorts1.jpg", "src/assets/Products/Men/shorts2.jpg", "src/assets/Products/Men/shorts3.jpg"] },
+  { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/Men/flipflop1.jpg", "src/assets/Products/Men/flipflop2.jpg","src/assets/Products/Men/flipflop3.jpg","src/assets/Products/Men/flipflop4.jpg" ] },
+  { id: 6, name: "Boots", price: 350, images: ["src/assets/Products/Men/boots1.jpg", "src/assets/Products/Men/boot2.jpg", "src/assets/Products/Men/boots3.jpg"] },
 ];
 
 const productswomen = [
-  { id: 7, name: "Backpack", price: 299, images: ["src/assets/img1.jpg"] },
-  { id: 8, name: "Watch", price: 299, images: ["src/assets/img1.jpg"] },
-  { id: 9, name: "Shirt", price: 299, images: ["src/assets/img1.jpg"] },
-  { id: 10, name: "Flip Flop", price: 50, images: ["src/assets/img1.jpg"] },
-  { id: 11, name: "Shorts", price: 120, images: ["src/assets/img1.jpg"] },
-  { id: 12, name: "Boots", price: 350, images: ["src/assets/img1.jpg"] },
+  { id: 7, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] },
+  { id: 8, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"] },
+  { id: 9, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] },
+  { id: 10, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] },
+  { id: 11, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"] },
+  { id: 12, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] },
+  { id: 13, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] },
 ];
 
 const productschildren = [
-  { id: 13, name: "Backpack", price: 299, images: ["src/assets/profile.jpg"] },
-  { id: 14, name: "Watch", price: 299, images: ["src/assets/profile.jpg"] },
-  { id: 15, name: "Shirt", price: 299, images: ["src/assets/profile.jpg"] },
-  { id: 16, name: "Flip Flop", price: 50, images: ["src/assets/profile.jpg"] },
+  { id: 14, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"] },
+  { id: 15, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"] },
+  { id: 16, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"] },
+  { id: 17, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"] },
 ];
 
 const allProducts = [...productsmen, ...productswomen, ...productschildren];
