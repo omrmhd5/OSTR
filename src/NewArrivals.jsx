@@ -56,6 +56,21 @@ export default function NewArrivals() {
       src: "src/assets/new/shoes.webp",
     },
   ];
+  const bestSellers = [
+    {
+      src: "src/assets/new/best4.webp",
+    },
+    {
+      src: "src/assets/new/best2.webp",
+    },
+
+    {
+      src: "src/assets/new/best1.webp",
+    },
+    {
+      src: "src/assets/new/best3.webp",
+    },
+  ];
   const settings = {
     fade: true,
     infinite: true,
@@ -140,6 +155,57 @@ export default function NewArrivals() {
 
         {/* What's New and Grid Photos Section */}
         <MemoizedCollectionsGrid />
+
+        {/* Explore And Shop Now Section*/}
+        <section className="flex justify-between px-10 gap-10 bg-cn_clr">
+          {/* Images Part */}
+          <div className="w-1/2 relative">
+            {/* Explore Now Array of Objects */}
+            {[
+              {
+                name: "Kids",
+                src: "src/assets/new/explorek.webp",
+                className:
+                  "absolute w-2/5 2xl:w-1/3 top-1/6 2xl:top-1/6 left-1/2 -translate-x-1/2",
+              },
+              {
+                name: "Women",
+                src: "src/assets/new/explorew.webp",
+                className:
+                  "absolute w-1/3 2xl:w-1/4 left-3/5 top-1/3 2xl:top-1/3",
+              },
+              {
+                name: "Men",
+                src: "src/assets/new/explorem.webp",
+                className:
+                  "absolute w-1/3 2xl:w-1/4 right-3/5 top-1/3 2xl:top-1/3",
+              },
+            ].map((photo) => (
+              <LazyLoadImage
+                className={`${photo.className} hover:scale-105 hover:shadow-2xl shadow-xl duration-300`}
+                src={photo.src}
+                alt={photo.name}
+              />
+            ))}
+          </div>
+
+          {/* Explore Now Paragraphs and Button */}
+          <div className="flex flex-col gap-2 w-1/2 py-40">
+            <h1 className="text-5xl">Explore Now!</h1>
+            <p className="text-xl">
+              Unveil your unique style with our latest collections. From casual
+              essentials to statement pieces — we’ve got you covered.{" "}
+              <span className="font-semibold">
+                Trendy. Timeless. Totally You.
+              </span>
+            </p>
+            <Link to="/shop">
+              <button className="cursor-pointer w-full border-2 border-black py-2 text-2xl mt-10 hover:scale-105 duration-300 text-black bg-white">
+                <i class="ri-arrow-left-long-line"></i> Shop Now!
+              </button>
+            </Link>
+          </div>
+        </section>
       </main>
     </div>
   );
