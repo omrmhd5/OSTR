@@ -90,47 +90,56 @@ const Profile = () => {
             <button className="mt-8 bg-bg_clr p-1 w-40">Save</button>
           </div>
         );
-      case "Orders History":
-        return (
-          <div className="text-t_clr">
-            <h2 className="text-2xl font-semibold mb-4">Past Orders</h2>
-
-            {/* Filter Buttons */}
-            <div className="flex gap-2 mb-4 flex-wrap justify-center">
-              {["All", "Unpaid", "Processing", "Shipped", "Delivered", "Returns"].map((status) => (
-                <button
-                  key={status}
-                  onClick={() => setOrderFilter(status)}
-                  className={`px-3 py-1 rounded-full border ${
-                    orderFilter === status ? "bg-[#976c60] text-white" : "bg-bg_clr text-t_clr"
-                  }`}
-                >
-                  {status}
-                </button>
-              ))}
-            </div>
-
-            {/* Orders List */}
-            {filteredOrders.length > 0 ? (
-              <ul className="space-y-2">
-                {filteredOrders.map((order) => (
-                  <li
-                    key={order.id}
-                    className="p-4 bg-bg_clr border rounded-lg shadow-sm flex justify-between items-center"
+        case "Orders History":
+          return (
+            <div className="text-t_clr">
+              <h2 className="text-2xl font-semibold mb-4">Past Orders</h2>
+        
+              {/* Filter Buttons with Icons */}
+              <div className="flex gap-4 mb-4 flex-wrap justify-center">
+                {[
+                  { label: "All", img: "/src/Assets/OrderStatus/all.png" },
+                  { label: "Unpaid", img: "/src/Assets/OrderStatus/unpaid.png" },
+                  { label: "Processing", img: "/src/Assets/OrderStatus/processing.png" },
+                  { label: "Shipped", img: "/src/Assets/OrderStatus/shipped.png" },
+                  { label: "Delivered", img: "/src/Assets/OrderStatus/delivered.png" },
+                  { label: "Returns", img: "/src/Assets/OrderStatus/returns.png" },
+                ].map(({ label, img }) => (
+                  <button
+                    key={label}
+                    onClick={() => setOrderFilter(label)}
+                    className={`flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg border transition ${
+                      orderFilter === label ? "bg-[#976c60] text-white" : "bg-bg_clr text-t_clr"
+                    }`}
                   >
-                    <div>
-                      <p><strong>Order #{order.id}</strong> - {order.item}</p>
-                      <p className="text-sm text-white">Status: {order.status} | Date: {order.date}</p>
-                    </div>
-                    <button className="text-sm underline text-t_clr-500 hover:text-blue-700">View</button>
-                  </li>
+                    <img src={img} alt={label} className="w-8 h-8 mb-1" />
+                    <span className="text-sm">{label}</span>
+                  </button>
                 ))}
-              </ul>
-            ) : (
-              <p className="text-sm">No orders found for "{orderFilter}".</p>
-            )}
-          </div>
-        );
+              </div>
+        
+              {/* Orders List */}
+              {filteredOrders.length > 0 ? (
+                <ul className="space-y-2">
+                  {filteredOrders.map((order) => (
+                    <li
+                      key={order.id}
+                      className="p-4 bg-bg_clr border rounded-lg shadow-sm flex justify-between items-center"
+                    >
+                      <div>
+                        <p><strong>Order #{order.id}</strong> - {order.item}</p>
+                        <p className="text-sm text-white">Status: {order.status} | Date: {order.date}</p>
+                      </div>
+                      <button className="text-sm underline text-t_clr-500 hover:text-blue-700">View</button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm">No orders found for "{orderFilter}".</p>
+              )}
+            </div>
+          );
+        
       case "Settings":
         return <div className="text-t_clr"><h2>Settings</h2><p>Change Password, Notifications...</p></div>;
       case "Coupons":
