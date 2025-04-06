@@ -4,6 +4,11 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [profilePhoto, setProfilePhoto] = useState("/src/assets/Nemo.png");
   const [orderFilter, setOrderFilter] = useState("All");
+  const [darkMode, setDarkMode] = useState(false);
+  const [location, setLocation] = useState("New York");
+  const [currency, setCurrency] = useState("USD");
+  const [showAddressInput, setShowAddressInput] = useState(false);
+  const [address, setAddress] = useState("");
 
   const orders = [
     { id: "1234", status: "Delivered", item: "T-Shirt", date: "2024-03-12" },
@@ -26,6 +31,21 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
+  const Disclosure = ({ title, children }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <div className="border border-[#976c60] p-3 rounded bg-bg_clr">
+        <button
+          className="font-semibold w-full text-left"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {title}
+        </button>
+        {isOpen && <div className="mt-2">{children}</div>}
+      </div>
+    );
+  };
+  
 
   const renderContent = () => {
     switch (activeTab) {
@@ -140,8 +160,95 @@ const Profile = () => {
             </div>
           );
         
-      case "Settings":
-        return <div className="text-t_clr"><h2>Settings</h2><p>Change Password, Notifications...</p></div>;
+        case "Settings":
+            return (
+              <div className="text-t_clr space-y-6">
+                <h2 className="text-2xl font-semibold mb-4">Settings</h2>
+          
+                {/* Address Book Input */}
+                <div className="space-y-2">
+                  <button
+                    className="flex items-center gap-2  font-medium text-left bg-bg_clr border border-[#976c60] p-2 rounded"
+                    onClick={() => setShowAddressInput(!showAddressInput)}
+                  >
+                    Add New Address
+                  </button>
+                  {showAddressInput && (
+                    <input
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Enter your location"
+                      className="w-full p-2 border border-[#976c60] bg-bg_clr rounded"
+                    />
+                  )}
+                </div>
+          
+                {/* Location Dropdown */}
+                <div>
+                  <label className="block font-semibold mb-2">Country</label>
+                  <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded">
+                    {["Egypt", "USA", "Germany", "France", "India", "Japan", "UAE"].map((country) => (
+                      <option key={country} value={country}>{country}</option>
+                    ))}
+                  </select>
+                </div>
+          
+                {/* Currency Dropdown */}
+                <div>
+                  <label className="block font-semibold mb-2">Currency</label>
+                  <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded">
+                    {["USD ($)", "EUR (€)", "EGP (E£)", "JPY (¥)", "AED (د.إ)"].map((currency) => (
+                      <option key={currency} value={currency}>{currency}</option>
+                    ))}
+                  </select>
+                </div>
+          
+                {/* Toggle switches */}
+                <div className="flex flex-col gap-4">
+                  <label className="flex items-center justify-between">
+                    <span className="font-semibold">Dark Mode</span>
+                    <input type="checkbox" className="h-5 w-5" />
+                  </label>
+                  <label className="flex items-center justify-between">
+                    <span className="font-semibold">Push Notifications</span>
+                    <input type="checkbox" className="h-5 w-5" />
+                  </label>
+                </div>
+          
+                {/* Contact Us Section with Icons */}
+                <Disclosure title="Connect to Us">
+                  <div className="flex items-center gap-4 mt-3 flex-wrap">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                      <img src="/src/assets/facebook.png" alt="Facebook" className="w-6 h-6" />
+                    </a>
+                    <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">
+                      <img src="/src/assets/whatsapp.png" alt="WhatsApp" className="w-6 h-6" />
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
+                      <img src="/src/assets/tiktok.png" alt="TikTok" className="w-6 h-6" />
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                      <img src="/src/assets/twitter.png" alt="Twitter" className="w-6 h-6" />
+                    </a>
+                    <p className="text-sm mt-2 w-full">You can also email us at support@OSTR.com</p>
+                  </div>
+                </Disclosure>
+          
+                {/* Terms & Conditions */}
+                <Disclosure title="Terms & Conditions">
+                  <p className="text-sm mt-2">
+                    By using this app, you agree to the terms and conditions. These include your responsibility for data usage,
+                    proper account conduct, and abiding by platform rules.
+                  </p>
+                </Disclosure>
+          
+                {/* Logout Button */}
+                <button className="mt--15 bg-bg_clr text-t_clr p-2 rounded hover:bg-cn_clr">Logout</button>
+              </div>
+            );
+          
+          
       case "Coupons":
         return <div className="text-t_clr"><h2>Coupons</h2><p>You have 2 active coupons.</p></div>;
       case "Wallet":
@@ -178,7 +285,7 @@ const Profile = () => {
           {["Profile", "Orders History", "Settings", "Coupons", "Wallet"].map((item) => (
             <li
               key={item}
-              className={`p-2 cursor-pointer ${activeTab === item ? "bg-cn_clr" : ""}`}
+              className={`p-2 hover:bg-cn_clr cursor-pointer ${activeTab === item ? "bg-cn_clr" : ""}`}
               onClick={() => setActiveTab(item)}
             >
               {item}
