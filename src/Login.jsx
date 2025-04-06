@@ -1,9 +1,19 @@
 // src/App.jsx
 import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const App = () => {
   //   const [isSignUp, setIsSignUp] = useState(false);
   const [activeTab, setActiveTab] = useState("SignIn");
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
@@ -69,25 +79,49 @@ const App = () => {
               <p className="text-sm text-gray-500 mb-4">
                 or use your email password
               </p>
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <a
-                href="#"
-                className="text-sm text-gray-500 mb-4 hover:underline"
+
+              <Formik
+                initialValues={{ email: "", password: "" }}
+                validationSchema={validationSchema}
+                onSubmit={(values) => {
+                  console.log("Form data:", values);
+                }}
               >
-                FORGET YOUR PASSWORD?
-              </a>
-              <button className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
-                SIGN IN
-              </button>
+                {({ isSubmitting }) => (
+                  <Form>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    />
+                    <ErrorMessage name="email" component="div" />
+
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    />
+                    <ErrorMessage name="password" component="div" />
+                    <div className="items-center flex flex-col ">
+                      <a
+                        href="#"
+                        className=" text-center text-sm text-gray-500 mb-4 hover:underline"
+                      >
+                        FORGET YOUR PASSWORD?
+                      </a>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition"
+                      >
+                        SIGN IN
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full px-8 mt-8">
@@ -103,24 +137,51 @@ const App = () => {
               <p className="text-sm text-gray-500 mb-2">
                 or use your email for registration
               </p>
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-              <button className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
-                SIGN UP
-              </button>
+
+              <Formik
+                initialValues={{ name: "", email: "", password: "" }}
+                validationSchema={validationSchema}
+                onSubmit={(values) => {
+                  console.log("Form data:", values);
+                }}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                    <Field
+                      type="text"
+                      name="name"
+                      placeholder="Name"
+                      className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    />
+                    <ErrorMessage name="name" component="div" />
+
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    />
+                    <ErrorMessage name="email" component="div" />
+
+                    <Field
+                      type="password"
+                      placeholder="Password"
+                      className="w-full p-2 px-4 mb-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    />
+                    <ErrorMessage name="password" component="div" />
+
+                    <div className="flex justify-center">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition"
+                      >
+                        SIGN UP
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           )}
         </div>
