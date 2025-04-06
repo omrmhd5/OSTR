@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import { useWishlist } from "./context/WishlistContext";
 
 const productsmen = [
-  { id: 1, name: "Backpack", price: 299, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"], },
-  { id: 2, name: "Watch", price: 299, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"] },
-  { id: 3, name: "Shirt", price: 299, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"] },
-  { id: 4, name: "Flip Flop", price: 50, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"] },
-  { id: 5, name: "Shorts", price: 120, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"] },
+  { id: 1, name: "Suit", price: 299, images: ["src/assets/Products/BeigeSuit.jpg", "src/assets/Products/beigeSuit2.jpg", "src/assets/Products/BeigeSuit3.jpg", "src/assets/Products/beigesuit4.jpg"] },
+  { id: 2, name: "Watch", price: 299, images: ["src/assets/Products/blackWatch1.jpg", "src/assets/Products/blackWatch2.jpg", "src/assets/Products/blackWatch3.jpg"] },
+  { id: 3, name: "Shirt", price: 299, images: ["src/assets/Products/berTshirt1.jpg", "src/assets/Products/berTshirt2.jpg"] },
+  { id: 4, name: "Shorts", price: 120, images: ["src/assets/Products/shorts1.jpg", "src/assets/Products/shorts2.jpg", "src/assets/Products/shorts3.jpg"] },
+  { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/flipflop1.jpg", "src/assets/Products/flipflop2.jpg","src/assets/Products/flipflop3.jpg","src/assets/Products/flipflop4.jpg" ] },
   { id: 6, name: "Boots", price: 350, images: ["src/assets/shirt.jpeg", "src/assets/shirt2.jpeg"] },
 ];
 
 const productswomen = [
   { id: 7, name: "Backpack", price: 299, images: ["src/assets/img1.jpg"] },
   { id: 8, name: "Watch", price: 299, images: ["src/assets/img1.jpg"] },
-  { id: 9, name: "Shirt", price: 299, images: ["src/assets/img1.jpg" ]},
+  { id: 9, name: "Shirt", price: 299, images: ["src/assets/img1.jpg"] },
   { id: 10, name: "Flip Flop", price: 50, images: ["src/assets/img1.jpg"] },
   { id: 11, name: "Shorts", price: 120, images: ["src/assets/img1.jpg"] },
   { id: 12, name: "Boots", price: 350, images: ["src/assets/img1.jpg"] },
@@ -22,7 +22,7 @@ const productswomen = [
 const productschildren = [
   { id: 13, name: "Backpack", price: 299, images: ["src/assets/profile.jpg"] },
   { id: 14, name: "Watch", price: 299, images: ["src/assets/profile.jpg"] },
-  { id: 15, name: "Shirt", price: 299, images:[ "src/assets/profile.jpg"] },
+  { id: 15, name: "Shirt", price: 299, images: ["src/assets/profile.jpg"] },
   { id: 16, name: "Flip Flop", price: 50, images: ["src/assets/profile.jpg"] },
 ];
 
@@ -33,6 +33,8 @@ export default function ShopPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [message, setMessage] = useState("");
+  const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [imageIndex, setImageIndex] = useState({});
 
   const { wishlist, toggleWishlist } = useWishlist();
 
@@ -52,6 +54,16 @@ export default function ShopPage() {
       sortedProducts.sort((a, b) => b.price - a.price);
     }
     setSelectedProducts(sortedProducts);
+  };
+
+  const handleImageChange = (productId, direction) => {
+    setImageIndex((prev) => {
+      const current = prev[productId] || 0;
+      const product = selectedProducts.find((p) => p.id === productId);
+      const total = product.images.length;
+      const newIndex = (current + direction + total) % total;
+      return { ...prev, [productId]: newIndex };
+    });
   };
 
   const filteredProducts = selectedProducts.filter((product) =>
@@ -102,22 +114,34 @@ export default function ShopPage() {
       <div className="grid grid-cols-4 gap-4 p-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <div key={product.id} className="text-center bg-cn_clr p-4 rounded transition-transform duration-300 transform hover:scale-105 hover:shadow-lg relative group">
-              <div className="w-full h-40 overflow-hidden relative">
-                
-                <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
-
-                
-                <div className="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {product.images.slice(1).map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={product.name}
-                      className="w-full h-full object-cover absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    />
-                  ))}
-                </div>
+            <div
+              key={product.id}
+              className="text-center bg-cn_clr p-4 rounded min-h-[400px] transition-transform duration-300 transform hover:scale-105 hover:shadow-lg relative"
+              onMouseEnter={() => setHoveredProduct(product.id)}
+              onMouseLeave={() => setHoveredProduct(null)}
+            >
+              <div className="w-full h-64 overflow-hidden relative">
+                <img
+                  src={product.images[imageIndex[product.id] || 0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+                {hoveredProduct === product.id && product.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => handleImageChange(product.id, -1)}
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-black px-2 rounded-full"
+                    >
+                      ◀
+                    </button>
+                    <button
+                      onClick={() => handleImageChange(product.id, 1)}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-black px-2 rounded-full"
+                    >
+                      ▶
+                    </button>
+                  </>
+                )}
               </div>
               <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
               <p className="text-t_clr">${product.price}</p>
