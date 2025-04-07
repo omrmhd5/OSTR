@@ -1,5 +1,5 @@
 import { SketchPicker, BlockPicker } from "react-color";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -19,6 +19,7 @@ export default function StyleYours() {
   });
 
   const [color, setColor] = useState("#9B9B9B");
+  const [textColor, setTextColor] = useState("#000000");
 
   const sizes = ["S", "M", "L", "XL", "2XL", "3XL"];
 
@@ -61,7 +62,7 @@ export default function StyleYours() {
     setIsOpen(!isOpen);
   };
 
-  const [item, setItem] = useState();
+  const [item, setItem] = useState("Hoodie");
   const items = [
     {
       name: "Hoodie",
@@ -348,12 +349,13 @@ export default function StyleYours() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const handleMouseDown = (e) => {
-    setDragging(true);
-    const rect = textRef.current.getBoundingClientRect();
+    e.preventDefault();
     setOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
     });
+
+    setDragging(true);
   };
 
   const handleMouseMove = (e) => {
@@ -368,14 +370,30 @@ export default function StyleYours() {
     setDragging(false);
   };
 
+  useEffect(() => {
+    if (dragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  });
+
   return (
     <div className="py-10 bg-bg_clr w-full">
-      <div className=" py-6 px-10 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
-        <div className="flex justify-center items-center py-20 text-6xl font-bold  ">
-          <h2>Create Your Own </h2>
+      <article className=" py-10 px-10 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+        {/* Style Your Own  */}
+        <header className="flex justify-center items-center py-20 text-6xl font-bold  ">
+          <h2>Style Your Own </h2>
           <Select onValueChange={(value) => setItem(value)}>
             <SelectTrigger className="w-[200px] ml-5 mt-3 text-4xl px-4 py-6 bg-white h-[200px] cursor-pointer hover:animate-pulse">
-              <SelectValue placeholder="Style" />
+              <SelectValue placeholder="Hoodie" />
             </SelectTrigger>
             <SelectContent>
               {items.map((item) => (
@@ -389,35 +407,31 @@ export default function StyleYours() {
               ))}
             </SelectContent>
           </Select>
-        </div>
-
-        <div className="w-full flex items-center justify-between ">
-          <div className=" w-1/3">
+        </header>
+        <main className="w-full flex items-center justify-between ">
+          {/* Choose Size Section */}
+          <section className=" w-1/3">
             <div className="bg-white p-5 w-full mt-10 rounded-2xl  ">
-              <h2 className="text-center text-2xl font-bold">Choose size</h2>
+              <h2 className="text-center text-2xl font-bold">Choose Size</h2>
               <div className="flex flex-col divide-y divide-gray-300 ">
                 {sizes.map((size) => (
                   <div
                     key={size}
                     className="flex justify-between items-center border p-2 px-5 rounded-md bg-white font-bold "
                   >
-                    <span
-                      className={
-                        size.includes("X") ? "text-gray-400" : "text-black"
-                      }
-                    >
-                      {size}
-                    </span>
-                    <div className=" gap-1 flex items-baseline ">
+                    <p className="text-black">{size}</p>
+                    <div className="font-medium flex  ">
                       <button
-                        className="cursor-pointer bg-bg_clr p-2 px-4 rounded-lg hover:animate-pulse "
+                        className=" cursor-pointer bg-bg_clr p-2 px-4 rounded-l-lg hover:animate-pulse "
                         onClick={() => handleQuantityChange(size, -1)}
                       >
                         -
                       </button>
-                      <p className="p-1 px-2">{quantities[size]}</p>
+                      <p className=" p-2 px-4 w-12 text-center">
+                        {quantities[size]}
+                      </p>
                       <button
-                        className=" cursor-pointer bg-bg_clr p-2 px-4 rounded-lg hover:animate-pulse "
+                        className=" cursor-pointer bg-bg_clr p-2 px-4  rounded-r-lg hover:animate-pulse "
                         onClick={() => handleQuantityChange(size, 1)}
                       >
                         +
@@ -431,64 +445,70 @@ export default function StyleYours() {
                 >
                   Size Chart
                 </button>
-                {isOpen && (
-                  <div className="fixed inset-0 bg-opacity-0 flex justify-center items-center z-50 ">
-                    <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100">
-                      <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
-                      <p className="text-gray-700 mb-5">
-                        Here’s your size chart content...
-                      </p>
-                      <img
-                        src="src\assets\sizechart.png"
-                        alt="sizechart"
-                        className="w-50 mb-10"
-                      />
-                      <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md w-80">
-                        <thead>
-                          <tr className="bg-gray-200 text-gray-700 uppercase text-sm">
-                            <th className="py-2 px-4 border">Size</th>
-                            <th className="py-2 px-4 border">A (in)</th>
-                            <th className="py-2 px-4 border">B (in)</th>
-                            <th className="py-2 px-4 border">C (in)</th>
+                {/** Size Chart */}
+                <div
+                  className={`fixed inset-0 flex justify-center items-center z-50 transition-all duration-300 ease-in-out 
+    ${
+      isOpen
+        ? "opacity-100 scale-100 bg-black/50 bg-opacity-50"
+        : "opacity-0 scale-95 pointer-events-none bg-opacity-0"
+    }`}
+                >
+                  <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100 transition-all duration-300 ease-in-out">
+                    <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
+                    <p className="text-gray-700 mb-5">
+                      Here’s your size chart content...
+                    </p>
+                    <img
+                      src="src/assets/sizechart.png"
+                      alt="sizechart"
+                      className="w-50 mb-10"
+                    />
+                    <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md w-80">
+                      <thead>
+                        <tr className="bg-gray-200 text-gray-700 uppercase text-sm">
+                          <th className="py-2 px-4 border">Size</th>
+                          <th className="py-2 px-4 border">A (in)</th>
+                          <th className="py-2 px-4 border">B (in)</th>
+                          <th className="py-2 px-4 border">C (in)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sizeschart.map((item, index) => (
+                          <tr
+                            key={item.size}
+                            className={
+                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                            }
+                          >
+                            <td className="py-2 px-4 border text-center font-bold">
+                              {item.size}
+                            </td>
+                            <td className="py-2 px-4 border text-center">
+                              {item.A}
+                            </td>
+                            <td className="py-2 px-4 border text-center">
+                              {item.B}
+                            </td>
+                            <td className="py-2 px-4 border text-center">
+                              {item.C}
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {sizeschart.map((item, index) => (
-                            <tr
-                              key={item.size}
-                              className={
-                                index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                              }
-                            >
-                              <td className="py-2 px-4 border text-center font-bold">
-                                {item.size}
-                              </td>
-                              <td className="py-2 px-4 border text-center">
-                                {item.A}
-                              </td>
-                              <td className="py-2 px-4 border text-center">
-                                {item.B}
-                              </td>
-                              <td className="py-2 px-4 border text-center">
-                                {item.C}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-
-                      <Button
-                        className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer"
-                        onClick={toggleModal}
-                      >
-                        Close
-                      </Button>
-                    </div>
+                        ))}
+                      </tbody>
+                    </table>
+                    <Button
+                      className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer"
+                      onClick={toggleModal}
+                    >
+                      Close
+                    </Button>
                   </div>
-                )}{" "}
+                </div>
+                {/* Product price section */}
                 <div className="mt-4 border-t pt-4">
                   <p className=" text-m text-gray-500">
-                    Product price: ${pricePerItem.toFixed(2)}
+                    Product Price: ${pricePerItem.toFixed(2)}
                   </p>
                   {discount > 0 && (
                     <p className=" absolute text-sm  text-red-500">
@@ -502,22 +522,31 @@ export default function StyleYours() {
               </div>
             </div>
             <Button
-              className="mt-4 w-full bg-gray-700 text-white py-2 rounded-md cursor-pointer font-bold hover:animate-bounce"
+              disabled={totalItems < 1}
+              className={`mt-4 w-full py-2 rounded-md font-bold 
+    ${
+      totalItems < 1
+        ? "bg-gray-600 cursor-not-allowed"
+        : "bg-gray-800 text-white cursor-pointer hover:animate-bounce"
+    }`}
               onClick={handleAddToCart}
             >
-              Add To Cart <i class="fas fa-shopping-cart"></i>
+              Add To Cart <i className="fas fa-shopping-cart"></i>
             </Button>
+
             {showPopup && (
               <div className=" fixed text-center inset-y-105 inset-x-150 bg-green-500 text-white p-3 rounded-md shadow-lg font-bold text-xl">
                 Your item has been added to your cart{" "}
                 <i className="ri-check-line text-white text-lg"></i>
               </div>
             )}
-          </div>
+          </section>
+          {/* product svg section */}
+          <figure className="w-1/3 ml-5 ">{selectedItem?.svg}</figure>
 
-          <div className="w-1/3 ">{selectedItem?.svg}</div>
-
-          <div className=" w-fit flex flex-col items-center">
+          {/*  Color Pickers and Text Size */}
+          <section className=" w-1/3 flex flex-col items-center">
+            {/* Color Picker */}
             <h6 className="font-bold text-2xl mb-3">Pick The Color</h6>
             <SketchPicker
               onChange={(color) => {
@@ -527,6 +556,7 @@ export default function StyleYours() {
               color={sketchPickerColor}
             />
 
+            {/* Add Text Section */}
             <div className="p-10 max-w-xl ">
               <div className="border p-4 rounded shadow  bg-white">
                 <input
@@ -537,17 +567,18 @@ export default function StyleYours() {
                   placeholder="Type something..."
                 />
 
+                {/* Text Color */}
                 <div className="flex flex-wrap gap-4 justify-between items-center mt-4 mb-4">
                   <div>
                     <label className="block text-sm font-bold ">Color</label>
                     <input
-                      className="cursor-pointer hover:animate-pulse"
+                      className="cursor-pointer rounded-full"
                       type="color"
-                      value={color}
-                      onChange={(e) => setColor(e.target.value)}
+                      value={textColor}
+                      onChange={(e) => setTextColor(e.target.value)}
                     />
                   </div>
-
+                  {/* Text Font */}
                   <div>
                     <label className="block text-sm font-bold ">Font</label>
                     <select
@@ -562,20 +593,20 @@ export default function StyleYours() {
                       ))}
                     </select>
                   </div>
-
+                  {/* Text Size  */}
                   <div>
                     <label className="block text-sm font-bold">Size</label>
 
                     <div className="gap-1 flex items-baseline mt-2 ">
                       <button
-                        className="cursor-pointer bg-bg_clr p-1 px-3 rounded-lg hover:animate-pulse "
+                        className="cursor-pointer bg-bg_clr p-1 px-3 rounded-l-lg hover:animate-pulse "
                         onClick={() => setFontSize((s) => Math.max(8, s - 4))}
                       >
                         −
                       </button>
-                      <span>{fontSize}</span>
+                      <span className="w-8 text-center">{fontSize}</span>
                       <button
-                        className=" cursor-pointer bg-bg_clr p-1 px-3 rounded-lg hover:animate-pulse "
+                        className=" cursor-pointer bg-bg_clr p-1 px-3 rounded-r-lg hover:animate-pulse "
                         onClick={() => setFontSize((s) => s + 4)}
                       >
                         +
@@ -584,18 +615,16 @@ export default function StyleYours() {
                   </div>
                 </div>
 
+                {/* Text appearance Section */}
                 <div
                   ref={textRef}
                   onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
                   style={{
                     position: "absolute",
-                    left: position.x,
-                    top: position.y,
-                    cursor: "grab",
-                    color: color,
+                    left: `${position.x}px`,
+                    top: `${position.y}px`,
+                    cursor: dragging ? "grabbing" : "grab",
+                    color: textColor,
                     fontFamily: fontFamily,
                     fontSize: `${fontSize}px`,
                     userSelect: "none",
@@ -605,9 +634,9 @@ export default function StyleYours() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </section>
+        </main>
+      </article>
     </div>
   );
 }
