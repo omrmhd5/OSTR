@@ -9,26 +9,30 @@ const productsmen = [
   { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/Men/flipflop1.jpg", "src/assets/Products/Men/flipflop2.jpg","src/assets/Products/Men/flipflop3.jpg","src/assets/Products/Men/flipflop4.jpg" ] },
   { id: 6, name: "Pants", price: 350, images: ["src/assets/Products/Men/pants1.jpg", "src/assets/Products/Men/pants2.jpg", "src/assets/Products/Men/pants3.jpg"] },
   { id: 7, name: "Boots", price: 350, images: ["src/assets/Products/Men/boots1.jpg", "src/assets/Products/Men/boot2.jpg", "src/assets/Products/Men/boots3.jpg"] },
+  { id: 8, name: "Suit", price: 350, images: ["src/assets/Products/Men/blacksuit1.jpg", "src/assets/Products/Men/blacksuit2.jpg", "src/assets/Products/Men/blacksuit3.jpg"] },
 ];
 
 const productswomen = [
-  { id: 8, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] },
-  { id: 9, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"] },
-  { id: 10, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] },
-  { id: 11, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] },
-  { id: 12, name: "Suit", price: 350, images: ["src/assets/Products/Women/suit1.jpg","src/assets/Products/Women/suit2.jpg","src/assets/Products/Women/suit3.jpg"] },
-  { id: 13, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"] },
-  { id: 14, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] },
-  { id: 15, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] },
+  { id: 9, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] },
+  { id: 10, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"] },
+  { id: 11, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] },
+  { id: 12, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] },
+  { id: 13, name: "Suit", price: 350, images: ["src/assets/Products/Women/suit1.jpg","src/assets/Products/Women/suit2.jpg","src/assets/Products/Women/suit3.jpg"] },
+  { id: 14, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"] },
+  { id: 15, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] },
+  { id: 16, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] },
   
 ];
 
 const productschildren = [
-  { id: 16, name: "Dress", price: 50, images: ["src/assets/Products/Kids/dress1.jpg","src/assets/Products/Kids/dress2.jpg","src/assets/Products/Kids/dress3.jpg"] },
-  { id: 17, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"] },
-  { id: 18, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"] },
-  { id: 19, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"] },
-  { id: 20, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"] },
+  { id: 17, name: "Dress", price: 50, images: ["src/assets/Products/Kids/dress1.jpg","src/assets/Products/Kids/dress2.jpg","src/assets/Products/Kids/dress3.jpg"] },
+  { id: 18, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"] },
+  { id: 19, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"] },
+  { id: 20, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"] },
+  { id: 21, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"] },
+  { id: 22, name: "Cargo Shorts", price: 50, images: ["src/assets/Products/Kids/shorts1.jpg","src/assets/Products/Kids/shorts2.jpg"] },
+  { id: 23, name: "Shoes", price: 50, images: ["src/assets/Products/Kids/shoes1.jpg","src/assets/Products/Kids/shoes2.jpg"] },
+  { id: 24, name: "Set", price: 50, images: ["src/assets/Products/Kids/set1.jpg","src/assets/Products/Kids/set2.jpg"] },
 ];
 
 const allProducts = [...productsmen, ...productswomen, ...productschildren];
@@ -78,7 +82,7 @@ export default function ShopPage() {
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph relative">
       <header className="flex justify-between items-center border-b pb-2 mb-4 p-4">
-        <h1 className="text-xl font-bold font-header">Shop</h1>
+        <h1 className="text-3xl font-bold font-header ">Shop</h1>
       </header>
 
       {message && (
@@ -91,7 +95,7 @@ export default function ShopPage() {
         <input
           type="text"
           placeholder="Search products..."
-          className="p-2 border rounded w-1/3 text-t_clr"
+          className="p-2 border rounded w-1/4 text-t_clr bg-white"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -109,7 +113,7 @@ export default function ShopPage() {
             View All
           </button>
         </div>
-        <select className="p-2 border rounded text-t_clr" value={sortBy} onChange={handleSort}>
+        <select className="p-2 border rounded text-t_clr bg-white" value={sortBy} onChange={handleSort}>
           <option className="bg-bg_clr" value="">Sort By</option>
           <option className="bg-bg_clr" value="low-to-high">Price: Low to High</option>
           <option className="bg-bg_clr" value="high-to-low">Price: High to Low</option>
