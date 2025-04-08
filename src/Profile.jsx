@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+
+
+
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [profilePhoto, setProfilePhoto] = useState("/src/assets/Nemo.png");
@@ -9,6 +12,7 @@ const Profile = () => {
   const [currency, setCurrency] = useState("USD");
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [address, setAddress] = useState("");
+  const [showCopyPopup, setShowCopyPopup] = useState(null);
 
   const orders = [
     { id: "1234", status: "Delivered", item: "T-Shirt", date: "2024-03-12" },
@@ -45,7 +49,35 @@ const Profile = () => {
       </div>
     );
   };
+  const [hasSpun, setHasSpun] = useState(false);
   
+  const [showWheel, setShowWheel] = useState(false);
+  const [wonCoupon, setWonCoupon] = useState(null);
+  const [userCoupons, setUserCoupons] = useState([
+    { code: "SPRING20", discount: "20% off", expiry: "Apr 15, 2025" },
+    { code: "FREESHIP", discount: "Free Shipping", expiry: "Apr 30, 2025" },
+  ]);
+
+const spinOptions = [
+  { code: "SAVE10", discount: "10% off", expiry: "Jan 20, 2025" },
+  { code: "FREESHIP", discount: "Free Shipping", expiry: "Apr 30, 2025" },
+  { code: "DISCOUNT25", discount: "25% off", expiry: "Apr 18, 2025" },
+  { code: "BUY1GET1", discount: "Buy 1 Get 1 Free", expiry: "Oct 20, 2026" },
+  { code: "SAVE50", discount: "50% off", expiry: "Dec 9, 2025" },
+  { code: "BUY2GET1", discount: "Buy 2 Get 1 Free", expiry: "Feb 14, 2026" },
+];
+const handleSpin = () => {
+  setShowWheel(true);
+  setTimeout(() => {
+    const prize = spinOptions[Math.floor(Math.random() * spinOptions.length)];
+    setWonCoupon(prize);
+    setUserCoupons((prev) => [...prev, prize]);
+    setHasSpun(true);
+    setShowWheel(false);
+  }, 3000); // simulate 3 second spin
+};
+
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -249,8 +281,93 @@ const Profile = () => {
             );
           
           
-      case "Coupons":
-        return <div className="text-t_clr"><h2>Coupons</h2><p>You have 2 active coupons.</p></div>;
+        case "Coupons":
+ 
+
+  return (
+    <div className="text-t_clr space-y-6">
+      <h2 className="text-2xl font-semibold">Coupons</h2>
+
+      {/* Spin Wheel Section */}
+      <div className="bg-bg_clr border border-[#976c60] p-4 rounded text-center">
+        <h3 className="text-lg font-bold mb-2">🎡 Daily Spin Wheel</h3>
+        <p className="mb-4">Spin once a day to win exclusive discounts!</p>
+
+        {!hasSpun ? (
+          <button
+            onClick={handleSpin}
+            className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition"
+          >
+            Spin Now
+          </button>
+        ) : (
+          <p className="text-sm mt-2">You’ve already spun today. Come back tomorrow!</p>
+        )}
+
+        {showWheel && (
+          <div className="mt-4">
+            <img
+              src="/src/assets/spin-wheel.png"
+              alt="Spinning Wheel"
+              className="w-50 h-45 mx-auto animate-spin"
+            />
+            <p className="text-sm mt-2">Spinning...</p>
+          </div>
+        )}
+
+        {wonCoupon && (
+          <p className="text-[#f0140f] font-semibold mt-4">
+            🎉 You won: {wonCoupon.discount} (Code: {wonCoupon.code})
+          </p>
+        )}
+      </div>
+
+      {/* Active Coupons */}
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Your Active Coupons</h3>
+        <ul className="space-y-2">
+        {userCoupons.map((coupon) => (
+  <li
+    key={coupon.code}
+    className="relative bg-bg_clr p-3 rounded border border-[#976c60] flex justify-between items-center"
+  >
+    <div>
+      <p className="font-semibold">{coupon.code}</p>
+      <p className="text-sm">{coupon.discount} — Expires {coupon.expiry}</p>
+    </div>
+
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(coupon.code);
+        setShowCopyPopup(coupon.code);
+        setTimeout(() => setShowCopyPopup(null), 2000);
+      }}
+      className="text-sm text-blue-400 hover:underline"
+    >
+      View Code
+    </button>
+  </li>
+))}
+
+{/* QR Code Popup in Center */}
+{showCopyPopup && (
+  <div className="fixed inset-0 flex items-center justify-center bg-bg_clr/60 bg-opacity-50 z-50">
+    <div className="bg-white p-4 rounded shadow-lg">
+      <img
+        src="/src/assets/qr-code.jpeg"
+        alt="QR Code"
+        className="w-70 h-70"
+      />
+      <p className="text-center text-sm mt-2">Scan QR Code!</p>
+    </div>
+  </div>
+)}
+
+        </ul>
+      </div>
+    </div>
+  );
+
       case "Wallet":
         return <div className="text-t_clr"><h2>Wallet</h2><p>Balance: $100</p></div>;
       default:
