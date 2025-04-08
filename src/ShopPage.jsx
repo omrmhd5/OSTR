@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useWishlist } from "./context/WishlistContext";
+import { LayoutGrid, List } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 const productsmen = [
   { id: 1, name: "Suit", price: 299, images: ["src/assets/Products/Men/BeigeSuit.jpg", "src/assets/Products/Men/beigeSuit2.jpg", "src/assets/Products/Men/BeigeSuit3.jpg", "src/assets/Products/Men/beigesuit4.jpg"] },
@@ -44,6 +47,8 @@ export default function ShopPage() {
   const [message, setMessage] = useState("");
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [imageIndex, setImageIndex] = useState({});
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [isGridView, setIsGridView] = useState(true);
 
   const { wishlist, toggleWishlist } = useWishlist();
 
@@ -82,7 +87,7 @@ export default function ShopPage() {
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph relative">
       <header className="flex justify-between items-center border-b pb-2 mb-4 p-4">
-        <h1 className="text-3xl font-bold font-header ">Shop</h1>
+        <h1 className="text-3xl font-bold font-header">Shop</h1>
       </header>
 
       {message && (
@@ -99,98 +104,148 @@ export default function ShopPage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
         <div className="flex space-x-2">
-          <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(productsmen)}>
-            Men
-          </button>
-          <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(productswomen)}>
-            Women
-          </button>
-          <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(productschildren)}>
-            Kids
-          </button>
-          <button className="px-4 py-2 bg-bg_clr text-t_clr hover:bg-cn_clr font-semibold" onClick={() => setSelectedProducts(allProducts)}>
-            View All
-          </button>
+          {["men", "women", "kids", "all"].map((category) => (
+            <button
+              key={category}
+              className={`px-4 py-2 font-semibold rounded ${
+                activeCategory === category
+                  ? "bg-cn_clr text-white"
+                  : "bg-bg_clr text-t_clr hover:bg-cn_clr"
+              }`}
+              onClick={() => {
+                setActiveCategory(category);
+                if (category === "men") setSelectedProducts(productsmen);
+                else if (category === "women") setSelectedProducts(productswomen);
+                else if (category === "kids") setSelectedProducts(productschildren);
+                else setSelectedProducts(allProducts);
+              }}
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </button>
+          ))}
         </div>
-        <select className="p-2 border rounded text-t_clr bg-white" value={sortBy} onChange={handleSort}>
-          <option className="bg-bg_clr" value="">Sort By</option>
-          <option className="bg-bg_clr" value="low-to-high">Price: Low to High</option>
-          <option className="bg-bg_clr" value="high-to-low">Price: High to Low</option>
-        </select>
+
+        <div className="flex items-center space-x-2">
+          <select
+            className="p-2 border rounded text-t_clr bg-white"
+            value={sortBy}
+            onChange={handleSort}
+          >
+            <option className="bg-bg_clr" value="">Sort By</option>
+            <option className="bg-bg_clr" value="low-to-high">Price: Low to High</option>
+            <option className="bg-bg_clr" value="high-to-low">Price: High to Low</option>
+          </select>
+
+          {/* View toggle */}
+          <button
+  className="p-2 border rounded text-t_clr bg-white hover:bg-cn_clr flex items-center space-x-2"
+  onClick={() => setIsGridView(!isGridView)}
+>
+  {isGridView ? (
+    <>
+      <List className="w-5 h-5" />
+      <span>List View</span>
+    </>
+  ) : (
+    <>
+      <LayoutGrid className="w-5 h-5" />
+      <span>Grid View</span>
+    </>
+  )}
+</button>
+
+        </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 p-4">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="text-center bg-cn_clr p-4 rounded min-h-[400px] transition-transform duration-300 transform hover:scale-105 hover:shadow-lg relative"
-              onMouseEnter={() => setHoveredProduct(product.id)}
-              onMouseLeave={() => setHoveredProduct(null)}
-            >
-              <div className="w-full h-64 overflow-hidden relative">
+      <AnimatePresence mode="wait">
+  <motion.div
+    key={isGridView ? "grid" : "list"}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    transition={{ duration: 0.4 }}
+    className={`${isGridView ? "grid grid-cols-4" : "flex flex-col"} gap-4 p-4`}
+  >
+    {filteredProducts.length > 0 ? (
+      filteredProducts.map((product) => (
+        <div
+          key={product.id}
+          className={`text-center bg-cn_clr p-4 rounded min-h-[400px] transition-transform duration-300 transform hover:scale-105 hover:shadow-lg relative ${
+            isGridView ? "" : "flex items-center gap-4"
+          }`}
+          onMouseEnter={() => setHoveredProduct(product.id)}
+          onMouseLeave={() => setHoveredProduct(null)}
+        >
+          <div className={`${isGridView ? "w-full h-64" : "w-64 h-64"} overflow-hidden relative`}>
+            <img
+              src={product.images[imageIndex[product.id] || 0]}
+              alt={product.name}
+              className="w-full h-full object-cover"
+            />
+            {hoveredProduct === product.id && product.images.length > 1 && (
+              <>
+                <button
+                  onClick={() => handleImageChange(product.id, -1)}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] px-2 rounded-full hover:bg-cn_clr"
+                >
+                  ◀
+                </button>
+                <button
+                  onClick={() => handleImageChange(product.id, 1)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] px-2 rounded-full hover:bg-cn_clr"
+                >
+                  ▶
+                </button>
+              </>
+            )}
+          </div>
+
+          <div className={`${isGridView ? "" : "flex flex-col items-start"} ml-4`}>
+            <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
+            <p className="text-t_clr">${product.price}</p>
+            <div className="flex justify-center gap-2 mt-2">
+              <button
+                className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
+                onClick={() => showMessage("Item added to cart successfully!")}
+              >
+                <img src="/src/assets/cart.png" alt="Cart" className="w-6 h-6" />
+              </button>
+              <button
+                className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
+                onClick={() => {
+                  const isInWishlist = wishlist.some((item) => item.id === product.id);
+                  toggleWishlist(product);
+                  showMessage(
+                    isInWishlist
+                      ? "Item removed from wishlist!"
+                      : "Item added to wishlist successfully!"
+                  );
+                }}
+              >
                 <img
-                  src={product.images[imageIndex[product.id] || 0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
+                  src={
+                    wishlist.some((item) => item.id === product.id)
+                      ? "/src/assets/RemoveWishlist.png"
+                      : "/src/assets/wishlist.png"
+                  }
+                  alt="wishlist"
+                  className="w-6 h-6"
                 />
-                {hoveredProduct === product.id && product.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={() => handleImageChange(product.id, -1)}
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] px-2 rounded-full hover:bg-cn_clr"
-                    >
-                      ◀
-                    </button>
-                    <button
-                      onClick={() => handleImageChange(product.id, 1)}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] px-2 rounded-full hover:bg-cn_clr"
-                    >
-                      ▶
-                    </button>
-                  </>
-                )}
-              </div>
-              <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
-              <p className="text-t_clr">${product.price}</p>
-              <div className="flex justify-center gap-2 mt-2">
-                <button
-                  className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
-                  onClick={() => showMessage("Item added to cart successfully!")}
-                >
-                  <img src="/src/assets/cart.png" alt="Cart" className="w-6 h-6" />
-                </button>
-                <button
-                  className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
-                  onClick={() => {
-                    toggleWishlist(product);
-                    showMessage(
-                      wishlist.some((item) => item.id === product.id)
-                        ? "Item removed from wishlist!"
-                        : "Item added to wishlist successfully!"
-                    );
-                  }}
-                >
-                  <img
-                    src={
-                      wishlist.some((item) => item.id === product.id)
-                        ? "/src/assets/RemoveWishlist.png"
-                        : "/src/assets/wishlist.png"
-                    }
-                    alt="wishlist"
-                    className="w-6 h-6"
-                  />
-                </button>
-              </div>
+              </button>
             </div>
-          ))
-        ) : (
-          <p className="text-center col-span-4 text-t_clr text-2xl font-semibold">
-            No products found.
-          </p>
-        )}
-      </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p className="text-center col-span-4 text-t_clr text-2xl font-semibold">
+        No products found.
+      </p>
+    )}
+  </motion.div>
+</AnimatePresence>
+
     </div>
   );
 }
