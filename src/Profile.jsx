@@ -13,6 +13,14 @@ const Profile = () => {
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [address, setAddress] = useState("");
   const [showCopyPopup, setShowCopyPopup] = useState(null);
+  const [savedCards, setSavedCards] = useState([]); // Stores the saved cards
+const [newCard, setNewCard] = useState({ number: "", expiry: "", cvv: "" }); // Form input for new card
+const [isFormVisible, setIsFormVisible] = useState(false);
+const [balance, setBalance] = useState(0); // Track the current balance
+const [voucherCode, setVoucherCode] = useState('');
+const [voucherMessage, setVoucherMessage] = useState('');
+
+
 
   const orders = [
     { id: "1234", status: "Delivered", item: "T-Shirt", date: "2024-03-12" },
@@ -21,6 +29,47 @@ const Profile = () => {
     { id: "1237", status: "Shipped", item: "Backpack", date: "2024-03-20" },
     { id: "1238", status: "Returns", item: "Jacket", date: "2024-03-22" },
   ];
+  const handleCardInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCard((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  
+  const handleAddCard = (e) => {
+    e.preventDefault();
+    if (newCard.number && newCard.expiry && newCard.cvv) {
+      setSavedCards([...savedCards, newCard]); // Add the new card to the saved cards list
+      setNewCard({ number: "", expiry: "", cvv: "" }); // Clear the form fields
+    } else {
+      alert("Please fill out all fields.");
+    }
+  };
+  const handleRedeemVoucher = () => {
+    if (voucherCode === 'OSTR209') {
+      setBalance(balance + 25);
+      setVoucherMessage('Voucher redeemed successfully! You received $25.');
+    } else {
+      setVoucherMessage('Invalid voucher code.');
+    }
+    setVoucherCode('');
+  };
+  const renderSavedCards = () => {
+    return savedCards.length > 0 ? (
+      savedCards.map((card, index) => (
+        <div key={index} className="bg-bg_clr p-3 rounded border border-[#976c60] mb-2">
+          <p className="font-semibold">Card {index + 1}</p>
+          <p className="text-sm">Number: **** **** **** {card.number.slice(-4)}</p>
+          <p className="text-sm">Expiry: {card.expiry}</p>
+          <p className="text-sm">CVV: ***</p>
+        </div>
+      ))
+    ) : (
+      <p>No saved cards. Add a new card below!</p>
+    );
+  };
+  
 
   const filteredOrders =
     orderFilter === "All" ? orders : orders.filter((order) => order.status === orderFilter);
@@ -342,9 +391,9 @@ const handleSpin = () => {
         setShowCopyPopup(coupon.code);
         setTimeout(() => setShowCopyPopup(null), 2000);
       }}
-      className="text-sm text-blue-400 hover:underline"
+      className="text-sm text-t_clr hover:text-blue-400 hover:underline"
     >
-      View Code
+      View QR Code
     </button>
   </li>
 ))}
@@ -368,8 +417,125 @@ const handleSpin = () => {
     </div>
   );
 
-      case "Wallet":
-        return <div className="text-t_clr"><h2>Wallet</h2><p>Balance: $100</p></div>;
+  case "Wallet":
+      
+  return (
+    <div className="text-t_clr space-y-6">
+      <h2 className="text-2xl font-semibold">Wallet</h2>
+      
+      {/* Current Balance Section */}
+      <div className="bg-bg_clr p-4 rounded border border-[#976c60] mb-6">
+        <h3 className="text-lg font-semibold">Current Balance</h3>
+        <p className="text-xl font-semibold">${balance}</p> {/* Display dynamic balance */}
+      </div>
+
+      {/* Saved Cards Section */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold mb-2">Your Saved Cards</h3>
+        {savedCards.length === 0 ? (
+          <p>No saved cards yet.</p>
+        ) : (
+          savedCards.map((card, index) => (
+            <div key={index} className="bg-bg_clr p-3 rounded border border-[#976c60] mb-2">
+              <p className="font-semibold">{card.number}</p>
+              <p className="text-sm">Expires {card.expiry}</p>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Button to Show the Add Card Form */}
+      <button
+        onClick={() => setIsFormVisible(!isFormVisible)} // Toggle form visibility
+        className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition mb-4"
+      >
+        {isFormVisible ? "Cancel" : "Add New Card"}
+      </button>
+
+      {/* Add New Card Form */}
+      {isFormVisible && (
+        <div className="bg-bg_clr p-4 rounded border border-[#976c60]">
+          <h3 className="text-lg font-bold mb-2">Add New Card</h3>
+          <form onSubmit={handleAddCard}>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="cardNumber" className="text-sm">Card Number</label>
+                <input
+                  type="text"
+                  id="cardNumber"
+                  name="number"
+                  value={newCard.number}
+                  onChange={handleCardInputChange}
+                  className="w-full p-2 mt-2 border border-[#976c60] rounded"
+                  placeholder="Enter card number"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="expiryDate" className="text-sm">Expiry Date</label>
+                <input
+                  type="text"
+                  id="expiryDate"
+                  name="expiry"
+                  value={newCard.expiry}
+                  onChange={handleCardInputChange}
+                  className="w-full p-2 mt-2 border border-[#976c60] rounded"
+                  placeholder="MM/YY"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="cvv" className="text-sm">CVV</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  name="cvv"
+                  value={newCard.cvv}
+                  onChange={handleCardInputChange}
+                  className="w-full p-2 mt-2 border border-[#976c60] rounded"
+                  placeholder="CVV"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition"
+              >
+                Add Card
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Voucher Redemption */}
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold mb-2">Redeem Voucher</h3>
+        <input
+          type="text"
+          value={voucherCode}
+          onChange={(e) => setVoucherCode(e.target.value)}
+          className="w-full p-2 border border-[#976c60] rounded mb-4"
+          placeholder="Enter voucher code"
+        />
+        <button
+          onClick={handleRedeemVoucher}
+          className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition"
+        >
+          Redeem
+        </button>
+        {voucherMessage && (
+          <p className={`mt-4 text-sm ${voucherMessage.includes('Invalid') ? 'text-red-500' : 'text-green-500'}`}>
+            {voucherMessage}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+
       default:
         return null;
     }
