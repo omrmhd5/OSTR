@@ -5,8 +5,8 @@ import ProductPage from "./ProductPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
 import Wishlist from "./Wishlist";
-
 import { WishlistProvider } from "./context/WishlistContext";
+import Cart from "./Cart";
 
 function App() {
   const photos = [
@@ -111,6 +111,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/wishlist" element={<Wishlist/>} />
+            <Route path="/cart" element= {<Cart/>} />
             <Route
               path="/product"
               element={
