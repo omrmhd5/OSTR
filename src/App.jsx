@@ -4,6 +4,7 @@ import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
+import Cart from "./Cart";
 
 function App() {
   const photos = [
@@ -107,6 +108,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/cart" element= {<Cart/>} />
             <Route
               path="/product"
               element={
