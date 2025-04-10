@@ -4,6 +4,8 @@ import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
+import Wishlist from "./Wishlist";
+import { WishlistProvider } from "./context/WishlistContext";
 import Cart from "./Cart";
 
 function App() {
@@ -101,13 +103,14 @@ function App() {
   ];
 
   return (
-    <>
+    <WishlistProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/wishlist" element={<Wishlist/>} />
             <Route path="/cart" element= {<Cart/>} />
             <Route
               path="/product"
@@ -129,7 +132,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </WishlistProvider>
   );
 }
 
