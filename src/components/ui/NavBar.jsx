@@ -43,7 +43,8 @@ export default function NavBar() {
                 `transition-all ease-linear duration-100 
             hover:text-sky-950 hover:underline underline-offset-4
             ${isActive ? "text-sky-950 underline" : ""}`
-              }>
+              }
+            >
               <li>{item.name}</li>
             </NavLink>
           ))}
@@ -69,7 +70,8 @@ export default function NavBar() {
               <button
                 onClick={item.path}
                 className="cursor-pointer transition-all duration-300 ease-in-out 
-                hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr">
+                hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr"
+              >
                 <i className={`fa-solid ${item.icon}`} />
               </button>
             ) : (
@@ -80,7 +82,8 @@ export default function NavBar() {
                 hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
                   isActive ? "text-sky-950" : "text-t_clr"
                 }`
-                }>
+                }
+              >
                 <i className={`fa-solid ${item.icon}`} />
               </NavLink>
             )}
