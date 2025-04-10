@@ -7,12 +7,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+body {
+  @apply bg-background text-background transition-all duration-750;
+}
 
 @theme {
   --color-bg_clr: #dfd6c7;
   --color-cn_clr: #f5efe0;
   --color-t_clr: #976c60;
+
+  --font-header: "Lora", "serif";
+  --font-paragraph: "Montserrat", "sans-serif";
+}
+
+.dark {
+  --color-bg_clr: #0000;
+  --color-cn_clr: #4b3705ce;
+  --color-t_clr: #ffffff;
+  --color-white: #0c1542;
 
   --font-header: "Lora", "serif";
   --font-paragraph: "Montserrat", "sans-serif";
@@ -130,6 +142,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-1000;
   }
 }

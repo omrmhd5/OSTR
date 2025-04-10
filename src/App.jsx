@@ -6,6 +6,10 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
 import StyleYours from "./StyleYours";
 import Login from "./Login";
+import NewArrivals from "./NewArrivals";
+import Wishlist from "./Wishlist";
+import { WishlistProvider } from "./context/WishlistContext";
+import Cart from "./Cart";
 
 function App() {
   const photos = [
@@ -67,7 +71,6 @@ function App() {
       date: "2025-03-09",
     },
   ];
-
   const relatedProducts = [
     {
       src: "src/assets/relatedProduct/rp1.avif",
@@ -102,7 +105,7 @@ function App() {
   ];
 
   return (
-    <>
+    <WishlistProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -112,7 +115,9 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/style" element={<StyleYours />} />
-
+            <Route path="/new" element={<NewArrivals />} />
+            <Route path="/wishlist" element={<Wishlist/>} />
+            <Route path="/cart" element= {<Cart/>} />
             <Route
               path="/product"
               element={
@@ -133,7 +138,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </WishlistProvider>
   );
 }
 

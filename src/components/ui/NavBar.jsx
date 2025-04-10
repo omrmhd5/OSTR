@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import DarkModeToggle from "./DarkModeToggle";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,38 +58,42 @@ export default function NavBar() {
         </div>
       </ul>
 
-      <div className="flex text-xl gap-10">
-        {[
-          { icon: "fa-cart-shopping", path: "/cart" },
-          { icon: "fa-heart", path: "/wishlist" },
-          ...(isLoggedIn
-            ? [{ icon: "fa-arrow-right-from-bracket", path: handleLogout }]
-            : []),
-        ].map((item) => (
-          <div key={item.path}>
-            {typeof item.path === "function" ? (
-              <button
-                onClick={item.path}
-                className="cursor-pointer transition-all duration-300 ease-in-out 
-                hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr"
-              >
-                <i className={`fa-solid ${item.icon}`} />
-              </button>
-            ) : (
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center justify-center transition-all duration-300 ease-in-out 
-                hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
-                  isActive ? "text-sky-950" : "text-t_clr"
-                }`
-                }
-              >
-                <i className={`fa-solid ${item.icon}`} />
-              </NavLink>
-            )}
-          </div>
-        ))}
+      <div className="flex text-xl items-center gap-10">
+     {[
+  { icon: "fa-cart-shopping", path: "/cart" },
+  { icon: "fa-heart", path: "/wishlist" },
+  ...(isLoggedIn
+    ? [{ icon: "fa-arrow-right-from-bracket", path: handleLogout }]
+    : []),
+  { component: <DarkModeToggle /> },
+].map((item, index) =>
+  item.component ? (
+    <div key={index}>{item.component}</div>
+  ) : typeof item.path === "function" ? (
+    <button
+      key={index}
+      onClick={item.path}
+      className="cursor-pointer transition-all duration-300 ease-in-out 
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr"
+    >
+      <i className={`fa-solid ${item.icon}`} />
+    </button>
+  ) : (
+    <NavLink
+      key={item.path}
+      to={item.path}
+      className={({ isActive }) =>
+        `flex items-center justify-center transition-all duration-300 ease-in-out 
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
+          isActive ? "text-sky-950" : "text-t_clr"
+        }`
+      }
+    >
+      <i className={`fa-solid ${item.icon}`} />
+    </NavLink>
+  )
+)}
+
       </div>
     </nav>
   );
