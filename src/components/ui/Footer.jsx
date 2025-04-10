@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -20,8 +20,7 @@ export default function Footer() {
               (brand, index) => (
                 <span
                   className="bg-gray-100 p-2 px-3 cursor-pointer rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 duration-300 ease-in-out"
-                  key={index}
-                >
+                  key={index}>
                   <i className={`fa-brands ${brand} `} />
                 </span>
               )
@@ -57,8 +56,7 @@ export default function Footer() {
               {Object.values(section)[0].map((content, index) => (
                 <li
                   className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer"
-                  key={index}
-                >
+                  key={index}>
                   {content}
                 </li>
               ))}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 const App = () => {
@@ -50,6 +50,7 @@ const App = () => {
           user.email === values.email && user.password === values.password
       )
     ) {
+      localStorage.setItem("loggedInUser", JSON.stringify(values.email));
       navigate("/");
     } else {
       setErrors({ password: "Incorrect email or password" });
@@ -70,6 +71,11 @@ const App = () => {
 
     setUsers((users) => [...users, newUser]);
   };
+
+  // const handleLogout = () => {
+  //   localStorage.removeItem("loggedInUser");
+  //   navigate("/");
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
