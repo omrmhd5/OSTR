@@ -5,37 +5,37 @@ import { motion, AnimatePresence } from "framer-motion";
 
 
 const productsmen = [
-  { id: 1, name: "Suit", price: 299, images: ["src/assets/Products/Men/BeigeSuit.jpg", "src/assets/Products/Men/beigeSuit2.jpg", "src/assets/Products/Men/BeigeSuit3.jpg", "src/assets/Products/Men/beigesuit4.jpg"] },
-  { id: 2, name: "Watch", price: 299, images: ["src/assets/Products/Men/blackWatch1.jpg", "src/assets/Products/Men/blackWatch2.jpg", "src/assets/Products/Men/blackWatch3.jpg"] },
-  { id: 3, name: "Shirt", price: 299, images: ["src/assets/Products/Men/berTshirt1.jpg", "src/assets/Products/Men/berTshirt2.jpg"] },
-  { id: 4, name: "Shorts", price: 120, images: ["src/assets/Products/Men/shorts1.jpg", "src/assets/Products/Men/shorts2.jpg", "src/assets/Products/Men/shorts3.jpg"] },
-  { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/Men/flipflop1.jpg", "src/assets/Products/Men/flipflop2.jpg","src/assets/Products/Men/flipflop3.jpg","src/assets/Products/Men/flipflop4.jpg" ] },
-  { id: 6, name: "Pants", price: 350, images: ["src/assets/Products/Men/pants1.jpg", "src/assets/Products/Men/pants2.jpg", "src/assets/Products/Men/pants3.jpg"] },
-  { id: 7, name: "Boots", price: 350, images: ["src/assets/Products/Men/boots1.jpg", "src/assets/Products/Men/boot2.jpg", "src/assets/Products/Men/boots3.jpg"] },
-  { id: 8, name: "Suit", price: 350, images: ["src/assets/Products/Men/blacksuit1.jpg", "src/assets/Products/Men/blacksuit2.jpg", "src/assets/Products/Men/blacksuit3.jpg"] },
+  { id: 1, name: "Suit", price: 299, images: ["src/assets/Products/Men/BeigeSuit.jpg", "src/assets/Products/Men/beigeSuit2.jpg", "src/assets/Products/Men/BeigeSuit3.jpg", "src/assets/Products/Men/beigesuit4.jpg"] ,description: "A sleek beige suit designed for formal occasions. Offers a tailored fit and modern appeal."},
+  { id: 2, name: "Watch", price: 299, images: ["src/assets/Products/Men/blackWatch1.jpg", "src/assets/Products/Men/blackWatch2.jpg", "src/assets/Products/Men/blackWatch3.jpg"] ,description: "Stylish black watch with a minimalist dial. Perfect for both everyday wear and special events."},
+  { id: 3, name: "Shirt", price: 299, images: ["src/assets/Products/Men/berTshirt1.jpg", "src/assets/Products/Men/berTshirt2.jpg"] ,description: "Casual t-shirt with breathable fabric and a classic crew neck. Ideal for daily wear."},
+  { id: 4, name: "Shorts", price: 120, images: ["src/assets/Products/Men/shorts1.jpg", "src/assets/Products/Men/shorts2.jpg", "src/assets/Products/Men/shorts3.jpg"] ,description: "Lightweight and durable shorts great for summer or workouts. Features multiple pockets."},
+  { id: 5, name: "Flip Flop", price: 50, images: ["src/assets/Products/Men/flipflop1.jpg", "src/assets/Products/Men/flipflop2.jpg","src/assets/Products/Men/flipflop3.jpg","src/assets/Products/Men/flipflop4.jpg" ] ,description: "Comfortable flip flops perfect for beach days or lounging at home."},
+  { id: 6, name: "Pants", price: 350, images: ["src/assets/Products/Men/pants1.jpg", "src/assets/Products/Men/pants2.jpg", "src/assets/Products/Men/pants3.jpg"] ,description: "Versatile everyday pants with a refined design and comfortable stretch." },
+  { id: 7, name: "Boots", price: 350, images: ["src/assets/Products/Men/boots1.jpg", "src/assets/Products/Men/boot2.jpg", "src/assets/Products/Men/boots3.jpg"] ,description: "Rugged boots built for durability and comfort. Ideal for both urban and outdoor adventures." },
+  { id: 8, name: "Suit", price: 350, images: ["src/assets/Products/Men/blacksuit1.jpg", "src/assets/Products/Men/blacksuit2.jpg", "src/assets/Products/Men/blacksuit3.jpg"] ,description: "Classic black suit offering a sharp silhouette. Ideal for formal and business events."},
 ];
 
 const productswomen = [
-  { id: 9, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] },
-  { id: 10, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"] },
-  { id: 11, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] },
-  { id: 12, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] },
-  { id: 13, name: "Suit", price: 350, images: ["src/assets/Products/Women/suit1.jpg","src/assets/Products/Women/suit2.jpg","src/assets/Products/Women/suit3.jpg"] },
-  { id: 14, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"] },
-  { id: 15, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] },
-  { id: 16, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] },
+  { id: 9, name: "Bag", price: 299, images: ["src/assets/Products/Women/Bag3.jpg","src/assets/Products/Women/Bag2.jpg","src/assets/Products/Women/Bag1.jpg"] ,description: "Chic and roomy handbag perfect for daily errands or evenings out." },
+  { id: 10, name: "Watch", price: 299, images: ["src/assets/Products/Women/watch3.jpg","src/assets/Products/Women/watch1.jpg","src/assets/Products/Women/watch2.jpg"],description: "Elegant women's watch with a sleek band and classic face." },
+  { id: 11, name: "Shirt", price: 299, images: ["src/assets/Products/Women/shirt1.jpg","src/assets/Products/Women/shirt2.jpg","src/assets/Products/Women/shirt3.jpg"] ,description: "Stylish shirt with soft fabric and a flattering fit." },
+  { id: 12, name: "Pants", price: 50, images: ["src/assets/Products/Women/pants1.jpg","src/assets/Products/Women/pants2.jpg","src/assets/Products/Women/pants3.jpg"] ,description: "Comfort-fit pants ideal for casual or office wear." },
+  { id: 13, name: "Suit", price: 350, images: ["src/assets/Products/Women/suit1.jpg","src/assets/Products/Women/suit2.jpg","src/assets/Products/Women/suit3.jpg"], description: "Power suit for the modern woman — tailored and timeless." },
+  { id: 14, name: "Shorts", price: 120, images: ["src/assets/Products/Women/shorts2.jpg","src/assets/Products/Women/shorts1.jpg","src/assets/Products/Women/shorts3.jpg"], description: "Breezy summer shorts with a flattering cut and comfy waistband." },
+  { id: 15, name: "Boots", price: 350, images: ["src/assets/Products/Women/boots1.jpg","src/assets/Products/Women/boots2.jpg","src/assets/Products/Women/boots3.jpg"] ,description: "Elegant high-ankle boots with a bold design for any occasion." },
+  { id: 16, name: "Clogs", price: 350, images: ["src/assets/Products/Women/clogs2.jpg","src/assets/Products/Women/clogs1.jpg","src/assets/Products/Women/clogs3.jpg"] ,description: "Trendy clogs with a comfortable footbed and standout look."},
   
 ];
 
 const productschildren = [
-  { id: 17, name: "Dress", price: 50, images: ["src/assets/Products/Kids/dress1.jpg","src/assets/Products/Kids/dress2.jpg","src/assets/Products/Kids/dress3.jpg"] },
-  { id: 18, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"] },
-  { id: 19, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"] },
-  { id: 20, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"] },
-  { id: 21, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"] },
-  { id: 22, name: "Cargo Shorts", price: 50, images: ["src/assets/Products/Kids/shorts1.jpg","src/assets/Products/Kids/shorts2.jpg"] },
-  { id: 23, name: "Shoes", price: 50, images: ["src/assets/Products/Kids/shoes1.jpg","src/assets/Products/Kids/shoes2.jpg"] },
-  { id: 24, name: "Set", price: 50, images: ["src/assets/Products/Kids/set1.jpg","src/assets/Products/Kids/set2.jpg"] },
+  { id: 17, name: "Dress", price: 50, images: ["src/assets/Products/Kids/dress1.jpg","src/assets/Products/Kids/dress2.jpg","src/assets/Products/Kids/dress3.jpg"], description: "Adorable kids’ dress with a playful print and comfy fit."  },
+  { id: 18, name: "Backpack", price: 299, images: ["src/assets/Products/Kids/backpack1.jpg","src/assets/Products/Kids/backpack2.jpg","src/assets/Products/Kids/backpack3.jpg","src/assets/Products/Kids/backpack4.jpg"], description: "Fun and colorful backpack designed for school adventures." },
+  { id: 19, name: "Shirt", price: 299, images: ["src/assets/Products/Kids/shirt1.jpg","src/assets/Products/Kids/shirt3.jpg","src/assets/Products/Kids/shirt4.jpg","src/assets/Products/Kids/shirt2.jpg"], description: "Soft cotton shirt with vibrant design for active kids." },
+  { id: 20, name: "Pants", price: 299, images: ["src/assets/Products/Kids/pants1.jpg","src/assets/Products/Kids/pants2.jpg","src/assets/Products/Kids/pants3.jpg","src/assets/Products/Kids/pants4.jpg"], description: "Durable children’s pants perfect for play and daily use." },
+  { id: 21, name: "Crocs", price: 50, images: ["src/assets/Products/Kids/crocs1.jpg","src/assets/Products/Kids/crocs2.jpg","src/assets/Products/Kids/crocs3.jpg"], description: "Lightweight and comfy crocs — great for indoor and outdoor fun." },
+  { id: 22, name: "Cargo Shorts", price: 50, images: ["src/assets/Products/Kids/shorts1.jpg","src/assets/Products/Kids/shorts2.jpg"], description: "Utility cargo shorts with pockets and relaxed fit."  },
+  { id: 23, name: "Shoes", price: 50, images: ["src/assets/Products/Kids/shoes1.jpg","src/assets/Products/Kids/shoes2.jpg"] , description: "Everyday kids’ shoes offering comfort and playful style."},
+  { id: 24, name: "Set", price: 50, images: ["src/assets/Products/Kids/set1.jpg","src/assets/Products/Kids/set2.jpg"], description: "Coordinated clothing set perfect for matching outfits and easy dressing." },
 ];
 
 const allProducts = [...productsmen, ...productswomen, ...productschildren];
@@ -203,39 +203,43 @@ export default function ShopPage() {
           </div>
 
           <div className={`${isGridView ? "" : "flex flex-col items-start"} ml-4`}>
-            <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
-            <p className="text-t_clr">${product.price}</p>
-            <div className="flex justify-center gap-2 mt-2">
-              <button
-                className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
-                onClick={() => showMessage("Item added to cart successfully!")}
-              >
-                <img src="/src/assets/cart.png" alt="Cart" className="w-6 h-6" />
-              </button>
-              <button
-                className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
-                onClick={() => {
-                  const isInWishlist = wishlist.some((item) => item.id === product.id);
-                  toggleWishlist(product);
-                  showMessage(
-                    isInWishlist
-                      ? "Item removed from wishlist!"
-                      : "Item added to wishlist successfully!"
-                  );
-                }}
-              >
-                <img
-                  src={
-                    wishlist.some((item) => item.id === product.id)
-                      ? "/src/assets/RemoveWishlist.png"
-                      : "/src/assets/wishlist.png"
-                  }
-                  alt="wishlist"
-                  className="w-6 h-6"
-                />
-              </button>
-            </div>
-          </div>
+  <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
+  <p className="text-t_clr">${product.price}</p>
+  {!isGridView && (
+    <p className="text-xl text-t_clr ml-28 mt-1">{product.description}</p>
+  )}
+  <div className="flex justify-center gap-2 mt-2">
+    <button
+      className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
+      onClick={() => showMessage("Item added to cart successfully!")}
+    >
+      <img src="/src/assets/cart.png" alt="Cart" className="w-6 h-6" />
+    </button>
+    <button
+      className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr"
+      onClick={() => {
+        const isInWishlist = wishlist.some((item) => item.id === product.id);
+        toggleWishlist(product);
+        showMessage(
+          isInWishlist
+            ? "Item removed from wishlist!"
+            : "Item added to wishlist successfully!"
+        );
+      }}
+    >
+      <img
+        src={
+          wishlist.some((item) => item.id === product.id)
+            ? "/src/assets/RemoveWishlist.png"
+            : "/src/assets/wishlist.png"
+        }
+        alt="wishlist"
+        className="w-6 h-6"
+      />
+    </button>
+  </div>
+</div>
+
         </div>
       ))
     ) : (
