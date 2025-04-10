@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router";
+import DarkModeToggle from "./DarkModeToggle";
 
 export default function NavBar() {
   return (
@@ -35,22 +36,28 @@ export default function NavBar() {
         </div>
       </ul>
 
-      <div className="flex text-xl gap-10">
+      <div className="flex text-xl items-center gap-10">
         {[
           { icon: "fa-cart-shopping", path: "/cart" },
           { icon: "fa-heart", path: "/wishlist" },
-        ].map((item) => (
-          <NavLink
-            to={item.path}
-            className={({ isActive }) =>
-              `flex items-center justify-center transition-all duration-300 ease-in-out 
-            hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
-              isActive ? "text-sky-950" : "text-t_clr"
-            }`
-            }>
-            <i className={`fa-solid ${item.icon}`} />
-          </NavLink>
-        ))}
+          { component: <DarkModeToggle /> },
+        ].map((item, index) =>
+          item.component ? (
+            item.component
+          ) : (
+            <NavLink
+              key={index}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center justify-center transition-all duration-300 ease-in-out 
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
+          isActive ? "text-sky-950" : "text-t_clr"
+        }`
+              }>
+              <i className={`fa-solid ${item.icon}`} />
+            </NavLink>
+          )
+        )}
       </div>
     </nav>
   );
