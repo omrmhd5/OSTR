@@ -3,14 +3,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router";
+import StarRating from "./components/ui/StarRating";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 export default function Home() {
   const CustomPrevArrow = (props) => {
     const { onClick } = props;
     return (
       <button
-        className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer "
-        onClick={onClick}>
+        className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer "
+        onClick={onClick}
+      >
         <i className="fa-solid fa-arrow-left"></i>
       </button>
     );
@@ -20,8 +24,9 @@ export default function Home() {
     const { onClick } = props;
     return (
       <button
-        className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black hover:-translate-y-1 hover:scale-110 delay-150 duration-300 ease-in-out cursor-pointer"
-        onClick={onClick}>
+        className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer"
+        onClick={onClick}
+      >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
     );
@@ -42,17 +47,17 @@ export default function Home() {
     {
       name: "Sarah M.",
       review:
-        "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations.",
+        "I'm blown away by the quality and style of the clothes I received from ostor. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations. I'm sure this will not be the last order!",
     },
     {
       name: "Alex K.",
       review:
-        "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes.",
+        "Finding clothes that align with my personal style used to be a challenge until I discovered ostor. The range of options they offer is truly remarkable, catering to a variety of tastes. Thanks ostor!",
     },
     {
       name: "James L.",
       review:
-        "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
+        "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon ostor. The selection of clothes is not only diverse but also on-point with the latest trends.",
     },
     {
       name: "Bernice Levy",
@@ -107,26 +112,12 @@ export default function Home() {
   };
 
   const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("");
 
-  const showMessage = (text) => {
-    //+
-    setMessage(text); //+
-    setTimeout(() => setMessage(""), 5000); // Hide after 2 seconds//+
-  }; //
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const handleSubscribe = () => {
-    if (validateEmail(email)) {
-      showMessage("You're Subscribed successfully!");
-    } else {
-      showMessage("Wrong Email, Please Try Again!");
-    }
-  };
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+  });
 
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
@@ -138,20 +129,20 @@ export default function Home() {
             alt="Sale"
           />
           <div className="absolute bottom-40 left-40 rounded-lg justify-content text-3xl p-10 ">
-            <h2 className=" mb-10 text-6xl text-sky-950 ">
+            <h2 className=" mb-10 text-6xl text-blue-950 ">
               Get Up to <span className="font-semibold">45%</span> <br />
               off new products
             </h2>
             <p className="text-left text-2xl ">
               The biggest sale of the year is at{" "}
-              <span className="text-sky-950">OSTR Clothes</span>
+              <span className="text-blue-950">OSTR Clothes</span>
             </p>
 
             <div className="flex gap-10 text-right">
-              <Link
-                to="/shop"
-                className="mt-20 ml-90 bg-sky-950 rounded-xl p-4 text-m font-semibold inline-block transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white">
-                Shop Now
+              <Link to="/new">
+                <button className="cursor-pointer bg-sky-900 text-[#FBE4D6] px-10 mt-20 ml-60 bg- rounded-xl p-4 text-m font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-blue-950  ">
+                  New Collections !
+                </button>
               </Link>
             </div>
           </div>
@@ -162,13 +153,14 @@ export default function Home() {
                 { value: "200+", label: "International Brands" },
                 { value: "2,000+", label: "High-Quality Products" },
                 { value: "30,000+", label: "Happy Customers" },
-              ].map((item) => (
-                <>
-                  <div className="text-center border-r-2 pr-6 border-gray-300">
-                    <h2 className="text-4xl font-bold">{item.value}</h2>
-                    <p className="text-gray-600">{item.label}</p>
-                  </div>
-                </>
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="text-center border-r-2 pr-6 border-gray-300"
+                >
+                  <h2 className="text-4xl font-bold">{item.value}</h2>
+                  <p className="text-gray-600">{item.label}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -184,8 +176,18 @@ export default function Home() {
       </section>
 
       <section className="flex w-full h-screen">
-        <div className="relative w-1/2 bg-cover bg-center">
-          <div className=" absolute inset-0 flex flex-col justify-center items-center text-white">
+        <div className="flex flex-col gap-20 justify-center items-center w-1/2 bg-cover bg-center">
+          <div className="flex flex-col gap-5 items-end">
+            <h2 className="text-4xl italic">
+              If You Can't Stop Thinking About It ...{" "}
+            </h2>
+            <Link to="/shop">
+              <button className=" cursor-pointer bg-orange-900 text-[#FBE4D6] px-6 rounded-xl p-3 text-xl font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-orange-950 ">
+                Shop Now
+              </button>
+            </Link>
+          </div>
+          <div className="flex flex-col justify-center items-center text-white">
             <video width="800" height="400" autoPlay muted loop>
               <source src="src\assets\video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
@@ -194,8 +196,8 @@ export default function Home() {
         </div>
         <div className="relative w-1/2 h-0.5 bg-cover bg-center">
           <div className="absolute inset-0 flex flex-col justify-center items-center text-black">
-            <p className="absolute text-sm tracking-widest mt-430">KOREATOWN</p>
             <h1 className="absolute text-5xl font-serif mt-410">Los Angeles</h1>
+            <p className="absolute text-sm tracking-widest mt-435">KOREATOWN</p>
             <img
               className="relative rounded-xl mt-210"
               src="src\assets\img2.jpg"
@@ -207,24 +209,21 @@ export default function Home() {
 
       <div className="bg-gray-100 p-10">
         <h2 className="text-4xl font-bold text-left ml-5 mt-10 mb-20">
-          OUR HAPPY CUSTOMERS
+          OUR HAPPY CUSTOMERS ... OUR FOCUS
         </h2>
-        <div className="max-w-5xl mx-auto px-3">
+        <div className="max-w-5xl mx-auto px-3 ">
           <Slider {...settings2}>
             {reviews.map((review, index) => (
-              <div key={index} className="px-3 py-6 h-80">
+              <div key={index} className="px-3 py-6">
                 {" "}
-                <div className="bg-white p-5 rounded-lg shadow-md">
-                  <div className="flex gap-1 text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <i key={i} className="fa-solid fa-star"></i>
-                    ))}
-                  </div>
+                <div className="bg-white p-5 rounded-lg shadow-md w-70 h-75 flex flex-col">
+                  <StarRating rating={5} size="text-sm" />
+
                   <h3 className="font-bold mt-2 flex items-center gap-2">
                     {review.name}
                     <i className="fa-solid fa-circle-check text-green-500"></i>
                   </h3>
-                  <p className="text-gray-600 mt-2">{review.review}</p>
+                  <p className="text-gray-600 mt-2 ">{review.review}</p>
                 </div>
               </div>
             ))}
@@ -239,23 +238,45 @@ export default function Home() {
           <h3 className="text-4xl font-bold w-120 animate-bounce">
             STAY UP TO DATE ABOUT OUR LATEST OFFERS
           </h3>
-          <div className=" mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
-            <span className="px-6 flex items-center bg-white">
-              <i className="fa-solid fa-envelope text-2xl"></i>
-            </span>
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="p-5 bg-white text-black outline-none -ml-5 w-full"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button
-              className="bg-white text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
-              onClick={handleSubscribe}>
-              Subscribe
-            </button>
-          </div>
+          <Formik
+            initialValues={{ email: "" }}
+            validationSchema={validationSchema}
+            onSubmit={() => {
+              setMessage("You're Subscribed successfully!");
+              setTimeout(() => setMessage(""), 5000);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
+                  <span className="px-6 flex items-center bg-white">
+                    <i className="fa-solid fa-envelope text-2xl"></i>
+                  </span>
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    className="p-5 bg-white text-black outline-none -ml-5 w-full"
+                  />
+
+                  <button
+                    type="submit"
+                    className="cursor-pointer bg-cn_clr text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
+                    disabled={isSubmitting}
+                  >
+                    Subscribe
+                  </button>
+                </div>
+                <ErrorMessage name="email">
+                  {(msg) => (
+                    <div className=" absolute font-semibold text-red-500 text-sm  py-2 px-10 ">
+                      ⚠️ {msg} !
+                    </div>
+                  )}
+                </ErrorMessage>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>
