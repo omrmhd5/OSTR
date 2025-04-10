@@ -4,6 +4,7 @@ import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Layout";
+import NewArrivals from "./NewArrivals";
 import Wishlist from "./Wishlist";
 import { WishlistProvider } from "./context/WishlistContext";
 import Cart from "./Cart";
@@ -68,7 +69,6 @@ function App() {
       date: "2025-03-09",
     },
   ];
-
   const relatedProducts = [
     {
       src: "src/assets/relatedProduct/rp1.avif",
@@ -110,6 +110,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/new" element={<NewArrivals />} />
             <Route path="/wishlist" element={<Wishlist/>} />
             <Route path="/cart" element= {<Cart/>} />
             <Route
