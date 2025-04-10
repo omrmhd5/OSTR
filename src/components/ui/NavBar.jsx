@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("loggedInUser");
     setIsLoggedIn(!!user);
   }, []);
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("loggedInUser");
-  //   setIsLoggedIn(false);
-  //   navigate("/");
-  // };
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <nav className="w-full h-full flex justify-around p-6 z-5 bg-white text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header ">
@@ -59,18 +60,31 @@ export default function NavBar() {
         {[
           { icon: "fa-cart-shopping", path: "/cart" },
           { icon: "fa-heart", path: "/wishlist" },
+          ...(isLoggedIn
+            ? [{ icon: "fa-arrow-right-from-bracket", path: handleLogout }]
+            : []),
         ].map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              `flex items-center justify-center transition-all duration-300 ease-in-out 
-            hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
-              isActive ? "text-sky-950" : "text-t_clr"
-            }`
-            }>
-            <i className={`fa-solid ${item.icon}`} />
-          </NavLink>
+          <div key={item.path}>
+            {typeof item.path === "function" ? (
+              <button
+                onClick={item.path}
+                className="cursor-pointer transition-all duration-300 ease-in-out 
+                hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr">
+                <i className={`fa-solid ${item.icon}`} />
+              </button>
+            ) : (
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center justify-center transition-all duration-300 ease-in-out 
+                hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
+                  isActive ? "text-sky-950" : "text-t_clr"
+                }`
+                }>
+                <i className={`fa-solid ${item.icon}`} />
+              </NavLink>
+            )}
+          </div>
         ))}
       </div>
     </nav>
