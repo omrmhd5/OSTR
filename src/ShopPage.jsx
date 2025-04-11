@@ -722,7 +722,7 @@ const productschildren = [
   },
   {
     id: 19,
-    name: "Vibrant Cotton Shirt",
+    name: "Cotton Shirt",
     tagline: "Soft and Stylish – Perfect for Everyday Play.",
     price: 299,
     description:
@@ -822,21 +822,27 @@ export default function ShopPage() {
   const handleSort = (e) => {
     const value = e.target.value;
     setSortBy(value);
-    let sortedProducts = [...selectedProducts];
+    const sorted = [...selectedProducts];
 
-    if (value === "low-to-high") {
-      sortedProducts.sort((a, b) => a.price - b.price);
-    } else if (value === "high-to-low") {
-      sortedProducts.sort((a, b) => b.price - a.price);
-    }
-    setSelectedProducts(sortedProducts);
+    if (value === "low-to-high") sorted.sort((a, b) => a.price - b.price);
+    else if (value === "high-to-low") sorted.sort((a, b) => b.price - a.price);
+
+    setSelectedProducts(sorted);
+  };
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    if (category === "men") setSelectedProducts(productsmen);
+    else if (category === "women") setSelectedProducts(productswomen);
+    else if (category === "kids") setSelectedProducts(productschildren);
+    else setSelectedProducts(allProducts);
   };
 
   const handleImageChange = (productId, direction) => {
     setImageIndex((prev) => {
       const current = prev[productId] || 0;
       const product = selectedProducts.find((p) => p.id === productId);
-      const total = product.images.length;
+      const total = product?.images.length || 1;
       const newIndex = (current + direction + total) % total;
       return { ...prev, [productId]: newIndex };
     });
@@ -845,6 +851,8 @@ export default function ShopPage() {
   const filteredProducts = selectedProducts.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const categoryList = ["men", "women", "kids", "all"];
 
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr relative font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
@@ -868,23 +876,15 @@ export default function ShopPage() {
         />
 
         <div className="flex space-x-2">
-          {["men", "women", "kids", "all"].map((category) => (
+          {categoryList.map((category) => (
             <button
               key={category}
+              onClick={() => handleCategoryChange(category)}
               className={`px-4 py-2 font-semibold rounded cursor-pointer ${
                 activeCategory === category
                   ? "bg-cn_clr text-white dark:text-gray-400"
                   : "bg-bg_clr text-t_clr hover:bg-cn_clr"
-              }`}
-              onClick={() => {
-                setActiveCategory(category);
-                if (category === "men") setSelectedProducts(productsmen);
-                else if (category === "women")
-                  setSelectedProducts(productswomen);
-                else if (category === "kids")
-                  setSelectedProducts(productschildren);
-                else setSelectedProducts(allProducts);
-              }}>
+              }`}>
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </button>
           ))}
@@ -895,18 +895,11 @@ export default function ShopPage() {
             className="p-2 border rounded text-t_clr bg-white cursor-pointer"
             value={sortBy}
             onChange={handleSort}>
-            <option className="bg-bg_clr" value="">
-              Sort By
-            </option>
-            <option className="bg-bg_clr" value="low-to-high">
-              Price: Low to High
-            </option>
-            <option className="bg-bg_clr" value="high-to-low">
-              Price: High to Low
-            </option>
+            <option className="bg-bg_clr" value="">Sort By</option>
+            <option className="bg-bg_clr" value="low-to-high">Price: Low to High</option>
+            <option className="bg-bg_clr" value="high-to-low">Price: High to Low</option>
           </select>
 
-          {/* View toggle */}
           <button
             className="p-2 border rounded text-t_clr bg-white hover:bg-cn_clr flex items-center space-x-2 cursor-pointer"
             onClick={() => setIsGridView(!isGridView)}>
@@ -932,86 +925,69 @@ export default function ShopPage() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4 }}
-          className={`${
-            isGridView ? "grid grid-cols-4" : "flex flex-col"
-          } gap-4 p-4`}>
+          className={`${isGridView ? "grid grid-cols-4" : "flex flex-col"} gap-4 p-4`}>
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div
                 key={product.id}
-                onClick={navigate("/")}
                 className={`cursor-pointer text-center bg-cn_clr p-4 rounded min-h-[400px] transition-transform duration-300 transform hover:scale-105 hover:shadow-lg relative ${
                   isGridView ? "" : "flex items-center gap-4"
                 }`}
+                onClick={() => navigate("/")}
                 onMouseEnter={() => setHoveredProduct(product.id)}
                 onMouseLeave={() => setHoveredProduct(null)}>
-                <div
-                  className={`${
-                    isGridView ? "w-full h-64" : "w-64 h-64"
-                  } overflow-hidden relative`}>
+                <div className={`${isGridView ? "w-full h-64" : "w-64 h-64"} overflow-hidden relative`}>
                   <img
-                    src={
-                      product.images[imageIndex[product.id] || 0]?.src ||
-                      "default.jpg"
-                    }
+                    src={product.images[imageIndex[product.id] || 0]?.src || "default.jpg"}
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />
-
-                  {hoveredProduct === product.id &&
-                    product.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={() => handleImageChange(product.id, -1)}
-                          className="cursor-pointer absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] dark:text-black p-1 px-3 rounded-full hover:bg-cn_clr">
-                          ◀
-                        </button>
-                        <button
-                          onClick={() => handleImageChange(product.id, 1)}
-                          className="cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] dark:text-black p-1 px-3 rounded-full hover:bg-cn_clr">
-                          ▶
-                        </button>
-                      </>
-                    )}
+                  {hoveredProduct === product.id && product.images.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleImageChange(product.id, -1);
+                        }}
+                        className="cursor-pointer absolute left-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] dark:text-black p-1 px-3 rounded-full hover:bg-cn_clr">
+                        ◀
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleImageChange(product.id, 1);
+                        }}
+                        className="cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 bg-bg_clr bg-opacity-50 hover:bg-opacity-100 text-[#976c60] dark:text-black p-1 px-3 rounded-full hover:bg-cn_clr">
+                        ▶
+                      </button>
+                    </>
+                  )}
                 </div>
 
-                <div
-                  className={`${
-                    isGridView ? "" : "flex flex-col items-start"
-                  } ml-4`}>
-                  <h2 className="text-lg font-semibold mt-2 font-header">
-                    {product.name}
-                  </h2>
+                <div className={`${isGridView ? "" : "flex flex-col items-start"} ml-4`}>
+                  <h2 className="text-lg font-semibold mt-2 font-header">{product.name}</h2>
                   <p className="text-t_clr">${product.price}</p>
                   {!isGridView && (
-                    <p className="text-xl text-t_clr ml-28 mt-1">
-                      {product.description}
-                    </p>
+                    <p className="text-xl text-t_clr ml-28 mt-1">{product.description}</p>
                   )}
 
                   <div className="flex justify-center gap-2 mt-2">
                     <button
                       className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr cursor-pointer"
-                      onClick={() =>
-                        showMessage("Item added to cart successfully!")
-                      }>
-                      <img
-                        src="/src/assets/cart.png"
-                        alt="Cart"
-                        className="w-6 h-6"
-                      />
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        showMessage("Item added to cart successfully!");
+                      }}>
+                      <img src="/src/assets/cart.png" alt="Cart" className="w-6 h-6" />
                     </button>
                     <button
                       className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr cursor-pointer"
-                      onClick={() => {
-                        const isInWishlist = wishlist.some(
-                          (item) => item.id === product.id
-                        );
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const isInWishlist = wishlist.some((item) => item.id === product.id);
                         toggleWishlist(product);
                         showMessage(
-                          isInWishlist
-                            ? "Item removed from wishlist!"
-                            : "Item added to wishlist successfully!"
+                          isInWishlist ? "Item removed from wishlist!" : "Item added to wishlist successfully!"
                         );
                       }}>
                       <img

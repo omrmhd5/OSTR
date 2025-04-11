@@ -146,7 +146,7 @@ const Profile = () => {
                 <label
                   htmlFor="fileUpload"
                   className="text-t_clr text-sm font-medium cursor-pointer ">
-                  Click to change <span className="pl-8">photo</span>
+              Click to change <span className="pl-8">photo</span>
                 </label>
                 <input
                   type="file"
