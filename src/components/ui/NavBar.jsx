@@ -1,9 +1,12 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DarkModeToggle from "./DarkModeToggle";
+import PopUpMessage from "./PopUpMessage";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,11 +17,19 @@ export default function NavBar() {
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
     setIsLoggedIn(false);
-    navigate("/");
+    window.location.reload();
+    handleMessage();
+  };
+
+  const handleMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
   };
 
   return (
     <nav className="w-full h-full flex justify-around p-6 z-5 bg-white text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header ">
+      <PopUpMessage text={"Logged Out"} show={showMessage} />
+
       <Link to="/">
         <h3 className="text-4xl font-extrabold delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
           OSTR

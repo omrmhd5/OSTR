@@ -6,8 +6,11 @@ import { Link } from "react-router";
 import StarRating from "./components/ui/StarRating";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import PopUpMessage from "./components/ui/PopUpMessage";
 
 export default function Home() {
+  const [showMessage, setShowMessage] = useState(false);
+
   const CustomPrevArrow = (props) => {
     const { onClick } = props;
     return (
@@ -109,7 +112,10 @@ export default function Home() {
     ],
   };
 
-  const [message, setMessage] = useState("");
+  const handleMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -234,11 +240,11 @@ export default function Home() {
             ))}
           </Slider>
         </div>
-        {message && (
-          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-[#976c60] text-white px-4 py-2 rounded shadow-md">
-            {message}
-          </div>
-        )}
+        <PopUpMessage
+          text={"You've Subscribed successfully!"}
+          show={showMessage}
+        />
+
         <div className="bg-bg_clr text-t_clr p-7 py-25 mt-50 rounded-3xl flex items-center justify-around">
           <h3 className="text-4xl font-bold w-120 animate-bounce">
             STAY UP TO DATE ABOUT OUR LATEST OFFERS
@@ -246,10 +252,7 @@ export default function Home() {
           <Formik
             initialValues={{ email: "" }}
             validationSchema={validationSchema}
-            onSubmit={() => {
-              setMessage("You're Subscribed successfully!");
-              setTimeout(() => setMessage(""), 5000);
-            }}>
+            onSubmit={handleMessage}>
             {({ isSubmitting }) => (
               <Form>
                 <div className="mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">

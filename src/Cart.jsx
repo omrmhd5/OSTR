@@ -9,7 +9,7 @@ export default function Cart() {
       name: "Denim Jacket",
       price: 59.99,
       quantity: 1,
-      image: "src/assets/product/blazer1.avif",
+      image: "/assets/Products/Men/blazer1.avif",
       stockStatus: "almost-sold-out",
       flashSale: true,
       selected: true,
@@ -21,7 +21,7 @@ export default function Cart() {
       name: "T-Shirt",
       price: 19.99,
       quantity: 3,
-      image: "src/assets/product/blazer1.avif",
+      image: "/assets/Products/Men/blazer2.avif",
       stockStatus: "normal",
       flashSale: false,
       selected: true,
@@ -33,7 +33,7 @@ export default function Cart() {
       name: "Sneakers",
       price: 89.99,
       quantity: 2,
-      image: "src/assets/product/blazer1.avif",
+      image: "/assets/Products/Men/blazer3.avif",
       stockStatus: "almost-sold-out",
       flashSale: false,
       selected: true,
@@ -53,12 +53,7 @@ export default function Cart() {
   };
 
   const removeFromCart = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?"
-    );
-    if (confirmDelete) {
-      setProducts((prev) => prev.filter((product) => product.id !== id));
-    }
+    setProducts((prev) => prev.filter((product) => product.id !== id));
   };
 
   const addToWishlistAndRemoveFromCart = (id) => {

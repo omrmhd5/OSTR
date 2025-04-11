@@ -43,7 +43,11 @@ export default function Wishlist() {
               >
                 <div className="flex justify-center">
                   <img
-                    src={product.images[0].src}
+                    src={
+                      product.photos && product.photos.length > 0
+                        ? product.photos[0].src
+                        : ""
+                    } // Use a fallback image if photos are missing
                     alt={product.name}
                     className="w-16 h-16 object-cover rounded-md"
                   />

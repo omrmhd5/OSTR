@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import PopUpMessage from "./components/ui/PopUpMessage";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("SignIn");
@@ -41,13 +42,25 @@ const App = () => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
+  const [showMessage, setShowMessage] = useState(false);
+  const [text, setText] = useState("");
+  const handleMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
+
   const handleSignInSubmit = (values, { setErrors }) => {
     const storedUsers = JSON.parse(localStorage.getItem("users"));
     const user = storedUsers.find((user) => user.email === values.email);
 
     if (user) {
       localStorage.setItem("loggedInUser", JSON.stringify(user));
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+        window.location.reload();
+      }, 2000);
+      setText("Login Successful!");
+      handleMessage();
     } else {
       setErrors({ password: "Incorrect email or password" });
     }
@@ -66,7 +79,9 @@ const App = () => {
     };
 
     setUsers((users) => [...users, newUser]);
-    window.location.reload();
+    setTimeout(() => window.location.reload(), 1000);
+    setText("Signed Up Successfully!");
+    handleMessage();
   };
 
   const handleResetPassword = (values, { setErrors }) => {
@@ -75,7 +90,9 @@ const App = () => {
     if (user) {
       user.password = values.password;
       localStorage.setItem("users", JSON.stringify(storedUsers));
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 1000);
+      setText("Password Reset Is Successful!");
+      handleMessage();
     } else {
       setErrors({ password: "Email does not exist" });
     }
@@ -95,6 +112,8 @@ const App = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <main className="relative w-[800px] h-[500px] bg-white rounded-4xl shadow-2xl overflow-hidden">
+        <PopUpMessage text={text} show={showMessage} />
+
         {/* Beige Background with Animation */}
         <section
           className={`absolute top-0 h-full w-1/2 rounded-4xl bg-gradient-to-b from-bg_clr to-t_clr transition-all duration-1000 ease-in-out ${

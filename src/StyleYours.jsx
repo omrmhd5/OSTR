@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import PopUpMessage from "./components/ui/PopUpMessage";
 
 export default function StyleYours() {
   const [sketchPickerColor, setSketchPickerColor] = useState({
@@ -42,12 +43,11 @@ export default function StyleYours() {
   const discount = totalItems >= 4 ? 0.1 : 0;
   const totalPrice = totalItems * pricePerItem * (1 - discount);
 
-  const [showPopup, setShowPopup] = useState(false);
-  const handleAddToCart = () => {
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000);
+  const [showMessage, setShowMessage] = useState(false);
+  const handleMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
   };
-
   const sizeschart = [
     { size: "S", A: 26.5, B: 20.0, C: 23.98 },
     { size: "M", A: 27.48, B: 21.97, C: 24.29 },
@@ -519,16 +519,14 @@ export default function StyleYours() {
         ? "bg-gray-600 cursor-not-allowed dark:bg-gray-400"
         : "bg-gray-800 text-white cursor-pointer hover:animate-bounce dark:bg-black"
     }`}
-              onClick={handleAddToCart}>
+              onClick={handleMessage}>
               Add To Cart <i className="fas fa-shopping-cart"></i>
             </Button>
 
-            {showPopup && (
-              <div className=" fixed text-center inset-y-105 inset-x-150 bg-green-500 text-white p-3 rounded-md shadow-lg font-bold text-xl">
-                Your item has been added to your cart{" "}
-                <i className="ri-check-line text-white text-lg"></i>
-              </div>
-            )}
+            <PopUpMessage
+              text={"Your Item Has Been Added To The Cart"}
+              show={showMessage}
+            />
           </section>
           {/* product svg section */}
           <figure className="w-1/3 ml-5 ">{selectedItem?.svg}</figure>
