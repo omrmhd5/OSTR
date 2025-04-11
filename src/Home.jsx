@@ -13,8 +13,7 @@ export default function Home() {
     return (
       <button
         className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer "
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <i className="fa-solid fa-arrow-left"></i>
       </button>
     );
@@ -25,8 +24,7 @@ export default function Home() {
     return (
       <button
         className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer"
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <i className="fa-solid fa-arrow-right"></i>
       </button>
     );
@@ -122,14 +120,14 @@ export default function Home() {
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <section className=" flex ">
-        <div className="w-full rounded-xl text-center">
+        <div className="w-full rounded-xl text-center relative">
           <img
-            className="relative rounded-xl"
+            className="rounded-xl"
             src="src\assets\Brown and White Minimalist Fashion Presentation.jpg"
             alt="Sale"
           />
-          <div className="absolute bottom-40 left-40 rounded-lg justify-content text-3xl p-10 ">
-            <h2 className=" mb-10 text-6xl text-blue-950 ">
+          <div className="absolute bottom-1/3 left-1/12 rounded-lg justify-content text-3xl p-10 ">
+            <h2 className=" mb-10 text-6xl text-blue-950">
               Get Up to <span className="font-semibold">45%</span> <br />
               off new products
             </h2>
@@ -140,14 +138,14 @@ export default function Home() {
 
             <div className="flex gap-10 text-right">
               <Link to="/new">
-                <button className="cursor-pointer bg-sky-900 text-[#FBE4D6] px-10 mt-20 ml-60 bg- rounded-xl p-4 text-m font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-blue-950  ">
+                <button className="cursor-pointer bg-sky-900 dark:bg-gray-700 text-[#FBE4D6] px-10 mt-20 ml-60 bg- rounded-xl p-4 text-m font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-blue-950 ">
                   New Collections !
                 </button>
               </Link>
             </div>
           </div>
 
-          <div className="bg-gray-100 p-10">
+          <div className="bg-gray-100 dark:bg-blue-950 p-10">
             <div className="flex justify-center items-center space-x-10">
               {[
                 { value: "200+", label: "International Brands" },
@@ -156,8 +154,7 @@ export default function Home() {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="text-center border-r-2 pr-6 border-gray-300"
-                >
+                  className="text-center border-r-2 pr-6 border-gray-300">
                   <h2 className="text-4xl font-bold">{item.value}</h2>
                   <p className="text-gray-600">{item.label}</p>
                 </div>
@@ -175,8 +172,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex w-full h-screen">
-        <div className="flex flex-col gap-20 justify-center items-center w-1/2 bg-cover bg-center">
+      <section className="flex w-full justify-end py-20">
+        <div className="flex flex-col gap-10 justify-center items-center w-1/2 ">
           <div className="flex flex-col gap-5 items-end">
             <h2 className="text-4xl italic">
               If You Can't Stop Thinking About It ...{" "}
@@ -188,26 +185,32 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex flex-col justify-center items-center text-white">
-            <video width="800" height="400" autoPlay muted loop>
+            <video
+              width="800"
+              height="400"
+              autoPlay
+              muted
+              loop
+              className="pl-10">
               <source src="src\assets\video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
         </div>
-        <div className="relative w-1/2 h-0.5 bg-cover bg-center">
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-black">
-            <h1 className="absolute text-5xl font-serif mt-410">Los Angeles</h1>
-            <p className="absolute text-sm tracking-widest mt-435">KOREATOWN</p>
-            <img
-              className="relative rounded-xl mt-210"
-              src="src\assets\img2.jpg"
-              alt="Sale"
-            />
+        <div className="w-1/2 flex flex-col items-center gap-5">
+          <img
+            className=" rounded-xl w-1/2"
+            src="src\assets\img2.jpg"
+            alt="Sale"
+          />
+          <div className=" flex flex-col justify-center gap-2 items-center text-black">
+            <h1 className=" text-5xl font-serif">Los Angeles</h1>
+            <p className=" text-sm tracking-widest">KOREATOWN</p>
           </div>
         </div>
       </section>
 
-      <div className="bg-gray-100 p-10">
+      <div className="bg-gray-100 dark:text-blue-950 p-10">
         <h2 className="text-4xl font-bold text-left ml-5 mt-10 mb-20">
           OUR HAPPY CUSTOMERS ... OUR FOCUS
         </h2>
@@ -219,11 +222,13 @@ export default function Home() {
                 <div className="bg-white p-5 rounded-lg shadow-md w-70 h-75 flex flex-col">
                   <StarRating rating={5} size="text-sm" />
 
-                  <h3 className="font-bold mt-2 flex items-center gap-2">
+                  <h3 className="font-bold mt-2 flex items-center gap-2 dark:text-black">
                     {review.name}
                     <i className="fa-solid fa-circle-check text-green-500"></i>
                   </h3>
-                  <p className="text-gray-600 mt-2 ">{review.review}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mt-2 ">
+                    {review.review}
+                  </p>
                 </div>
               </div>
             ))}
@@ -244,8 +249,7 @@ export default function Home() {
             onSubmit={() => {
               setMessage("You're Subscribed successfully!");
               setTimeout(() => setMessage(""), 5000);
-            }}
-          >
+            }}>
             {({ isSubmitting }) => (
               <Form>
                 <div className="mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
@@ -262,8 +266,7 @@ export default function Home() {
                   <button
                     type="submit"
                     className="cursor-pointer bg-cn_clr text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
-                    disabled={isSubmitting}
-                  >
+                    disabled={isSubmitting}>
                     Subscribe
                   </button>
                 </div>

@@ -44,13 +44,12 @@ export default function NavBar() {
                 `transition-all ease-linear duration-100 
             hover:text-sky-950 hover:underline underline-offset-4
             ${isActive ? "text-sky-950 underline" : ""}`
-              }
-            >
+              }>
               <li>{item.name}</li>
             </NavLink>
           ))}
 
-        <div className="me-50 py-1 px-4 text-m font-semibold flex bg-gray-200 rounded-2xl gap-5 items-baseline">
+        <div className="me-50 py-1 px-4 text-m font-semibold flex bg-gray-200 dark:text-white rounded-2xl gap-5 items-baseline">
           <input type="text" id="filter" placeholder="Search for..." />
           <Link to="/search">
             <i className="cursor-pointer fa-solid fa-magnifying-glass  hover:text-sky-950 hover:-translate-y-1 hover:scale-110 duration-300 ease-in-out"></i>
@@ -59,41 +58,43 @@ export default function NavBar() {
       </ul>
 
       <div className="flex text-xl items-center gap-10">
-     {[
-  { icon: "fa-cart-shopping", path: "/cart" },
-  { icon: "fa-heart", path: "/wishlist" },
-  ...(isLoggedIn
-    ? [{ icon: "fa-arrow-right-from-bracket", path: handleLogout }]
-    : []),
-  { component: <DarkModeToggle /> },
-].map((item, index) =>
-  item.component ? (
-    <div key={index}>{item.component}</div>
-  ) : typeof item.path === "function" ? (
-    <button
-      key={index}
-      onClick={item.path}
-      className="cursor-pointer transition-all duration-300 ease-in-out 
-        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr"
-    >
-      <i className={`fa-solid ${item.icon}`} />
-    </button>
-  ) : (
-    <NavLink
-      key={item.path}
-      to={item.path}
-      className={({ isActive }) =>
-        `flex items-center justify-center transition-all duration-300 ease-in-out 
+        {[
+          { icon: "fa-cart-shopping", path: "/cart" },
+          { icon: "fa-heart", path: "/wishlist" },
+          ...(isLoggedIn
+            ? [{ icon: "fa-arrow-right-from-bracket", path: handleLogout }]
+            : []),
+          { component: <DarkModeToggle /> },
+        ].map((item, index) =>
+          item.component ? (
+            <div
+              key={index}
+              className="transition-all duration-300 ease-in-out 
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 cursor-pointer text-2xl">
+              {item.component}
+            </div>
+          ) : typeof item.path === "function" ? (
+            <button
+              key={index}
+              onClick={item.path}
+              className="cursor-pointer transition-all duration-300 ease-in-out 
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr">
+              <i className={`fa-solid ${item.icon}`} />
+            </button>
+          ) : (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center justify-center transition-all duration-300 ease-in-out 
         hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
           isActive ? "text-sky-950" : "text-t_clr"
         }`
-      }
-    >
-      <i className={`fa-solid ${item.icon}`} />
-    </NavLink>
-  )
-)}
-
+              }>
+              <i className={`fa-solid ${item.icon}`} />
+            </NavLink>
+          )
+        )}
       </div>
     </nav>
   );

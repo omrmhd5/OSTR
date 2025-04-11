@@ -43,14 +43,10 @@ const App = () => {
 
   const handleSignInSubmit = (values, { setErrors }) => {
     const storedUsers = JSON.parse(localStorage.getItem("users"));
+    const user = storedUsers.find((user) => user.email === values.email);
 
-    if (
-      storedUsers.find(
-        (user) =>
-          user.email === values.email && user.password === values.password
-      )
-    ) {
-      localStorage.setItem("loggedInUser", JSON.stringify(values.email));
+    if (user) {
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
       navigate("/");
     } else {
       setErrors({ password: "Incorrect email or password" });
@@ -97,15 +93,14 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <main className="relative w-[800px] h-[500px] bg-white rounded-4xl shadow-2xl overflow-hidden">
         {/* Beige Background with Animation */}
         <section
           className={`absolute top-0 h-full w-1/2 rounded-4xl bg-gradient-to-b from-bg_clr to-t_clr transition-all duration-1000 ease-in-out ${
             activeTab == "SignUp" ? "left-0" : "left-1/2"
-          }`}
-        >
-          <div className="flex flex-col items-center justify-center h-full text-white px-8">
+          }`}>
+          <div className="flex flex-col items-center justify-center h-full text-white dark:text-black px-8">
             {activeTab == "SignUp" ? (
               <>
                 <h3 className="text-3xl font-bold mb-4">Welcome Back!</h3>
@@ -114,8 +109,7 @@ const App = () => {
                 </p>
                 <button
                   onClick={() => setActiveTab("SignIn")}
-                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition"
-                >
+                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition">
                   SIGN IN
                 </button>
               </>
@@ -128,8 +122,7 @@ const App = () => {
                 </p>
                 <button
                   onClick={() => setActiveTab("SignUp")}
-                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition"
-                >
+                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition">
                   SIGN UP
                 </button>
               </>
@@ -146,15 +139,14 @@ const App = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
-              className="absolute top-0 left-0 h-full w-1/2"
-            >
+              className="absolute top-0 left-0 h-full w-1/2">
               <div className="flex flex-col items-center justify-center h-full px-8">
                 <h2 className="text-4xl font-bold mb-6">Sign In</h2>
                 <div className="flex space-x-4 mb-6">
-                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100">
+                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:text-white">
                     <i className="fa-brands fa-google"></i>
                   </button>
-                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100">
+                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:text-white">
                     <i className="fa-brands fa-facebook"></i>
                   </button>
                 </div>
@@ -166,8 +158,7 @@ const App = () => {
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
-                  onSubmit={handleSignInSubmit}
-                >
+                  onSubmit={handleSignInSubmit}>
                   {({ isSubmitting }) => (
                     <Form className="flex flex-col w-full gap-2">
                       <Field
@@ -201,8 +192,7 @@ const App = () => {
                         <a
                           href="#"
                           onClick={handlePopupToggle}
-                          className=" text-center text-sm text-gray-500 mb-4 hover:underline"
-                        >
+                          className=" text-center text-sm text-gray-500 mb-4 hover:underline">
                           FORGET YOUR PASSWORD?
                         </a>
 
@@ -210,8 +200,7 @@ const App = () => {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition"
-                        >
+                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
                           SIGN IN
                         </button>
                       </div>
@@ -231,12 +220,11 @@ const App = () => {
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
-                  onSubmit={handleResetPassword}
-                >
+                  onSubmit={handleResetPassword}>
                   {({ isSubmitting }) => (
                     <Form>
                       <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-black mb-1">
                           Email
                         </label>
                         <Field
@@ -254,7 +242,7 @@ const App = () => {
                         </ErrorMessage>
                       </div>
                       <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-black mb-1">
                           New Password
                         </label>
                         <Field
@@ -275,15 +263,13 @@ const App = () => {
                         <button
                           type="button"
                           onClick={handleClosePopup}
-                          className="cursor-pointer px-4 py-2 text-sm text-gray-700 border rounded hover:bg-gray-100"
-                        >
+                          className="cursor-pointer px-4 py-2 text-sm text-gray-700 dark:text-black dark:hover:text-white border rounded hover:bg-gray-100">
                           Cancel
                         </button>
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="cursor-pointer px-4 py-2 text-sm text-white bg-t_clr rounded hover:bg-yellow-950"
-                        >
+                          className="cursor-pointer px-4 py-2 text-sm text-white bg-t_clr rounded hover:bg-yellow-950 dark:hover:bg-gray-400">
                           Submit
                         </button>
                       </div>
@@ -302,15 +288,14 @@ const App = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               transition={{ duration: 0.5 }}
-              className="absolute top-0 left-1/2 h-full w-1/2"
-            >
+              className="absolute top-0 left-1/2 h-full w-1/2">
               <div className="flex flex-col items-center justify-center h-full px-8 mt-8">
                 <h2 className="text-3xl font-bold mb-6 ">Create Account</h2>
                 <div className="flex space-x-4 mb-6 font-bold">
-                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100">
+                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:text-white">
                     <i className="fa-brands fa-google"></i>
                   </button>
-                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100">
+                  <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:text-white">
                     <i className="fa-brands fa-facebook"></i>
                   </button>
                 </div>
@@ -325,15 +310,14 @@ const App = () => {
                     password: "",
                   }}
                   validationSchema={signUpvalidationSchema}
-                  onSubmit={handleSignUpSubmit}
-                >
+                  onSubmit={handleSignUpSubmit}>
                   {({ isSubmitting }) => (
                     <Form className="flex flex-col w-full gap-2">
                       <Field
                         type="text"
                         name="name"
                         placeholder="Name"
-                        className="w-full p-2 px-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        className="w-full p-2 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="name">
                         {(msg) => (
@@ -346,7 +330,7 @@ const App = () => {
                         type="email"
                         name="email"
                         placeholder="Email"
-                        className="w-full p-2 px-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        className="w-full p-2 px-4 border rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="email">
                         {(msg) => (
@@ -359,7 +343,7 @@ const App = () => {
                         type="password"
                         name="password"
                         placeholder="Password"
-                        className="w-full p-2 px-4 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        className="w-full p-2 px-4 border rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="password">
                         {(msg) => (
@@ -372,8 +356,7 @@ const App = () => {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition"
-                        >
+                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
                           SIGN UP
                         </button>
                       </div>

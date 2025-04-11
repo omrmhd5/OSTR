@@ -7,6 +7,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   @apply bg-background text-background transition-all duration-750;
 }
@@ -21,10 +23,13 @@ body {
 }
 
 .dark {
-  --color-bg_clr: #0000;
-  --color-cn_clr: #4b3705ce;
-  --color-t_clr: #ffffff;
-  --color-white: #0c1542;
+  --color-bg_clr: #1e1e1e;
+  --color-cn_clr: #2c2c2c;
+  --color-t_clr: white;
+  --color-black: white;
+  --color-white: #2e2e2e;
+  --color-blue-950: black;
+  --color-sky-950: gray;
 
   --font-header: "Lora", "serif";
   --font-paragraph: "Montserrat", "sans-serif";

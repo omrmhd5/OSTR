@@ -157,7 +157,7 @@ export default function NewArrivals() {
         <MemoizedCollectionsGrid />
 
         {/* Explore And Shop Now Section*/}
-        <section className="flex justify-between px-10 gap-10 bg-cn_clr">
+        <section className="flex justify-between px-10 gap-10 bg-cn_clr dark:bg-bg_clr">
           {/* Images Part */}
           <div className="w-1/2 relative">
             {/* Explore Now Array of Objects */}

@@ -20,9 +20,6 @@ export default function DarkModeToggle() {
   return (
     <i
       onClick={() => setDarkMode(!darkMode)}
-      className={`${
-        darkMode ? "ri-moon-fill" : "ri-sun-fill"
-      } transition-all duration-300 ease-in-out 
-        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 cursor-pointer text-2xl`}></i>
+      className={`${darkMode ? "ri-moon-fill" : "ri-sun-fill"} `}></i>
   );
 }

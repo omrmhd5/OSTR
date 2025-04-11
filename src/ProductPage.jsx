@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import StarRating from "./components/ui/StarRating";
 import Slideshow from "./components/ui/Slideshow";
 import Slider from "react-slick";
+import PopUpMessage from "./components/ui/PopUpMessage";
 
 export default function ProductPage({
   name,
@@ -25,6 +26,7 @@ export default function ProductPage({
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [added, setAdded] = useState(false);
   const sliderRef = useRef(null);
+  const [showMessage, setShowMessage] = useState(false);
 
   const settings = {
     dots: false,
@@ -36,11 +38,24 @@ export default function ProductPage({
     arrows: false,
   };
 
+  const handleMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
+
   return (
     <section className="min-h-screen w-full bg-bg_clr py-7 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+      <button
+        onClick={handleMessage}
+        className="px-4 py-2 bg-blue-600 text-white rounded">
+        Show Popup
+      </button>
+
+      <PopUpMessage text={"Test"} show={showMessage} />
+
       <section className="bg-cn_clr py-6 px-20 rounded-lg w-3/4 justify-self-center">
         <div className="flex flex-row gap-10">
-          <div className="max-w-1/2 max-h-[768px] shadow-lg shadow-black/60">
+          <div className="max-w-1/2 max-h-[768px] shadow-lg shadow-black/60 dark:text-white">
             <Slideshow
               slides={photos.map((photo) => (
                 <img

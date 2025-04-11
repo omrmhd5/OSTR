@@ -406,7 +406,7 @@ export default function StyleYours() {
         <main className="w-full flex items-center justify-between ">
           {/* Choose Size Section */}
           <section className=" w-1/3">
-            <div className="bg-white p-5 w-full mt-10 rounded-2xl  ">
+            <div className="bg-white p-5 w-full mt-10 rounded-2xl dark:bg-bg_clr  ">
               <h2 className="text-center text-2xl font-bold">Choose Size</h2>
               <div className="flex flex-col divide-y divide-gray-300 ">
                 {sizes.map((size) => (
@@ -432,7 +432,7 @@ export default function StyleYours() {
                   </div>
                 ))}
                 <button
-                  className="self-end mt-2  bg-gray-700 text-white py-2 px-5 rounded-md cursor-pointer hover:bg-black "
+                  className="self-end mt-2  bg-gray-700 dark:bg-black text-white py-2 px-5 rounded-md cursor-pointer hover:bg-black "
                   onClick={toggleModal}>
                   Size Chart
                 </button>
@@ -446,7 +446,7 @@ export default function StyleYours() {
     }`}>
                   <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100 transition-all duration-300 ease-in-out">
                     <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-700 mb-5 dark:text-black">
                       Here’s your size chart content...
                     </p>
                     <img
@@ -468,7 +468,9 @@ export default function StyleYours() {
                           <tr
                             key={item.size}
                             className={
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              index % 2 === 0
+                                ? "bg-gray-100 dark:bg-gray-400 "
+                                : "bg-white "
                             }>
                             <td className="py-2 px-4 border text-center font-bold">
                               {item.size}
@@ -487,7 +489,7 @@ export default function StyleYours() {
                       </tbody>
                     </table>
                     <Button
-                      className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer"
+                      className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer dark:bg-black"
                       onClick={toggleModal}>
                       Close
                     </Button>
@@ -514,8 +516,8 @@ export default function StyleYours() {
               className={`mt-4 w-full py-2 rounded-md font-bold 
     ${
       totalItems < 1
-        ? "bg-gray-600 cursor-not-allowed"
-        : "bg-gray-800 text-white cursor-pointer hover:animate-bounce"
+        ? "bg-gray-600 cursor-not-allowed dark:bg-gray-400"
+        : "bg-gray-800 text-white cursor-pointer hover:animate-bounce dark:bg-black"
     }`}
               onClick={handleAddToCart}>
               Add To Cart <i className="fas fa-shopping-cart"></i>
@@ -545,7 +547,7 @@ export default function StyleYours() {
 
             {/* Add Text Section */}
             <div className="p-10 max-w-xl ">
-              <div className="border p-4 rounded shadow  bg-white">
+              <div className="border p-4 rounded-2xl shadow  bg-white dark:bg-bg_clr">
                 <input
                   type="text"
                   value={text}

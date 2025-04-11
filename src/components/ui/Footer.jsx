@@ -19,7 +19,7 @@ export default function Footer() {
             {["fa-facebook", "fa-instagram", "fa-tiktok", "fa-twitter"].map(
               (brand, index) => (
                 <span
-                  className="bg-gray-100 p-2 px-3 cursor-pointer rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 duration-300 ease-in-out"
+                  className="bg-gray-100 dark:bg-white p-2 px-3 cursor-pointer rounded-full hover:-translate-y-1 hover:scale-110 hover:text-sky-950 duration-300 ease-in-out"
                   key={index}>
                   <i className={`fa-brands ${brand} `} />
                 </span>
