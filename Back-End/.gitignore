@@ -9,9 +9,6 @@ logs/
 *.log
 *.log.*
 
-# Environment variables
-.env
-
 # Build output
 dist/
 build/
