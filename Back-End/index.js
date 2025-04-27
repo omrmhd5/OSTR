@@ -2,13 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-// const taskRoutes = require('./routes/taskRoutes');
+const cartRoutes = require("./Routes/cartRoutes");
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
-// app.use('/tasks', taskRoutes);
+app.use("/cart", cartRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
