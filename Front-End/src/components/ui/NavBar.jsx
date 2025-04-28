@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import PopUpMessage from "./PopUpMessage";
@@ -7,15 +7,13 @@ export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const user = localStorage.getItem("loggedInUser");
+    const user = localStorage.getItem("token");
     setIsLoggedIn(!!user);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     window.location.reload();
     handleMessage();
@@ -55,7 +53,8 @@ export default function NavBar() {
                 `transition-all ease-linear duration-100 
             hover:text-sky-950 hover:underline underline-offset-4
             ${isActive ? "text-sky-950 underline" : ""}`
-              }>
+              }
+            >
               <li>{item.name}</li>
             </NavLink>
           ))}
@@ -81,7 +80,8 @@ export default function NavBar() {
             <div
               key={index}
               className="transition-all duration-300 ease-in-out 
-        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 cursor-pointer text-2xl">
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 cursor-pointer text-2xl"
+            >
               {item.component}
             </div>
           ) : typeof item.path === "function" ? (
@@ -89,7 +89,8 @@ export default function NavBar() {
               key={index}
               onClick={item.path}
               className="cursor-pointer transition-all duration-300 ease-in-out 
-        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr">
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr"
+            >
               <i className={`fa-solid ${item.icon}`} />
             </button>
           ) : (
@@ -101,7 +102,8 @@ export default function NavBar() {
         hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
           isActive ? "text-sky-950" : "text-t_clr"
         }`
-              }>
+              }
+            >
               <i className={`fa-solid ${item.icon}`} />
             </NavLink>
           )
