@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const wishlistController = require("../Controllers/wishlistController");
-const authMiddleware = require("../Middlewares/authMiddleware"); // if you have authentication
+const WishlistController = require("../Controllers/wishlistController");
+//const authMiddleware = require("../Middlewares/authMiddleware"); // if you have authentication
 
 // Toggle product in wishlist
 router.post(
   "/wishlist/toggle",
-  authMiddleware,
+  //authMiddleware,
   wishlistController.toggleWishlist
 );
 
