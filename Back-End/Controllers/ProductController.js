@@ -34,8 +34,10 @@ const getProductsByCategory = async (req, res) => {
     if (!categoryDoc) {
       return res.status(404).json({ message: "Category not found" });
     }
-    const products = await Product.find({ category: categoryDoc._id });
-    // .populate("categories", "name")
+    const products = await Product.find({ category: categoryDoc._id }).populate(
+      "category",
+      "name"
+    );
     // .populate("reviews.user");
     res.status(200).json(products);
   } catch (error) {
@@ -55,8 +57,30 @@ const addProducts = async (req, res) => {
   }
 
   try {
+    const updatedProductsData = [];
+
+    for (const product of productsData) {
+      // Find the category by name
+      const categoryDoc = await Category.findOne({ name: product.category });
+
+      if (!categoryDoc) {
+        return res
+          .status(404)
+          .json({ message: `Category '${product.category}' not found.` });
+      }
+
+      // Replace the category name with its _id
+      const updatedProduct = {
+        ...product,
+        category: categoryDoc._id,
+      };
+
+      updatedProductsData.push(updatedProduct);
+    }
+
     // Insert multiple products into the database
-    const addedProducts = await Product.insertMany(productsData);
+    const addedProducts = await Product.insertMany(updatedProductsData);
+
     res.status(201).json({
       message: "Products added successfully",
       products: addedProducts,
