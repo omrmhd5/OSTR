@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const WishlistController = require("../Controllers/wishlistController");
-//const authMiddleware = require("../Middlewares/authMiddleware"); // if you have authentication
+const authMiddleware = require("../Middlewares/authMiddleware"); // if you have authentication
 
 // Toggle product in wishlist
 router.post(
-  "/wishlist/toggle",
-  //authMiddleware,
-  wishlistController.toggleWishlist
+  "/toggle",
+  authMiddleware.authenticateUser,
+  WishlistController.toggleWishlist
 );
 
 // Get user's wishlist
-router.get("/wishlist", authMiddleware, wishlistController.getWishlist);
+router.get(
+  "/wishlist",
+  authMiddleware.authenticateUser,
+  WishlistController.getWishlist
+);
 
 module.exports = router;

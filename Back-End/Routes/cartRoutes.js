@@ -3,9 +3,9 @@ const router = express.Router();
 const cartController = require("../Controllers/cartController");
 
 // Middleware to protect routes (optional, assuming you have auth implemented)
-const { protect } = require("../middleware/authMiddleware");
+//const { protect } = require("../middleware/authMiddleware");
 
-router.use(protect);
+//router.use(protect);
 
 // Get user's cart
 router.get("/", cartController.getCart);
