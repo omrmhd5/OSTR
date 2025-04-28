@@ -3,7 +3,7 @@ const Product = require("../Models/Product");
 
 exports.toggleWishlist = async (req, res) => {
   try {
-    const userId = req.user.id; // Assuming you use JWT or session to get the logged-in user
+    const userId = req.user.userId; // Get the userId from the decoded JWT
     const { productId } = req.body;
 
     // Check if the product exists
@@ -50,7 +50,7 @@ exports.toggleWishlist = async (req, res) => {
 
 exports.getWishlist = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     const wishlist = await Wishlist.findOne({ user: userId }).populate({
       path: "products",
