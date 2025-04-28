@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+
 const UserRoute = require("./Routes/UserRoute");
 const ProductRoutes = require("./Routes/ProductRoutes");
 const CategoryRoutes = require("./Routes/CategoryRoutes");
@@ -13,6 +14,8 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cors());
+
 app.use("/", UserRoute);
 app.use("/products", ProductRoutes);
 app.use("/category", CategoryRoutes);
