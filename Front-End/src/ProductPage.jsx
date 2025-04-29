@@ -1,12 +1,16 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StarRating from "./components/ui/StarRating";
 import Slideshow from "./components/ui/Slideshow";
 import Slider from "react-slick";
 import PopUpMessage from "./components/ui/PopUpMessage";
 import { useNavigate, useParams } from "react-router";
 import { useWishlist } from "./context/WishlistContext";
+import axios from "axios";
 
 export default function ProductPage() {
+  const [product, setProduct] = useState({});
+  const [products, setProducts] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [count, setCount] = useState(1);
   const [size, setSize] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -31,14 +35,37 @@ export default function ProductPage() {
     arrows: false,
   };
 
-  const products = [
-    ...JSON.parse(localStorage.getItem("productsmen")),
-    ...JSON.parse(localStorage.getItem("productswomen")),
-    ...JSON.parse(localStorage.getItem("productschildren")),
-  ];
+  const shuffleAndGetRandomProducts = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr.slice(0, 6);
+  };
 
   const { id } = useParams();
-  const product = products.find((product) => product.id === parseInt(id));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const singleProduct = await axios.get(
+          `http://localhost:5000/products/${id}`
+        );
+        setProduct(singleProduct.data);
+
+        const allProducts = await axios.get(
+          "http://localhost:5000/products/all"
+        );
+        setProducts(allProducts.data);
+
+        const relatedProducts = shuffleAndGetRandomProducts(allProducts.data);
+        setRelatedProducts(relatedProducts);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const {
     name,
@@ -53,16 +80,6 @@ export default function ProductPage() {
   } = product;
 
   const isWishlisted = wishlist.some((item) => item.id === product.id);
-
-  const shuffleAndGetRandomProducts = (arr) => {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr.slice(0, 6);
-  };
-
-  const relatedProducts = shuffleAndGetRandomProducts(products);
 
   const handleMessage = () => {
     setShowMessage(true);
@@ -80,14 +97,16 @@ export default function ProductPage() {
           {/* SlideShow */}
           <figure className="max-w-1/2 shadow-lg shadow-black/60 dark:text-white">
             <Slideshow
-              slides={photos.map((photo) => (
-                <img
-                  key={photo.src}
-                  src={photo.src}
-                  className="w-full max-h-[768px] rounded-lg object-cover flex-shrink-0"
-                  alt="Product Photo"
-                />
-              ))}
+              slides={
+                photos?.map((photo) => (
+                  <img
+                    key={photo.src}
+                    src={photo.src}
+                    className="w-full max-h-[768px] rounded-lg object-cover flex-shrink-0"
+                    alt="Product Photo"
+                  />
+                )) || []
+              }
               currentIndex={currentIndex}
             />
           </figure>
@@ -123,13 +142,13 @@ export default function ProductPage() {
                     onClick={() => {
                       setSize(s);
                     }}>
-                    {s.toUpperCase(s)}
+                    {s.toUpperCase()}
                   </button>
                 ))}
               </div>
               {/* Colors */}
               <div className="flex gap-3 mt-2">
-                {colors.map((color) => (
+                {colors?.map((color) => (
                   <button
                     key={color.name}
                     className={`w-6 h-6 rounded-full cursor-pointer transition-all duration-200 ease-in-out ${
@@ -141,7 +160,7 @@ export default function ProductPage() {
                     }`}
                     onClick={() => setSelectedColor(color.name)}
                   />
-                ))}
+                )) || []}
               </div>
             </div>
             <hr className="border border-gray-300 my-3" />
@@ -223,7 +242,7 @@ export default function ProductPage() {
         </div>
         {/* Gallery Pictures */}
         <figure className="slideShow flex gap-4 mt-8 w-full">
-          {photos.map((photo, index) => (
+          {photos?.map((photo, index) => (
             <img
               key={photo.src}
               src={photo.src}
@@ -231,7 +250,7 @@ export default function ProductPage() {
               className="min-w-[10%] max-h-[250px] rounded-lg object-cover cursor-pointer hover:scale-105 ease-in-out transition-all duration-300 hover:shadow-2xl hover:shadow-gray-500/40"
               onClick={() => setCurrentIndex(index)}
             />
-          ))}
+          )) || []}
         </figure>
         {/* Description And Review Text */}
         <div className="flex justify-items-start gap-20 text-2xl font-semibold mt-15 border-b-2 border-gray-300 my-1">
@@ -329,7 +348,7 @@ export default function ProductPage() {
                   className="rounded-lg w-full h-[500px] object-cover cursor-pointer hover:scale-105 hover:-translate-y-0.5 ease-in-out transition-all duration-300 hover:shadow-xl hover:shadow-gray-500/40"
                   onClick={() => {
                     window.scrollTo(0, 100);
-                    navigate("/product/" + product.id);
+                    navigate("/product/" + product._id);
                   }}
                 />
 

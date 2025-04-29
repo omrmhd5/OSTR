@@ -20,14 +20,19 @@ const ProductSchema = new mongoose.Schema({
     },
   ],
   category: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
 
   reviews: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
+      user: {
+        name: { type: String, required: true },
+        avatar: { type: String, required: true },
+      },
+      rating: { type: Number, required: true },
+      comment: { type: String, required: true },
+      date: { type: String, required: true },
     },
   ],
 });
