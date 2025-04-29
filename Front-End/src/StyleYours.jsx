@@ -1,6 +1,7 @@
 import { SketchPicker } from "react-color";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "./context/CartContext";
 
 import {
   Select,
@@ -18,6 +19,7 @@ export default function StyleYours() {
     b: "19",
     a: "1",
   });
+  const { addToCart, fetchCart } = useCart();
 
   const [color, setColor] = useState("#9B9B9B");
   const [textColor, setTextColor] = useState("#000000");
@@ -519,7 +521,31 @@ export default function StyleYours() {
         ? "bg-gray-600 cursor-not-allowed dark:bg-gray-400"
         : "bg-gray-800 text-white cursor-pointer hover:animate-bounce dark:bg-black"
     }`}
-              onClick={handleMessage}>
+    onClick={async () => {
+      // Loop over each size and add if quantity > 0
+      try {
+        const sizeEntries = Object.entries(quantities);
+        for (const [size, qty] of sizeEntries) {
+          if (qty > 0) {
+            await addToCart("custom-style-id", qty, {
+              size,
+              color,
+              text,
+              textColor,
+              fontSize,
+              fontFamily,
+              item,
+            });
+          }
+        }
+    
+        await fetchCart(); // update UI
+        handleMessage();
+      } catch (err) {
+        console.error("Failed to add custom product to cart", err);
+      }
+    }}
+>    
               Add To Cart <i className="fas fa-shopping-cart"></i>
             </Button>
 
