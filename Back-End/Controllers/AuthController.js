@@ -104,37 +104,25 @@ const updateProfile = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
-  // If using cookies, clear the token cookie
-  res.clearCookie("token");
-  return res.status(200).json({ message: "Logged out successfully" });
-};
-
 const changePassword = async (req, res) => {
   try {
-    const userId = req.user.userId; // Get the userId from the decoded JWT
-    const { oldPassword, newPassword } = req.body;
+    const { email, password } = req.body; // Get email and new password from request body
 
-    const user = await User.findById(userId);
+    const user = await User.findOne({ email }); // Find user by email
+
     if (!user) {
-      console.log(user);
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Check if old password is correct
-    const isMatch = await bcrypt.compare(oldPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Old password is incorrect" });
+      return res.status(404).json({ message: "Email does not exist" });
     }
 
     // Update password
-    user.password = await bcrypt.hash(newPassword, 12);
+    user.password = await bcrypt.hash(password, 12); // Hash the new password
     await user.save();
 
-    return res.status(200).json({ message: "Password changed successfully" });
+    return res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
+    console.error(error);
     return res.status(400).json({ message: error.message });
   }
 };
 
-module.exports = { register, login, updateProfile, logout, changePassword };
+module.exports = { register, login, updateProfile, changePassword };

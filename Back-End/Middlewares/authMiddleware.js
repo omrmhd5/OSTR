@@ -15,11 +15,8 @@ const authenticateUser = (req, res, next) => {
     // Verify the token using the secret key
     const decoded = jwt.verify(token, process.env.JWTSECRET); // Replace with your secret key
 
-    // Attach the decoded user info to the request object for access in the controller
     req.user = decoded;
-    console.log("🚀 ~ authenticateUser ~ decoded:", decoded);
 
-    // Allow the request to continue to the next middleware or controller
     next();
   } catch (error) {
     // If the token is invalid or expired, return a 401 Unauthorized response

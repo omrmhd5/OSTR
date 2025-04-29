@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import PopUpMessage from "./components/ui/PopUpMessage";
+import axios from "axios";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("SignIn");
@@ -25,23 +26,6 @@ const App = () => {
 
   const navigate = useNavigate();
 
-  const [users, setUsers] = useState(() => {
-    const storedUsers = localStorage.getItem("users");
-    return storedUsers
-      ? JSON.parse(storedUsers)
-      : [
-          {
-            name: "Salma",
-            email: "salmamehrez85@gmail.com",
-            password: "123",
-          },
-        ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
-
   const [showMessage, setShowMessage] = useState(false);
   const [text, setText] = useState("");
   const handleMessage = () => {
@@ -49,52 +33,114 @@ const App = () => {
     setTimeout(() => setShowMessage(false), 3000);
   };
 
-  const handleSignInSubmit = (values, { setErrors }) => {
-    const storedUsers = JSON.parse(localStorage.getItem("users"));
-    const user = storedUsers.find((user) => user.email === values.email);
+  const handleSignInSubmit = async (values, { setErrors }) => {
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        email: values.email,
+        password: values.password,
+      });
 
-    if (user) {
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-      }, 2000);
-      setText("Login Successful!");
-      handleMessage();
-    } else {
-      setErrors({ password: "Incorrect email or password" });
+      if (response.data.token) {
+        // Login success
+        localStorage.setItem("token", JSON.stringify(response.data.token));
+        setText("Login Successful!");
+        handleMessage();
+        setTimeout(() => {
+          navigate("/");
+          window.location.reload();
+        }, 2000);
+      } else if (response.data.message) {
+        // Backend responded but with error message
+        setText(response.data.message); // Show backend message
+        handleMessage();
+        setErrors({ password: response.data.message }); // Also show under password field
+      } else {
+        // Unexpected case
+        setText("An unknown error occurred.");
+        handleMessage();
+        setErrors({ password: "An unknown error occurred." });
+      }
+    } catch (error) {
+      console.error(error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        // Catching server error properly
+        setText(error.response.data.message);
+        handleMessage();
+        setErrors({ password: error.response.data.message });
+      } else {
+        setText("Something went wrong. Please try again.");
+        handleMessage();
+        setErrors({ password: "Something went wrong. Please try again." });
+      }
     }
   };
 
-  const handleSignUpSubmit = (values, { setErrors }) => {
-    if (users.some((user) => user.email == values.email)) {
-      setErrors({ email: "Email is already registered" });
-      return;
+  const handleSignUpSubmit = async (values, { setErrors }) => {
+    try {
+      const response = await axios.post("http://localhost:5000/register", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      });
+
+      if (response.data._id) {
+        // Always show this text on successful signup
+        setText("Signed Up Successfully!");
+        handleMessage();
+        setTimeout(() => window.location.reload(), 1000);
+      } else if (response.data.message) {
+        // If backend sends an error (like email already exists)
+        setText(response.data.message);
+        handleMessage();
+        setErrors({ email: response.data.message });
+      }
+    } catch (error) {
+      console.error(error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setText(error.response.data.message);
+        handleMessage();
+        setErrors({ email: error.response.data.message });
+      } else {
+        setText("Something went wrong. Please try again.");
+        handleMessage();
+        setErrors({ email: "Something went wrong. Please try again." });
+      }
     }
-
-    const newUser = {
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    };
-
-    setUsers((users) => [...users, newUser]);
-    setTimeout(() => window.location.reload(), 1000);
-    setText("Signed Up Successfully!");
-    handleMessage();
   };
 
-  const handleResetPassword = (values, { setErrors }) => {
-    const storedUsers = JSON.parse(localStorage.getItem("users"));
-    const user = storedUsers.find((user) => user.email === values.email);
-    if (user) {
-      user.password = values.password;
-      localStorage.setItem("users", JSON.stringify(storedUsers));
-      setTimeout(() => window.location.reload(), 1000);
-      setText("Password Reset Is Successful!");
-      handleMessage();
-    } else {
-      setErrors({ password: "Email does not exist" });
+  const handleResetPassword = async (values, { setErrors }) => {
+    try {
+      const response = await axios.put("http://localhost:5000/changepassword", {
+        email: values.email,
+        password: values.password,
+      });
+
+      if (response.data.message === "Password updated successfully") {
+        setText("Password Reset Is Successful!");
+        handleMessage();
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        setErrors({ password: "Could not reset password" });
+      }
+    } catch (error) {
+      console.error(error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrors({ password: error.response.data.message });
+      } else {
+        setErrors({ password: "Something went wrong. Please try again." });
+      }
     }
   };
 
@@ -118,7 +164,8 @@ const App = () => {
         <section
           className={`absolute top-0 h-full w-1/2 rounded-4xl bg-gradient-to-b from-bg_clr to-t_clr transition-all duration-1000 ease-in-out ${
             activeTab == "SignUp" ? "left-0" : "left-1/2"
-          }`}>
+          }`}
+        >
           <div className="flex flex-col items-center justify-center h-full text-white dark:text-black px-8">
             {activeTab == "SignUp" ? (
               <>
@@ -128,7 +175,8 @@ const App = () => {
                 </p>
                 <button
                   onClick={() => setActiveTab("SignIn")}
-                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition">
+                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition"
+                >
                   SIGN IN
                 </button>
               </>
@@ -141,7 +189,8 @@ const App = () => {
                 </p>
                 <button
                   onClick={() => setActiveTab("SignUp")}
-                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition">
+                  className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition"
+                >
                   SIGN UP
                 </button>
               </>
@@ -158,7 +207,8 @@ const App = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
-              className="absolute top-0 left-0 h-full w-1/2">
+              className="absolute top-0 left-0 h-full w-1/2"
+            >
               <div className="flex flex-col items-center justify-center h-full px-8">
                 <h2 className="text-4xl font-bold mb-6">Sign In</h2>
                 <div className="flex space-x-4 mb-6">
@@ -177,7 +227,8 @@ const App = () => {
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
-                  onSubmit={handleSignInSubmit}>
+                  onSubmit={handleSignInSubmit}
+                >
                   {({ isSubmitting }) => (
                     <Form className="flex flex-col w-full gap-2">
                       <Field
@@ -211,7 +262,8 @@ const App = () => {
                         <a
                           href="#"
                           onClick={handlePopupToggle}
-                          className=" text-center text-sm text-gray-500 mb-4 hover:underline">
+                          className=" text-center text-sm text-gray-500 mb-4 hover:underline"
+                        >
                           FORGET YOUR PASSWORD?
                         </a>
 
@@ -219,7 +271,8 @@ const App = () => {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
+                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition"
+                        >
                           SIGN IN
                         </button>
                       </div>
@@ -239,7 +292,8 @@ const App = () => {
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
-                  onSubmit={handleResetPassword}>
+                  onSubmit={handleResetPassword}
+                >
                   {({ isSubmitting }) => (
                     <Form>
                       <div className="mb-4">
@@ -282,13 +336,15 @@ const App = () => {
                         <button
                           type="button"
                           onClick={handleClosePopup}
-                          className="cursor-pointer px-4 py-2 text-sm text-gray-700 dark:text-black dark:hover:text-white border rounded hover:bg-gray-100">
+                          className="cursor-pointer px-4 py-2 text-sm text-gray-700 dark:text-black dark:hover:text-white border rounded hover:bg-gray-100"
+                        >
                           Cancel
                         </button>
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="cursor-pointer px-4 py-2 text-sm text-white bg-t_clr rounded hover:bg-yellow-950 dark:hover:bg-gray-400">
+                          className="cursor-pointer px-4 py-2 text-sm text-white bg-t_clr rounded hover:bg-yellow-950 dark:hover:bg-gray-400"
+                        >
                           Submit
                         </button>
                       </div>
@@ -307,7 +363,8 @@ const App = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               transition={{ duration: 0.5 }}
-              className="absolute top-0 left-1/2 h-full w-1/2">
+              className="absolute top-0 left-1/2 h-full w-1/2"
+            >
               <div className="flex flex-col items-center justify-center h-full px-8 mt-8">
                 <h2 className="text-3xl font-bold mb-6 ">Create Account</h2>
                 <div className="flex space-x-4 mb-6 font-bold">
@@ -329,7 +386,8 @@ const App = () => {
                     password: "",
                   }}
                   validationSchema={signUpvalidationSchema}
-                  onSubmit={handleSignUpSubmit}>
+                  onSubmit={handleSignUpSubmit}
+                >
                   {({ isSubmitting }) => (
                     <Form className="flex flex-col w-full gap-2">
                       <Field
@@ -375,7 +433,8 @@ const App = () => {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
+                          className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition"
+                        >
                           SIGN UP
                         </button>
                       </div>
