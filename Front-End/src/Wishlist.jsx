@@ -3,12 +3,21 @@ import { useWishlist } from "./context/WishlistContext";
 import { motion } from "framer-motion";
 
 export default function Wishlist() {
-  const { wishlist, toggleWishlist } = useWishlist();
+  const { wishlist, toggleWishlist, loading } = useWishlist();
 
   const itemVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
+
+  // ✅ Always check loading first!
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+        <p className="text-2xl font-bold">Loading Wishlist...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header relative p-6">
@@ -33,13 +42,14 @@ export default function Wishlist() {
             initial="hidden"
             animate="visible"
             variants={{
-              visible: { transition: { staggerChildren: 0.15 } }, // Stagger effect
-            }}>
+              visible: { transition: { staggerChildren: 0.15 } },
+            }}
+          >
             {wishlist.map((product) => (
               <motion.div
-                key={product.id}
+                key={product._id || product.id}
                 className="grid grid-cols-4 items-center border-b border-[#976c60] dark:border-black pb-2"
-                variants={itemVariants} // Apply animation
+                variants={itemVariants}
               >
                 <div className="flex justify-center">
                   <img
@@ -47,7 +57,7 @@ export default function Wishlist() {
                       product.photos && product.photos.length > 0
                         ? product.photos[0].src
                         : ""
-                    } // Use a fallback image if photos are missing
+                    }
                     alt={product.name}
                     className="w-16 h-16 object-cover rounded-md"
                   />
@@ -59,7 +69,8 @@ export default function Wishlist() {
 
                 <button
                   className="bg-cn_clr p-2 rounded-md hover:bg-bg_clr transition flex justify-center items-center"
-                  onClick={() => toggleWishlist(product)}>
+                  onClick={() => toggleWishlist(product)}
+                >
                   <img
                     src="src/assets/trash.png"
                     alt="Remove"
