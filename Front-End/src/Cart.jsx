@@ -6,12 +6,13 @@ export default function Cart() {
   const [filter, setFilter] = useState("all");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   // Fetch cart on page load
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await axios.get('/api/cart', {
+        const response = await axios.get('http://localhost:5000/cart', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -22,12 +23,13 @@ export default function Cart() {
           name: item.product.name,
           price: item.product.price,
           quantity: item.quantity,
-          image: item.product.image || "/assets/placeholder.jpg",
+          image: item.product.photos?.[0]?.src || "/assets/placeholder.jpg",
           stockStatus: item.product.stockStatus || "normal",
           flashSale: item.product.flashSale || false,
           selected: true,
           description: item.product.description || "",
         }));
+        
 
         setProducts(cartProducts);
         setLoading(false);
@@ -48,7 +50,7 @@ export default function Cart() {
     const newQuantity = Math.max(1, product.quantity + amountChange);
 
     try {
-      await axios.put('/api/cart/update-quantity', {
+       await axios.put('http://localhost:5000/cart/update-quantity', {
         productId: id,
         amount: newQuantity
       }, {
@@ -70,7 +72,7 @@ export default function Cart() {
   // Remove product from cart in database
   const removeFromCart = async (id) => {
     try {
-      await axios.delete('/api/cart/remove', {
+      await axios.delete('http://localhost:5000/cart/remove', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         },

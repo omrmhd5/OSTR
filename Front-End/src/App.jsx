@@ -9,12 +9,16 @@ import Login from "./Login";
 import NewArrivals from "./NewArrivals";
 import Wishlist from "./Wishlist";
 import { WishlistProvider } from "./context/WishlistContext";
+import { CartProvider } from "./context/CartContext";
 import Cart from "./Cart";
 
 function App() {
   return (
+    <BrowserRouter>
+    <CartProvider>
     <WishlistProvider>
-      <BrowserRouter>
+      
+      
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
@@ -28,8 +32,11 @@ function App() {
             <Route path="/product/:id" element={<ProductPage />} />
           </Route>
         </Routes>
+       
+        </WishlistProvider>
+        </CartProvider>
       </BrowserRouter>
-    </WishlistProvider>
+    
   );
 }
 
