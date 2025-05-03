@@ -7,14 +7,20 @@ export function WishlistProvider({ children }) {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const res = await axios.get("/api/wishlist");  // ⚡ Are you using correct URL?
-        setWishlist(res.data.wishlist || []);          // ⚡ Make sure backend returns { wishlist: [...] }
+        const response = await axios.get("http://localhost:5000/wishlist", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // ✅ Fix: Use 'response', not 'res'
+        setWishlist(response.data.wishlist || []);
       } catch (error) {
         console.error("Failed to fetch wishlist:", error);
-        setWishlist([]);                               // Important to avoid undefined
+        setWishlist([]);
       } finally {
         setLoading(false);
       }
@@ -25,10 +31,19 @@ export function WishlistProvider({ children }) {
 
   const toggleWishlist = async (product) => {
     try {
-      const res = await axios.post("/api/wishlist/toggle", {
-        productId: product._id || product.id,   // ⚡ Correct id
-      });
-      setWishlist(res.data.wishlist.products || res.data.wishlist || []);
+      const response = await axios.post(
+        "http://localhost:5000/wishlist/toggle",
+        { productId: product._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // ✅ Fix: Use 'response', not 'res'
+      console.log("💡 Wishlist Response:", response.data);
+      setWishlist(response.data.wishlist.products || response.data.wishlist || []);
     } catch (error) {
       console.error("Failed to toggle wishlist item:", error);
     }

@@ -6,6 +6,7 @@ import PopUpMessage from "./components/ui/PopUpMessage";
 import { useNavigate, useParams } from "react-router";
 import { useWishlist } from "./context/WishlistContext";
 import axios from "axios";
+import { useCart } from "./context/CartContext";
 
 export default function ProductPage() {
   const [product, setProduct] = useState({});
@@ -24,6 +25,8 @@ export default function ProductPage() {
   const [showMessage, setShowMessage] = useState(false);
   const [text, setText] = useState("");
   const navigate = useNavigate();
+  const { addToCart: addToCartFromContext, fetchCart } = useCart();
+
 
   const settings = {
     dots: false,
@@ -79,12 +82,28 @@ export default function ProductPage() {
     reviews,
   } = product;
 
-  const isWishlisted = wishlist.some((item) => item.id === product.id);
+  const isWishlisted = wishlist.some((item) => item._id === product._id);
+
 
   const handleMessage = () => {
     setShowMessage(true);
     setTimeout(() => setShowMessage(false), 3000);
   };
+  
+  const addToCart = async () => {
+    try {
+      await addToCartFromContext(product._id, count);
+      await fetchCart(); // ✅ <-- This ensures Cart context is refreshed
+      setText("Item Added To Cart");
+      handleMessage();
+      setAdded(true);
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+      setText("Error adding to cart");
+      handleMessage();
+    }
+  };
+  
 
   return (
     // All The Page
@@ -223,13 +242,8 @@ export default function ProductPage() {
               className={` py-1.5 px-32 bg-black rounded-lg text-white mt-4 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 ${
                 added ? "bg-green-600" : "hover:animate-bounce"
               }`}
-              onClick={() => {
-                setText(
-                  added ? "Item Removed From Cart" : "Item Added To Cart"
-                );
-                handleMessage();
-                setAdded((added) => !added);
-              }}>
+              onClick={addToCart}
+          >
               {added ? (
                 <>
                   Added <i className="ri-check-line text-white text-lg"></i>

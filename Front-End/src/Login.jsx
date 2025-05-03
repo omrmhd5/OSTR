@@ -42,7 +42,7 @@ const App = () => {
 
       if (response.data.token) {
         // Login success
-        localStorage.setItem("token", JSON.stringify(response.data.token));
+        localStorage.setItem("token", response.data.token);
         setText("Login Successful!");
         handleMessage();
         setTimeout(() => {

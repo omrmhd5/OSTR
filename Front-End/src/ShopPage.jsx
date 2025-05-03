@@ -274,29 +274,29 @@ export default function ShopPage() {
                       />
                     </button>
                     <button
-                      className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const isInWishlist = wishlist.some(
-                          (item) => item.id === product.id
-                        );
-                        toggleWishlist(product);
-                        showMessage(
-                          isInWishlist
-                            ? "Item Removed From Wishlist!"
-                            : "Item Added To Wishlist Successfully!"
-                        );
-                      }}>
-                      <img
-                        src={
-                          wishlist.some((item) => item.id === product.id)
-                            ? "/src/assets/RemoveWishlist.png"
-                            : "/src/assets/wishlist.png"
-                        }
-                        alt="wishlist"
-                        className="w-6 h-6"
-                      />
-                    </button>
+  className="w-1/2 bg-bg_clr flex justify-center items-center p-2 hover:bg-cn_clr cursor-pointer"
+  onClick={(e) => {
+    e.stopPropagation(); // 🔥 Prevent parent navigation!
+    const isInWishlist = wishlist.some((item) => item._id === product._id);
+    toggleWishlist(product);
+    showMessage(
+      isInWishlist
+        ? "Item Removed From Wishlist!"
+        : "Item Added To Wishlist Successfully!"
+    );
+  }}
+>
+  <img
+    src={
+      wishlist.some((item) => item._id === product._id)
+        ? "/src/assets/RemoveWishlist.png"
+        : "/src/assets/wishlist.png"
+    }
+    alt="wishlist"
+    className="w-6 h-6"
+/>
+</button>
+
                   </div>
                 </div>
               </div>
