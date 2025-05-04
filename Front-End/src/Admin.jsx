@@ -47,7 +47,7 @@ export default function Admin() {
     }
   }, [searchTerm, existingProducts]);
 
-  const handleAddProduct = (e) => {
+  const handleAddProduct = async (e) => {
     e.preventDefault();
     if (
       !newProduct.name ||
@@ -61,23 +61,57 @@ export default function Admin() {
       return;
     }
 
-    setProducts([...products, { ...newProduct, id: Date.now() }]);
-    setNewProduct({ name: "", price: "", description: "", image: "" });
-    setMessage("Product added successfully");
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 3000);
-  };
+    try {
+      const token = localStorage.getItem("token");
 
-  const handleDeleteProduct = (id) => {
-    setProducts(products.filter((product) => product.id !== id));
-    setMessage("Product deleted successfully");
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 3000);
+      // Send to the new endpoint with authentication
+      const response = await axios.post(
+        "http://localhost:5000/products/add",
+        newProduct,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Add the new product to both local state arrays
+      setExistingProducts([...existingProducts, response.data]);
+      setFilteredProducts([...filteredProducts, response.data]);
+
+      // Clear the form
+      setNewProduct({ name: "", price: "", description: "", image: "" });
+
+      // Show success message
+      setMessage("Product added successfully to the database");
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 3000);
+    } catch (error) {
+      console.error("Error adding product:", error);
+      if (error.response) {
+        // Server responded with an error
+        setMessage(
+          error.response.data.message || "Error adding product to database"
+        );
+      } else {
+        setMessage("Error connecting to the server");
+      }
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 3000);
+    }
   };
 
   const handleDeleteExistingProduct = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/products/${id}`);
+      const token = localStorage.getItem("token");
+
+      // Use the new delete endpoint with authentication
+      await axios.delete(`http://localhost:5000/products/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setExistingProducts(
         existingProducts.filter((product) => product._id !== id)
       );
@@ -89,9 +123,13 @@ export default function Admin() {
       setTimeout(() => setShowMessage(false), 3000);
     } catch (error) {
       console.error("Error deleting product:", error);
-      setMessage("Error deleting product from database");
-      setShowMessage(true);
-      setTimeout(() => setShowMessage(false), 3000);
+      if (error.response && error.response.status !== 401) {
+        setMessage(
+          error.response.data.message || "Error deleting product from database"
+        );
+        setShowMessage(true);
+        setTimeout(() => setShowMessage(false), 3000);
+      }
     }
   };
 
@@ -182,8 +220,7 @@ export default function Admin() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="border rounded-lg p-4 flex justify-between items-center"
-                >
+                  className="border rounded-lg p-4 flex justify-between items-center">
                   <div className="flex items-center space-x-4">
                     <img
                       src={product.image}
@@ -197,8 +234,7 @@ export default function Admin() {
                   </div>
                   <Button
                     variant="destructive"
-                    onClick={() => handleDeleteProduct(product.id)}
-                  >
+                    onClick={() => handleDeleteProduct(product.id)}>
                     Delete
                   </Button>
                 </div>
@@ -232,8 +268,7 @@ export default function Admin() {
             {filteredProducts.map((product) => (
               <div
                 key={product._id}
-                className="border rounded-lg p-4 flex justify-between items-center"
-              >
+                className="border rounded-lg p-4 flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                   <img
                     src={product.photos?.[0]?.src || "/assets/placeholder.jpg"}
@@ -250,8 +285,7 @@ export default function Admin() {
                 </div>
                 <Button
                   variant="destructive"
-                  onClick={() => handleDeleteExistingProduct(product._id)}
-                >
+                  onClick={() => handleDeleteExistingProduct(product._id)}>
                   Delete
                 </Button>
               </div>

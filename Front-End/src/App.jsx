@@ -20,10 +20,10 @@ function App() {
         <WishlistProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="/shop" element={<ShopPage />} />
               <Route path="/style" element={<StyleYours />} />
               <Route path="/new" element={<NewArrivals />} />
