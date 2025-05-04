@@ -78,7 +78,8 @@ export default function StyleYours() {
           xmlnsXlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 512 512"
           xmlSpace="preserve"
-          fill="#000000">
+          fill="#000000"
+        >
           <g id="SVGRepo_bgCarrier" strokeWidth="0" />
           <g
             id="SVGRepo_tracerCarrier"
@@ -166,12 +167,14 @@ export default function StyleYours() {
           xmlnsXlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 512 512"
           xmlSpace="preserve"
-          fill="#000000">
+          fill="#000000"
+        >
           <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
           <g
             id="SVGRepo_tracerCarrier"
             strokeLinecap="round"
-            strokeLinejoin="round"></g>
+            strokeLinejoin="round"
+          ></g>
           <g id="SVGRepo_iconCarrier">
             <g transform="translate(1 1)">
               <g>
@@ -258,7 +261,8 @@ export default function StyleYours() {
           id="Layer_1"
           viewBox="0 0 512 512"
           xmlSpace="preserve"
-          fill="#000000">
+          fill="#000000"
+        >
           <g id="SVGRepo_bgCarrier" strokeWidth="0" />
           <g
             id="SVGRepo_tracerCarrier"
@@ -455,7 +459,8 @@ export default function StyleYours() {
                 <SelectItem
                   className="cursor-pointer"
                   key={item.name}
-                  value={item.name}>
+                  value={item.name}
+                >
                   {item.name}
                 </SelectItem>
               ))}
@@ -471,12 +476,14 @@ export default function StyleYours() {
                 {sizes.map((size) => (
                   <div
                     key={size}
-                    className="flex justify-between items-center border p-2 px-5 rounded-md bg-white font-bold ">
+                    className="flex justify-between items-center border p-2 px-5 rounded-md bg-white font-bold "
+                  >
                     <p className="text-black">{size}</p>
                     <div className="font-medium flex  ">
                       <button
                         className=" cursor-pointer bg-bg_clr p-2 px-4 rounded-l-lg hover:animate-pulse "
-                        onClick={() => handleQuantityChange(size, -1)}>
+                        onClick={() => handleQuantityChange(size, -1)}
+                      >
                         -
                       </button>
                       <p className=" p-2 px-4 w-12 text-center">
@@ -484,7 +491,8 @@ export default function StyleYours() {
                       </p>
                       <button
                         className=" cursor-pointer bg-bg_clr p-2 px-4  rounded-r-lg hover:animate-pulse "
-                        onClick={() => handleQuantityChange(size, 1)}>
+                        onClick={() => handleQuantityChange(size, 1)}
+                      >
                         +
                       </button>
                     </div>
@@ -492,7 +500,8 @@ export default function StyleYours() {
                 ))}
                 <button
                   className="self-end mt-2  bg-gray-700 dark:bg-black text-white py-2 px-5 rounded-md cursor-pointer hover:bg-black "
-                  onClick={toggleModal}>
+                  onClick={toggleModal}
+                >
                   Size Chart
                 </button>
                 {/** Size Chart */}
@@ -502,7 +511,8 @@ export default function StyleYours() {
       isOpen
         ? "opacity-100 scale-100 bg-black/50 bg-opacity-50"
         : "opacity-0 scale-95 pointer-events-none bg-opacity-0"
-    }`}>
+    }`}
+                >
                   <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100 transition-all duration-300 ease-in-out">
                     <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
                     <p className="text-gray-700 mb-5 dark:text-black">
@@ -530,7 +540,8 @@ export default function StyleYours() {
                               index % 2 === 0
                                 ? "bg-gray-100 dark:bg-gray-400 "
                                 : "bg-white "
-                            }>
+                            }
+                          >
                             <td className="py-2 px-4 border text-center font-bold">
                               {item.size}
                             </td>
@@ -549,7 +560,8 @@ export default function StyleYours() {
                     </table>
                     <Button
                       className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer dark:bg-black"
-                      onClick={toggleModal}>
+                      onClick={toggleModal}
+                    >
                       Close
                     </Button>
                   </div>
@@ -631,7 +643,8 @@ export default function StyleYours() {
                     <select
                       value={fontFamily}
                       onChange={(e) => setFontFamily(e.target.value)}
-                      className="border rounded p-1 cursor-pointer">
+                      className="border rounded p-1 cursor-pointer"
+                    >
                       {fonts.map((f) => (
                         <option key={f} value={f}>
                           {f}
@@ -646,13 +659,15 @@ export default function StyleYours() {
                     <div className="gap-1 flex items-baseline mt-2 ">
                       <button
                         className="cursor-pointer bg-bg_clr p-1 px-3 rounded-l-lg hover:animate-pulse "
-                        onClick={() => setFontSize((s) => Math.max(8, s - 4))}>
+                        onClick={() => setFontSize((s) => Math.max(8, s - 4))}
+                      >
                         −
                       </button>
                       <span className="w-8 text-center">{fontSize}</span>
                       <button
                         className=" cursor-pointer bg-bg_clr p-1 px-3 rounded-r-lg hover:animate-pulse "
-                        onClick={() => setFontSize((s) => s + 4)}>
+                        onClick={() => setFontSize((s) => s + 4)}
+                      >
                         +
                       </button>
                     </div>
@@ -672,7 +687,8 @@ export default function StyleYours() {
                     fontFamily: fontFamily,
                     fontSize: `${fontSize}px`,
                     userSelect: "none",
-                  }}>
+                  }}
+                >
                   {text}
                 </div>
               </div>

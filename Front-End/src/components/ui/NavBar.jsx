@@ -40,7 +40,7 @@ export default function NavBar() {
           OSTR
         </h3>
       </Link>
-      <ul className="flex gap-10 font-semibold items-baseline">
+      <ul className="flex gap-15 font-semibold items-baseline pt-2">
         {[
           { name: "Home", path: "" },
           { name: "Shop", path: "shop" },
@@ -69,17 +69,11 @@ export default function NavBar() {
                 `transition-all ease-linear duration-100 
             hover:text-sky-950 hover:underline underline-offset-4
             ${isActive ? "text-sky-950 underline" : ""}`
-              }>
-              <li>{item.name}</li>
+              }
+            >
+              <li className="text-base">{item.name}</li>
             </NavLink>
           ))}
-
-        <div className="me-50 py-1 px-4 text-m font-semibold flex bg-gray-200 dark:text-white rounded-2xl gap-5 items-baseline">
-          <input type="text" id="filter" placeholder="Search for..." />
-          <Link to="/search">
-            <i className="cursor-pointer fa-solid fa-magnifying-glass  hover:text-sky-950 hover:-translate-y-1 hover:scale-110 duration-300 ease-in-out"></i>
-          </Link>
-        </div>
       </ul>
 
       <div className="flex text-xl items-center gap-10">

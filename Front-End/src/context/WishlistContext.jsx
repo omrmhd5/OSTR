@@ -40,15 +40,16 @@ export function WishlistProvider({ children }) {
           },
         }
       );
-
-      // ✅ Fix: Use 'response', not 'res'
+  
       console.log("💡 Wishlist Response:", response.data);
-      setWishlist(response.data.wishlist.products || response.data.wishlist || []);
+      setWishlist(
+        response.data.wishlist.products || response.data.wishlist || []
+      );
     } catch (error) {
       console.error("Failed to toggle wishlist item:", error);
     }
   };
-
+  
   return (
     <WishlistContext.Provider value={{ wishlist, toggleWishlist, loading }}>
       {children}
