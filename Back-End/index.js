@@ -8,7 +8,7 @@ const ProductRoutes = require("./Routes/ProductRoutes");
 const CategoryRoutes = require("./Routes/CategoryRoutes");
 const cartRoutes = require("./Routes/cartRoutes");
 const wishlistRoutes = require("./Routes/wishlistRoutes");
-const { authenticateUser } = require("./Middlewares/authMiddleware");
+const { authenticateUser } = require("./Middlewares/authUserMiddleware");
 
 const app = express();
 const PORT = process.env.PORT;

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// table
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -15,8 +14,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
 });
 
-// model for the schema
 const User = mongoose.model("User", userSchema);
 module.exports = User;
