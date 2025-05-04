@@ -9,6 +9,22 @@ import * as Yup from "yup";
 import PopUpMessage from "./components/ui/PopUpMessage";
 
 export default function Home() {
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    console.log("Form Submitted:", values);
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+      setSubmitting(false);
+      resetForm();
+    }, 3000);
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    complaint: Yup.string().required("Please enter your complaint"),
+  });
+
   const [showMessage, setShowMessage] = useState(false);
 
   const CustomPrevArrow = (props) => {
@@ -16,7 +32,8 @@ export default function Home() {
     return (
       <button
         className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer "
-        onClick={onClick}>
+        onClick={onClick}
+      >
         <i className="fa-solid fa-arrow-left"></i>
       </button>
     );
@@ -27,7 +44,8 @@ export default function Home() {
     return (
       <button
         className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer"
-        onClick={onClick}>
+        onClick={onClick}
+      >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
     );
@@ -48,7 +66,7 @@ export default function Home() {
     {
       name: "Sarah M.",
       review:
-        "I'm blown away by the quality and style of the clothes I received from ostor. From casual wear to elegant dresses, every piece I’ve bought has exceeded my expectations. I'm sure this will not be the last order!",
+        "I'm blown away by the quality and style of the clothes I received from ostor. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations. I'm sure this will not be the last order!",
     },
     {
       name: "Alex K.",
@@ -58,7 +76,7 @@ export default function Home() {
     {
       name: "James L.",
       review:
-        "As someone who's always on the lookout for unique fashion pieces, I’m thrilled to have stumbled upon ostor. The selection of clothes is not only diverse but also on-point with the latest trends.",
+        "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon ostor. The selection of clothes is not only diverse but also on-point with the latest trends.",
     },
     {
       name: "Bernice Levy",
@@ -112,17 +130,6 @@ export default function Home() {
     ],
   };
 
-  const handleMessage = () => {
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 3000);
-  };
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-  });
-
   return (
     <div className="bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <section className=" flex ">
@@ -160,7 +167,8 @@ export default function Home() {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="text-center border-r-2 pr-6 border-gray-300">
+                  className="text-center border-r-2 pr-6 border-gray-300"
+                >
                   <h2 className="text-4xl font-bold">{item.value}</h2>
                   <p className="text-gray-600">{item.label}</p>
                 </div>
@@ -197,7 +205,8 @@ export default function Home() {
               autoPlay
               muted
               loop
-              className="pl-10">
+              className="pl-10"
+            >
               <source src="src\assets\video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
@@ -245,46 +254,77 @@ export default function Home() {
           show={showMessage}
         />
 
-        <div className="bg-bg_clr text-t_clr p-7 py-25 mt-50 rounded-3xl flex items-center justify-around">
-          <h3 className="text-4xl font-bold w-120 animate-bounce">
-            STAY UP TO DATE ABOUT OUR LATEST OFFERS
+        <div className="bg-cn_clr text-t_clr p-10 mt-12 rounded-3xl flex flex-col md:flex-row items-center justify-around gap-8">
+          <h3 className="text-4xl font-bold animate-bounce text-center md:w-1/2">
+            CONTACT US TO STAY UP TO DATE
           </h3>
+
           <Formik
-            initialValues={{ email: "" }}
+            initialValues={{ name: "", email: "", complaint: "" }}
             validationSchema={validationSchema}
-            onSubmit={handleMessage}>
+            onSubmit={handleSubmit}
+          >
             {({ isSubmitting }) => (
-              <Form>
-                <div className="mt-4 flex w-full max-w-md border border-white rounded-full overflow-hidden  ">
-                  <span className="px-6 flex items-center bg-white">
-                    <i className="fa-solid fa-envelope text-2xl"></i>
-                  </span>
+              <Form className="w-full md:w-1/2 space-y-4">
+                <div className="flex flex-col gap-1">
+                  <Field
+                    type="text"
+                    name="name"
+                    placeholder="Your full name"
+                    className="p-3 rounded-md text-black border-2"
+                  />
+                  <ErrorMessage
+                    name="name"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1">
                   <Field
                     type="email"
                     name="email"
                     placeholder="Enter your email address"
-                    className="p-5 bg-white text-black outline-none -ml-5 w-full"
+                    className="p-3 rounded-md text-black border-2"
                   />
-
-                  <button
-                    type="submit"
-                    className="cursor-pointer bg-cn_clr text-t_clr font-bold ml-1 hover:bg-t_clr hover:text-white w-50"
-                    disabled={isSubmitting}>
-                    Subscribe
-                  </button>
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
-                <ErrorMessage name="email">
-                  {(msg) => (
-                    <div className=" absolute font-semibold text-red-500 text-sm  py-2 px-10 ">
-                      ⚠️ {msg} !
-                    </div>
-                  )}
-                </ErrorMessage>
+
+                <div className="flex flex-col gap-1">
+                  <Field
+                    as="textarea"
+                    name="complaint"
+                    placeholder="Your complaint or message"
+                    rows="4"
+                    className="p-3 rounded-md text-black border-2"
+                  />
+                  <ErrorMessage
+                    name="complaint"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="cursor-pointer w-full py-3 font-bold bg-bg_clr text-black hover:bg-t_clr hover:text-white transition rounded-full"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Now"}
+                </button>
               </Form>
             )}
           </Formik>
         </div>
       </div>
+      <PopUpMessage
+        text={"Your complaint has been submitted successfully!"}
+        show={showMessage}
+      />
     </div>
   );
 }
