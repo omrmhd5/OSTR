@@ -10,20 +10,51 @@ const Profile = () => {
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [address, setAddress] = useState("");
   const [showCopyPopup, setShowCopyPopup] = useState(null);
-  const [savedCards, setSavedCards] = useState([]); // Stores the saved cards
-  const [newCard, setNewCard] = useState({ number: "", expiry: "", cvv: "" }); // Form input for new card
+  const [savedCards, setSavedCards] = useState([]);
+  const [newCard, setNewCard] = useState({ number: "", expiry: "", cvv: "" }); 
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [balance, setBalance] = useState(0); // Track the current balance
+  const [balance, setBalance] = useState(0);
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState("");
 
-  const orders = [
-    { id: "1234", status: "Delivered", item: "T-Shirt", date: "2024-03-12" },
-    { id: "1235", status: "Processing", item: "Sneakers", date: "2024-03-15" },
-    { id: "1236", status: "Unpaid", item: "Watch", date: "2024-03-17" },
-    { id: "1237", status: "Shipped", item: "Backpack", date: "2024-03-20" },
-    { id: "1238", status: "Returns", item: "Jacket", date: "2024-03-22" },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const staticOrders = [
+        { id: "1234", status: "Delivered", item: "T-Shirt", date: "2024-03-12" },
+        { id: "1236", status: "Unpaid", item: "Watch", date: "2024-03-17" },
+        { id: "1237", status: "Shipped", item: "Backpack", date: "2024-03-20" },
+        { id: "1238", status: "Returns", item: "Jacket", date: "2024-03-22" },
+      ];
+  
+      try {
+        const token = localStorage.getItem("token");
+  
+        const res = await axios.get("http://localhost:5000/orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const backendOrders = res.data.orders.map((order) => ({
+          id: order._id,
+          status: order.status || "Processing",
+          item: `${order.items?.length || 0} item(s)`,
+          date: new Date(order.createdAt).toISOString().split("T")[0],
+        }));
+  
+        setOrders([...backendOrders, ...staticOrders]);
+      } catch (error) {
+        console.error("Error fetching backend orders:", error);
+        setOrders([...staticOrders]); // fallback
+      }
+    };
+  
+    fetchOrders();
+  }, []);
+  
+  
   const handleCardInputChange = (e) => {
     const { name, value } = e.target;
     setNewCard((prevState) => ({

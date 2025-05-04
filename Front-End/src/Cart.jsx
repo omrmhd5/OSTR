@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
+import CheckoutC from "./Checkout";
+
 import axios from "axios";
 
 export default function Cart() {
   const { cart, fetchCart } = useCart();
   const [filter, setFilter] = useState("all");
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [showCheckout, setShowCheckout] = useState(false);
+
 
   useEffect(() => {
     fetchCart();
@@ -164,10 +168,25 @@ export default function Cart() {
 
       <div className="mt-6 text-lg font-semibold flex justify-between items-center">
         <p className="text-2xl font-bold">Total Price: ${totalPrice.toFixed(2)}</p>
-        <button onClick={() => console.log("Proceed to checkout")} className="px-6 py-2 text-xl bg-t_clr text-white rounded-full">
-          Checkout
-        </button>
+        <button
+  onClick={() => setShowCheckout(true)}
+  className="px-6 py-2 text-xl bg-t_clr text-white rounded-full"
+>
+  Checkout
+</button>
       </div>
-    </div>
+      {showCheckout && (
+  <CheckoutC
+    selectedProducts={filteredProducts}
+    total={totalPrice}
+    onConfirm={() => {
+      setShowCheckout(false);
+      fetchCart();
+    }}
+  />
+)}
+</div>
+
   );
+  
 }
