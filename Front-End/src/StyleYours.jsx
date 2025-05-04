@@ -1,7 +1,8 @@
 import { SketchPicker } from "react-color";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-
+import axios from "axios";
+import { useCart } from "./context/CartContext";
 
 import {
   Select,
@@ -136,7 +137,7 @@ export default function StyleYours() {
                 d="M127.427,109.933c0,0,6.827-8.533,14.507-17.067c0,0-1.707,10.24-3.413,30.72 c-53.76,109.227-42.667,378.88-42.667,378.88H76.227C76.227,502.467,64.28,208.067,127.427,109.933"
               />
               <path d="M110.36,511H76.227c-4.267,0-8.533-3.413-8.533-8.533C66.84,490.52,56.6,204.653,120.6,105.667 c0.853-0.853,7.68-9.387,16.213-17.92c1.707-3.413,5.973-4.267,9.387-2.56c3.413,1.707,5.12,5.12,4.267,9.387 c0,0.853-14.507,109.227-6.827,348.16c0,0.853,0,2.56-0.853,3.413L118.04,505.88C117.187,509.293,113.773,511,110.36,511z M84.76,493.933h20.48l21.333-52.907c-5.973-168.96,0-273.067,4.267-320C79.64,210.627,83.053,447,84.76,493.933z" />
-              <path d="M433.773,511H399.64c-3.413,0-6.827-1.707-7.68-5.12l-24.747-59.733c-0.853-0.853-0.853-2.56-0.853-3.413 c7.68-239.787-6.827-347.307-6.827-348.16c-0.853-3.413,1.707-6.827,4.267-8.533c3.413-2.56,7.68-1.707,10.24,0.853 c8.533,8.533,15.36,17.067,15.36,17.92c64,99.84,53.76,385.707,52.907,397.653C442.307,507.587,438.04,511,433.773,511z M405.613,493.933h19.627c0.853-46.933,5.12-282.453-46.08-372.907c4.267,46.933,10.24,151.04,4.267,320L405.613,493.933z" />
+              <path d="M433.773,511H399.64c-3.413,0-6.827-1.707-7.68-5.12l-24.747-59.733c-0.853-0.853-0.853-2.56-0.853-3.413 c7.68-239.787-6.827-347.307-6.827-348.16c-0.853-3.413,1.707-6.827,4.267-8.533c3.413-2.56,7.68-1.707,10.24,0.853 c8.533,8.533,15.36,17.067,15.36,17.92c64,99.84,53.76,385.707,52.907,397.653C442.307,507.587,438.04,511,433.773,511z M405.613,493.933h19.627 c0-5.973,0-14.507,0.853-25.6H394.52L405.613,493.933z" />
               <path d="M306.627,476.867H203.373c-29.013,0-57.173-13.653-75.093-37.547c-0.853-1.707-1.707-3.413-1.707-5.12 c-7.68-241.493,6.827-341.333,6.827-342.187c0-1.707,0.853-3.413,2.56-4.267c7.68-8.533,16.213-16.213,24.747-19.627 c0-9.387,2.56-26.453,15.36-41.813C192.28,8.387,218.733-1,254.573-1s62.293,9.387,78.507,27.307 c12.8,15.36,15.36,32.427,15.36,41.813c6.827,2.56,15.36,8.533,25.6,18.773c0.853,0.853,1.707,2.56,2.56,4.267 c0,0.853,15.36,101.547,6.827,343.04c0,1.707-0.853,3.413-1.707,5.12C363.8,463.213,335.64,476.867,306.627,476.867z M143.64,430.787c14.507,17.92,36.693,29.013,59.733,29.013h103.253c23.04,0,45.227-11.093,59.733-29.013 c6.827-213.333-4.267-316.587-6.827-334.507c-12.8-11.947-17.92-11.947-17.92-11.947c-2.56,0.853-5.973,0-7.68-1.707 c-1.707-2.56-2.56-5.12-2.56-7.68c0,0,2.56-20.48-11.947-36.693c-11.947-14.507-34.133-22.187-64.853-22.187 s-52.907,7.68-64.853,21.333c-14.507,16.213-11.947,36.693-11.947,37.547c0,2.56-0.853,5.973-2.56,7.68 c-2.56,1.707-5.12,1.707-7.68,1.707c-0.853,0-5.12,0.853-17.067,12.8C147.907,114.2,136.813,216.6,143.64,430.787z" />
               <path d="M348.44,511H160.707c-9.387,0-17.067-7.68-17.067-17.067v-42.667c0-3.413,1.707-5.973,5.12-7.68 c2.56-1.707,5.973-0.853,8.533,0.853c13.653,10.24,29.867,15.36,46.08,15.36h103.253c16.213,0,31.573-5.12,45.227-15.36 c2.56-1.707,5.973-2.56,8.533-0.853s4.267,4.267,4.267,7.68v42.667C365.507,503.32,357.827,511,348.44,511z M160.707,466.627 v27.307H348.44v-27.307c-12.8,6.827-27.307,10.24-41.813,10.24H203.373C188.867,476.867,173.507,473.453,160.707,466.627z" />
               <path d="M211.907,118.467c-33.28,0-49.493-37.547-50.347-39.253c-1.707-4.267,0-9.387,4.267-11.093 c4.267-1.707,9.387,0,11.093,4.267l0,0c0,0,12.8,29.013,34.987,29.013c5.12,0,8.533,3.413,8.533,8.533 S217.027,118.467,211.907,118.467z" />
@@ -382,6 +383,63 @@ export default function StyleYours() {
     };
   });
 
+  const { addToCart: addToCartFromContext, fetchCart } = useCart();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const handleAddToCart = async () => {
+    if (totalItems < 1) return;
+
+    setIsAddingToCart(true);
+    try {
+      // First, create the custom product in the database
+      const customProduct = {
+        name: "Custom Designed Product",
+        tagline: "Custom Designed Product",
+        price: totalPrice.toString(),
+        description: `Custom designed product with color ${color}`,
+        photos: [
+          {
+            src: "/src/assets/custom.png", // You might want to generate a preview image
+          },
+        ],
+        colors: [
+          {
+            name: color,
+            hex: color,
+            ring: "ring-black",
+          },
+        ],
+        category: "680eab0719dd4dd099b11dc3", // Replace with your actual category ID
+        quantities: quantities,
+        rating: "0",
+        reviewCount: "0",
+        reviews: [],
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/products/addCustom",
+        customProduct,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Then add it to the cart
+      await addToCartFromContext(response.data._id, totalItems);
+      await fetchCart();
+
+      handleMessage();
+    } catch (error) {
+      console.error("Error adding custom product:", error);
+      setText("Failed to add custom product to cart");
+      handleMessage();
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
   return (
     <div className="py-10 bg-bg_clr w-full">
       <article className=" py-10 px-10 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
@@ -448,7 +506,7 @@ export default function StyleYours() {
                   <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100 transition-all duration-300 ease-in-out">
                     <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
                     <p className="text-gray-700 mb-5 dark:text-black">
-                      Here’s your size chart content...
+                      Here's your size chart content...
                     </p>
                     <img
                       src="src/assets/sizechart.png"
@@ -513,15 +571,16 @@ export default function StyleYours() {
               </div>
             </div>
             <Button
-              disabled={totalItems < 1}
+              disabled={totalItems < 1 || isAddingToCart}
               className={`mt-4 w-full py-2 rounded-md font-bold 
     ${
-      totalItems < 1
+      totalItems < 1 || isAddingToCart
         ? "bg-gray-600 cursor-not-allowed dark:bg-gray-400"
         : "bg-gray-800 text-white cursor-pointer hover:animate-bounce dark:bg-black"
     }`}
-              onClick={handleMessage}>
-              Add To Cart <i className="fas fa-shopping-cart"></i>
+              onClick={handleAddToCart}>
+              {isAddingToCart ? "Adding to Cart..." : "Add To Cart"}{" "}
+              <i className="fas fa-shopping-cart"></i>
             </Button>
 
             <PopUpMessage

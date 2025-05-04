@@ -149,6 +149,51 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const addCustomProduct = async (req, res) => {
+  try {
+    const { name, price, description, photos, colors, category, quantities } =
+      req.body;
+
+    // Validation
+    if (
+      !name ||
+      !price ||
+      !description ||
+      !photos ||
+      !colors ||
+      !category ||
+      !quantities
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Please provide all required fields" });
+    }
+
+    // Create a new product matching the schema structure
+    const newProduct = new Product({
+      name,
+      tagline: name,
+      rating: "0",
+      reviewCount: "0",
+      price,
+      description,
+      photos,
+      colors,
+      category,
+      reviews: [],
+      quantities, // Add quantities for different sizes
+    });
+
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    console.error("Error creating custom product:", error);
+    res
+      .status(500)
+      .json({ message: "Server error while creating custom product" });
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductByID,
@@ -156,4 +201,5 @@ module.exports = {
   addProducts,
   addProduct,
   deleteProduct,
+  addCustomProduct,
 };

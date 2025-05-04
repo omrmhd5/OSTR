@@ -27,7 +27,6 @@ export default function ProductPage() {
   const navigate = useNavigate();
   const { addToCart: addToCartFromContext, fetchCart } = useCart();
 
-
   const settings = {
     dots: false,
     draggable: false,
@@ -84,26 +83,35 @@ export default function ProductPage() {
 
   const isWishlisted = wishlist.some((item) => item._id === product._id);
 
-
   const handleMessage = () => {
     setShowMessage(true);
     setTimeout(() => setShowMessage(false), 3000);
   };
-  
+
   const addToCart = async () => {
+    if (!size) {
+      setText("Please Select A Size");
+      handleMessage();
+      return;
+    }
+    if (!selectedColor) {
+      setText("Please Select A Color");
+      handleMessage();
+      return;
+    }
+
     try {
       await addToCartFromContext(product._id, count);
-      await fetchCart(); // ✅ <-- This ensures Cart context is refreshed
+      await fetchCart();
       setText("Item Added To Cart");
       handleMessage();
       setAdded(true);
     } catch (error) {
       console.error("Failed to add to cart:", error);
-      setText("Error adding to cart");
+      setText("User Must Be Signed In");
       handleMessage();
     }
   };
-  
 
   return (
     // All The Page
@@ -167,19 +175,20 @@ export default function ProductPage() {
               </div>
               {/* Colors */}
               <div className="flex gap-3 mt-2">
-                {colors?.map((color) => (
-                  <button
-                    key={color.name}
-                    className={`w-6 h-6 rounded-full cursor-pointer transition-all duration-200 ease-in-out ${
-                      color.hex
-                    } ${
-                      selectedColor === color.name
-                        ? `${color.ring} ring-2 ring-offset-2`
-                        : ""
-                    }`}
-                    onClick={() => setSelectedColor(color.name)}
-                  />
-                )) || []}
+                {colors?.map((color) => {
+                  return (
+                    <button
+                      key={color.name}
+                      style={{ backgroundColor: color.name.toLowerCase() }}
+                      className={`w-6 h-6 rounded-full cursor-pointer transition-all duration-200 ease-in-out ${
+                        selectedColor === color.name
+                          ? `${color.ring} ring-2 ring-offset-2`
+                          : ""
+                      }`}
+                      onClick={() => setSelectedColor(color.name)}
+                    />
+                  );
+                }) || []}
               </div>
             </div>
             <hr className="border border-gray-300 my-3" />
@@ -242,8 +251,7 @@ export default function ProductPage() {
               className={` py-1.5 px-32 bg-black rounded-lg text-white mt-4 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 ${
                 added ? "bg-green-600" : "hover:animate-bounce"
               }`}
-              onClick={addToCart}
-          >
+              onClick={addToCart}>
               {added ? (
                 <>
                   Added <i className="ri-check-line text-white text-lg"></i>

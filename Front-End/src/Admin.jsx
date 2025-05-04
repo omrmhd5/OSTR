@@ -14,7 +14,7 @@ export default function Admin() {
     name: "",
     price: "",
     description: "",
-    image: "",
+    image: "/src/assets/custom.png",
   });
 
   useEffect(() => {
@@ -140,7 +140,7 @@ export default function Admin() {
           <h2 className="text-4xl font-bold">Admin Dashboard</h2>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 gap-10">
           <div className="p-6 rounded-lg shadow-lg bg-white">
             <h3 className="text-2xl font-semibold mb-6">Add New Product</h3>
             <form onSubmit={handleAddProduct} className="space-y-4">
@@ -194,109 +194,57 @@ export default function Admin() {
                   rows="3"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-semibold mb-2">
-                  Image URL
-                </label>
-                <input
-                  type="text"
-                  value={newProduct.image}
-                  onChange={(e) =>
-                    setNewProduct({ ...newProduct, image: e.target.value })
-                  }
-                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
-                  placeholder="Enter image URL"
-                />
-              </div>
               <Button type="submit" className="w-full">
                 Add Product
               </Button>
             </form>
           </div>
 
-          <div className="p-6 rounded-lg shadow-lg bg-white">
-            <h3 className="text-2xl font-semibold mb-6">Products List</h3>
+          <div className="mt-10 p-6 rounded-lg shadow-lg bg-white">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-semibold">
+                Existing Products from Database
+              </h3>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-64 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
+                  placeholder="Search products..."
+                />
+                <i className="fa-solid fa-magnifying-glass absolute right-3 top-3 text-gray-400"></i>
+              </div>
+            </div>
             <div className="space-y-4">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="border rounded-lg p-4 flex justify-between items-center">
                   <div className="flex items-center space-x-4">
                     <img
-                      src={product.image}
+                      src={
+                        product.photos?.[0]?.src || "/assets/placeholder.jpg"
+                      }
                       alt={product.name}
                       className="w-16 h-16 object-cover rounded"
                     />
                     <div>
                       <h4 className="font-semibold">{product.name}</h4>
                       <p className="text-sm text-gray-600">${product.price}</p>
+                      <p className="text-xs text-gray-500">
+                        {product.description}
+                      </p>
                     </div>
                   </div>
                   <Button
                     variant="destructive"
-                    onClick={() => handleDeleteProduct(product.id)}>
+                    onClick={() => handleDeleteExistingProduct(product._id)}>
                     Delete
                   </Button>
                 </div>
               ))}
-              {products.length === 0 && (
-                <p className="text-center text-gray-500">
-                  No products added yet
-                </p>
-              )}
             </div>
-          </div>
-        </div>
-
-        <div className="mt-10 p-6 rounded-lg shadow-lg bg-white">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-2xl font-semibold">
-              Existing Products from Database
-            </h3>
-            <div className="relative">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-64 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
-                placeholder="Search products..."
-              />
-              <i className="fa-solid fa-magnifying-glass absolute right-3 top-3 text-gray-400"></i>
-            </div>
-          </div>
-          <div className="space-y-4">
-            {filteredProducts.map((product) => (
-              <div
-                key={product._id}
-                className="border rounded-lg p-4 flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                  <img
-                    src={product.photos?.[0]?.src || "/assets/placeholder.jpg"}
-                    alt={product.name}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                  <div>
-                    <h4 className="font-semibold">{product.name}</h4>
-                    <p className="text-sm text-gray-600">${product.price}</p>
-                    <p className="text-xs text-gray-500">
-                      {product.description}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDeleteExistingProduct(product._id)}>
-                  Delete
-                </Button>
-              </div>
-            ))}
-            {filteredProducts.length === 0 && (
-              <p className="text-center text-gray-500">
-                {searchTerm
-                  ? "No products found matching your search"
-                  : "No products found in database"}
-              </p>
-            )}
           </div>
         </div>
       </article>
