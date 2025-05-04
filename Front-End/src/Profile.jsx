@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
-  const [profilePhoto, setProfilePhoto] = useState("/src/assets/profileDefault.jpg");
+  const [profilePhoto, setProfilePhoto] = useState(
+    "/src/assets/profileDefault.jpg"
+  );
   const [orderFilter, setOrderFilter] = useState("All");
   const [darkMode, setDarkMode] = useState(false);
   const [location, setLocation] = useState("New York");
@@ -11,7 +13,7 @@ const Profile = () => {
   const [address, setAddress] = useState("");
   const [showCopyPopup, setShowCopyPopup] = useState(null);
   const [savedCards, setSavedCards] = useState([]);
-  const [newCard, setNewCard] = useState({ number: "", expiry: "", cvv: "" }); 
+  const [newCard, setNewCard] = useState({ number: "", expiry: "", cvv: "" });
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [balance, setBalance] = useState(0);
   const [voucherCode, setVoucherCode] = useState("");
@@ -25,39 +27,43 @@ const [showOrderModal, setShowOrderModal] = useState(false);
   useEffect(() => {
     const fetchOrders = async () => {
       const staticOrders = [
-        { id: "1234", status: "Delivered", item: "T-Shirt", date: "2024-03-12" },
+        {
+          id: "1234",
+          status: "Delivered",
+          item: "T-Shirt",
+          date: "2024-03-12",
+        },
         { id: "1236", status: "Unpaid", item: "Watch", date: "2024-03-17" },
         { id: "1237", status: "Shipped", item: "Backpack", date: "2024-03-20" },
         { id: "1238", status: "Returns", item: "Jacket", date: "2024-03-22" },
       ];
-  
+
       try {
         const token = localStorage.getItem("token");
-  
+
         const res = await axios.get("http://localhost:5000/orders", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         const backendOrders = res.data.orders.map((order) => ({
           id: order._id,
           status: order.status || "Processing",
           item: `${order.items?.length || 0} item(s)`,
           date: new Date(order.createdAt).toISOString().split("T")[0],
         }));
-  
+
         setOrders([...backendOrders, ...staticOrders]);
       } catch (error) {
         console.error("Error fetching backend orders:", error);
         setOrders([...staticOrders]); // fallback
       }
     };
-  
+
     fetchOrders();
   }, []);
-  
-  
+
   const handleCardInputChange = (e) => {
     const { name, value } = e.target;
     setNewCard((prevState) => ({
@@ -163,35 +169,31 @@ const [showOrderModal, setShowOrderModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:5000/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const user = response.data.user;
+        setUserData(user);
+        localStorage.setItem("loggedInUser", JSON.stringify(user)); // optional
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
 
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const user = response.data.user;
-      setUserData(user);
-      localStorage.setItem("loggedInUser", JSON.stringify(user)); // optional
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
+    fetchUserData();
+  }, []);
 
-  fetchUserData();
-}, []);
+  if (!userData) return <div>Loading profile...</div>;
 
-if (!userData) return <div>Loading profile...</div>;
-
-const [fName, lName] = userData.name.split(" ", 2);
-const email = userData.email;
-
-
+  const [fName, lName] = userData.name.split(" ", 2);
+  const email = userData.email;
 
   const renderContent = () => {
     switch (activeTab) {
@@ -211,7 +213,7 @@ const email = userData.email;
                 <label
                   htmlFor="fileUpload"
                   className="text-t_clr text-sm font-medium cursor-pointer ">
-              Click to change <span className="pl-8">photo</span>
+                  Click to change <span className="pl-8">photo</span>
                 </label>
                 <input
                   type="file"

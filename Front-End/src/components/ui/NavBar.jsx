@@ -1,20 +1,27 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import PopUpMessage from "./PopUpMessage";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState("");
   const [showMessage, setShowMessage] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("token");
+    const userRole = localStorage.getItem("role");
     setIsLoggedIn(!!user);
+    setRole(userRole || "");
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
+    setRole("");
+    navigate("/");
     window.location.reload();
     handleMessage();
   };
@@ -39,12 +46,21 @@ export default function NavBar() {
           { name: "Shop", path: "shop" },
           { name: "Style Yours", path: "style" },
           { name: "Login - SignUp", path: "login", LoggedIn: false },
-          { name: "Profile", path: "profile", LoggedIn: true },
+          { name: "Profile", path: "profile", LoggedIn: true, role: "user" },
+          {
+            name: "Admin Dashboard",
+            path: "admin",
+            LoggedIn: true,
+            role: "admin",
+          },
         ]
-          .filter(
-            (item) =>
-              item.LoggedIn === undefined || item.LoggedIn === isLoggedIn
-          )
+          .filter((item) => {
+            const loggedInCheck =
+              item.LoggedIn === undefined || item.LoggedIn === isLoggedIn;
+            const roleCheck =
+              item.role === undefined || (role && item.role === role);
+            return loggedInCheck && roleCheck;
+          })
           .map((item) => (
             <NavLink
               to={`/${item.path}`}
@@ -73,8 +89,7 @@ export default function NavBar() {
             <div
               key={index}
               className="transition-all duration-300 ease-in-out 
-        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 cursor-pointer text-2xl"
-            >
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 cursor-pointer text-2xl">
               {item.component}
             </div>
           ) : typeof item.path === "function" ? (
@@ -82,8 +97,7 @@ export default function NavBar() {
               key={index}
               onClick={item.path}
               className="cursor-pointer transition-all duration-300 ease-in-out 
-        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr"
-            >
+        hover:text-sky-950 hover:-translate-y-1 hover:scale-110 text-t_clr">
               <i className={`fa-solid ${item.icon}`} />
             </button>
           ) : (
@@ -95,8 +109,7 @@ export default function NavBar() {
         hover:text-sky-950 hover:-translate-y-1 hover:scale-110 ${
           isActive ? "text-sky-950" : "text-t_clr"
         }`
-              }
-            >
+              }>
               <i className={`fa-solid ${item.icon}`} />
             </NavLink>
           )
