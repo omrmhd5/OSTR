@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
-  const [profilePhoto, setProfilePhoto] = useState("/src/assets/Profile.jpg");
+  const [profilePhoto, setProfilePhoto] = useState("/src/assets/profileDefault.jpg");
   const [orderFilter, setOrderFilter] = useState("All");
   const [darkMode, setDarkMode] = useState(false);
   const [location, setLocation] = useState("New York");
@@ -124,9 +125,39 @@ const Profile = () => {
     }, 3000); // simulate 3 second spin
   };
 
-  const signedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  let [fName, lName] = signedInUser.name.split(" ", 2);
-  let email = signedInUser.email;
+  const [userData, setUserData] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  
+
+
+useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:5000/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const user = response.data.user;
+      setUserData(user);
+      localStorage.setItem("loggedInUser", JSON.stringify(user)); // optional
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  fetchUserData();
+}, []);
+
+if (!userData) return <div>Loading profile...</div>;
+
+const [fName, lName] = userData.name.split(" ", 2);
+const email = userData.email;
+
+
 
   const renderContent = () => {
     switch (activeTab) {
