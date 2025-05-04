@@ -3,7 +3,7 @@ const {
   createOrder,
   getUserOrders,
 } = require("../Controllers/OrderController");
-const { authenticateUser } = require("../Middlewares/authMiddleware");
+const { authenticateUser } = require("../Middlewares/authUserMiddleware");
 
 const router = express.Router();
 
