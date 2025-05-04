@@ -16,6 +16,9 @@ const Profile = () => {
   const [balance, setBalance] = useState(0);
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState(null);
+const [showOrderModal, setShowOrderModal] = useState(false);
+
 
   const [orders, setOrders] = useState([]);
 
@@ -347,9 +350,16 @@ const email = userData.email;
                         Status: {order.status} | Date: {order.date}
                       </p>
                     </div>
-                    <button className="text-sm underline text-t_clr-500 hover:text-blue-700 cursor-pointer">
-                      View
-                    </button>
+                    <button
+  onClick={() => {
+    setSelectedOrder(order);
+    setShowOrderModal(true);
+  }}
+  className="text-sm underline text-t_clr-500 hover:text-blue-700 cursor-pointer"
+>
+  View
+</button>
+
                   </li>
                 ))}
               </ul>
@@ -755,9 +765,30 @@ const email = userData.email;
             )
           )}
         </ul>
+        {showOrderModal && selectedOrder && (
+  <div className="fixed inset-0 flex items-center justify-center bg-bg_clr bg-opacity-500 z-50">
+    <div className="bg-white dark:bg-bg_clr p-6 rounded shadow-lg w-96 text-t_clr dark:text-white">
+      <h2 className="text-xl font-semibold mb-4">Order Details</h2>
+      <p><strong>Order ID:</strong> {selectedOrder.id}</p>
+      <p><strong>Status:</strong> {selectedOrder.status}</p>
+      <p><strong>Items:</strong> {selectedOrder.item}</p>
+      <p><strong>Date:</strong> {selectedOrder.date}</p>
+
+      <div className="mt-4 flex justify-end">
+        <button
+          onClick={() => setShowOrderModal(false)}
+          className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a]">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       </aside>
       <main className="w-3/4 p-4 bg-cn_clr">{renderContent()}</main>
     </div>
+    
   );
 };
 
