@@ -10,7 +10,7 @@ export default function Wishlist() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  // ✅ Always check loading first!
+  
   if (loading) {
     return (
       <div className="w-full min-h-screen flex justify-center items-center">
@@ -29,7 +29,7 @@ export default function Wishlist() {
         </p>
       ) : (
         <div className="w-full max-w-4xl mx-auto">
-          {/* Table Header */}
+          
           <div className="grid grid-cols-4 font-bold text-lg border-b-2 border-[#976c60] dark:border-black pb-2 mb-4">
             <p>Product Image</p>
             <p>Product Name</p>

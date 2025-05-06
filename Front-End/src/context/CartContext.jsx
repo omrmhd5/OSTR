@@ -37,7 +37,7 @@ export function CartProvider({ children }) {
       );
       setCart(res.data); // Update local state
     } catch (err) {
-      console.error("💥 Backend error response:", err.response?.data || err.message); // 🔥 ADD THIS
+      console.error(" Backend error response:", err.response?.data || err.message); 
       throw new Error("Error adding to cart");
     }
   };

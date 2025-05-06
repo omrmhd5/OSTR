@@ -33,10 +33,10 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
       });
   
       if (response.data.success) {
-        alert("✅ Order placed successfully!");
+        alert(" Order placed successfully!");
         onConfirm(); // Close modal
       } else {
-        alert("⚠️ Order failed. Try again.");
+        alert(" Order failed. Try again.");
       }
     } catch (error) {
       console.error("Order creation error:", error);

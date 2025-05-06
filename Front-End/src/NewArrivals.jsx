@@ -88,17 +88,17 @@ export default function NewArrivals() {
 
   const MemoizedSliderAndCountdownSection = memo(() => (
     <section className="relative w-full bg-white">
-      {/* Auto Slider */}
+      
       <Slider {...settings}>
         {newProducts.map((product, index) => (
           <div
             key={index}
             className="relative flex items-center justify-center w-full overflow-hidden">
-            {/* Blurred Background */}
+            
             <div
               className="absolute inset-0 bg-center bg-cover filter blur-xs scale-110"
               style={{ backgroundImage: `url(${product.src})` }}></div>
-            {/* Foreground Image */}
+           
             <LazyLoadImage
               src={product.src}
               className="relative z-10 w-full p-72 mb-50"
@@ -108,9 +108,9 @@ export default function NewArrivals() {
         ))}
       </Slider>
 
-      {/* Word And Counter Div */}
+      
       <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-cn_clr/55 w-full">
-        {/* New Collection Text */}
+       
         <div className="text-7xl text-center mt-3">
           <h1>
             New <br />
@@ -118,7 +118,7 @@ export default function NewArrivals() {
           </h1>
           <p className="text-2xl mt-3 italic">Dropping In:</p>
         </div>
-        {/* Counter */}
+        
         <Countdown />
       </div>
     </section>
@@ -127,7 +127,7 @@ export default function NewArrivals() {
     <section className="flex py-30 px-10 w-full justify-between items-center gap-20 bg-white">
       <h1 className="text-5xl">Check What's New!</h1>
 
-      {/* Rounded Photos */}
+      
       <div className="flex gap-7 w-full">
         {newCollections.map((product, index) => (
           <div className="flex flex-col" key={index}>
@@ -146,21 +146,21 @@ export default function NewArrivals() {
   ));
 
   return (
-    // Main Div
+    
     <div className="w-full bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header transform-gpu ">
-      {/* Main Section */}
+      
       <main>
-        {/* New Collection and SlideShow Section*/}
+        
         <MemoizedSliderAndCountdownSection />
 
-        {/* What's New and Grid Photos Section */}
+        
         <MemoizedCollectionsGrid />
 
-        {/* Explore And Shop Now Section*/}
+        
         <section className="flex justify-between px-10 gap-10 bg-cn_clr dark:bg-bg_clr">
-          {/* Images Part */}
+          
           <div className="w-1/2 relative">
-            {/* Explore Now Array of Objects */}
+            
             {[
               {
                 name: "Kids",
@@ -189,7 +189,7 @@ export default function NewArrivals() {
             ))}
           </div>
 
-          {/* Explore Now Paragraphs and Button */}
+         
           <div className="flex flex-col gap-2 w-1/2 py-40">
             <h1 className="text-5xl">Explore Now!</h1>
             <p className="text-xl">
@@ -207,11 +207,11 @@ export default function NewArrivals() {
           </div>
         </section>
 
-        {/* Best Sellers Section */}
+        
         <section className="flex flex-col items-center py-40 gap-20 w-full bg-white">
-          {/* Best Seller Text */}
+          
           <h1 className="text-7xl font-medium">Best Sellers</h1>
-          {/* Best Seller Products */}
+          
           <div className="flex">
             {bestSellers.map((product) => (
               <LazyLoadImage

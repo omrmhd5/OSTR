@@ -64,7 +64,7 @@ export default function Admin() {
     try {
       const token = localStorage.getItem("token");
 
-      // Send to the new endpoint with authentication
+      
       const response = await axios.post(
         "http://localhost:5000/products/add",
         newProduct,
@@ -75,21 +75,21 @@ export default function Admin() {
         }
       );
 
-      // Add the new product to both local state arrays
+    
       setExistingProducts([...existingProducts, response.data]);
       setFilteredProducts([...filteredProducts, response.data]);
 
-      // Clear the form
+      
       setNewProduct({ name: "", price: "", description: "", image: "" });
 
-      // Show success message
+      
       setMessage("Product added successfully to the database");
       setShowMessage(true);
       setTimeout(() => setShowMessage(false), 3000);
     } catch (error) {
       console.error("Error adding product:", error);
       if (error.response) {
-        // Server responded with an error
+        
         setMessage(
           error.response.data.message || "Error adding product to database"
         );
@@ -105,7 +105,7 @@ export default function Admin() {
     try {
       const token = localStorage.getItem("token");
 
-      // Use the new delete endpoint with authentication
+      
       await axios.delete(`http://localhost:5000/products/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,

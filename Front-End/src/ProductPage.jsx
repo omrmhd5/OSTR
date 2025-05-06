@@ -114,14 +114,14 @@ export default function ProductPage() {
   };
 
   return (
-    // All The Page
+    
     <div className="min-h-screen w-full bg-bg_clr py-7 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <PopUpMessage text={text} show={showMessage} />
-      {/* Main Content */}
+      
       <main className="bg-cn_clr py-6 px-20 rounded-lg w-3/4 justify-self-center">
-        {/* Divide The Column */}
+        
         <div className="flex flex-row gap-10">
-          {/* SlideShow */}
+          
           <figure className="max-w-1/2 shadow-lg shadow-black/60 dark:text-white">
             <Slideshow
               slides={
@@ -137,11 +137,11 @@ export default function ProductPage() {
               currentIndex={currentIndex}
             />
           </figure>
-          {/* Product Info */}
+          
           <section className="w-1/2">
             <h1 className="font-semibold text-3xl">{name}</h1>
             <p className="text-lg my-2">{tagline}</p>
-            {/* Rating */}
+            
             <div className="flex items-baseline gap-3">
               <StarRating rating={rating} />
               <p className="font-medium text-l">
@@ -152,13 +152,13 @@ export default function ProductPage() {
               ${price}.00
             </h1>
             <hr className="border border-gray-300 my-2" />
-            {/* Text */}
+            
             <div className="flex gap-20 mt-4">
               <h1 className="font-medium">Available Sizes</h1>
               <h1 className="font-medium">Colors</h1>
             </div>
             <div className="flex gap-10">
-              {/* Sizes */}
+              
               <div className="flex gap-2 ">
                 {["s", "m", "l"].map((s) => (
                   <button
@@ -173,7 +173,7 @@ export default function ProductPage() {
                   </button>
                 ))}
               </div>
-              {/* Colors */}
+              
               <div className="flex gap-3 mt-2">
                 {colors?.map((color) => {
                   return (
@@ -192,9 +192,9 @@ export default function ProductPage() {
               </div>
             </div>
             <hr className="border border-gray-300 my-3" />
-            {/* Quantity, Wishlist, Add To Cart Buttons */}
+            
             <div className="flex gap-10">
-              {/* Quantity */}
+              
               <div className="flex items-baseline font-medium transition-transform duration-300 ease-in-out group hover:[&:has(.plus:hover)]:rotate-8 hover:[&:has(.minus:hover)]:-rotate-8">
                 <button
                   className={`cursor-pointer bg-bg_clr p-2 px-4 rounded-l-lg transition-colors duration-300 minus ${
@@ -221,7 +221,7 @@ export default function ProductPage() {
                   +
                 </button>
               </div>
-              {/* Wishlist */}
+              
               <button
                 onClick={() => {
                   setText(
@@ -262,7 +262,7 @@ export default function ProductPage() {
             </button>
           </section>
         </div>
-        {/* Gallery Pictures */}
+        
         <figure className="slideShow flex gap-4 mt-8 w-full">
           {photos?.map((photo, index) => (
             <img
@@ -274,7 +274,7 @@ export default function ProductPage() {
             />
           )) || []}
         </figure>
-        {/* Description And Review Text */}
+        
         <div className="flex justify-items-start gap-20 text-2xl font-semibold mt-15 border-b-2 border-gray-300 my-1">
           <h1
             className={`cursor-pointer ease duration-100 ${
@@ -297,7 +297,7 @@ export default function ProductPage() {
             Reviews
           </h1>
         </div>
-        {/* Reviews Content */}
+        
         <article
           className={`reviewsContent mt-2 w-full transition-all duration-500 ease opacity-0 -translate-y-4 ${
             activeTab == "reviews" ? "opacity-100 translate-y-0" : ""
@@ -326,16 +326,16 @@ export default function ProductPage() {
               ))
             : ""}
         </article>
-        {/* Description Content */}
+        
         <p
           className={`mt-2 text-lg transition-all duration-1000 ease opacity-0 -translate-y-4 ${
             activeTab == "description" ? "opacity-100 translate-y-0" : ""
           }`}>
           {activeTab == "description" ? description : ""}
         </p>
-        {/* Related Products */}
+       
         <section className="mt-20">
-          {/* Slider Button and Text */}
+         
           <div className="flex justify-between border-b-2 border-gray-300 my-1 pb-1">
             <h1 className="text-2xl font-semibold self-end ">
               Related Products
@@ -357,13 +357,13 @@ export default function ProductPage() {
               </button>
             </div>
           </div>
-          {/* Slider Related Products */}
+          
           <Slider ref={sliderRef} className="w-full" {...settings}>
             {relatedProducts.map((product) => (
               <div
                 key={product.src}
                 className="px-3 mt-3 flex flex-col w-full content-end">
-                {/* Product Image */}
+                
                 <img
                   src={product.photos[0].src}
                   alt="Product Photo"
@@ -374,7 +374,7 @@ export default function ProductPage() {
                   }}
                 />
 
-                {/* Product Info */}
+                
                 <div className="flex flex-col content-center mt-2">
                   <div className="flex justify-between items-baseline">
                     <h1 className="text-lg w-1/2">{product.name}</h1>

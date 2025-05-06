@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [profilePhoto, setProfilePhoto] = useState(
@@ -7,7 +9,7 @@ const Profile = () => {
   );
   const [orderFilter, setOrderFilter] = useState("All");
   const [darkMode, setDarkMode] = useState(false);
-  const [location, setLocation] = useState("New York");
+  const [location, setLocation] = useState("Egypt");
   const [currency, setCurrency] = useState("USD");
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [address, setAddress] = useState("");
@@ -19,10 +21,19 @@ const Profile = () => {
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-const [showOrderModal, setShowOrderModal] = useState(false);
+  const [showOrderModal, setShowOrderModal] = useState(false);
 
 
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
+
+const handleLogout = () => {
+  
+  localStorage.removeItem("token"); 
+  
+  navigate("/login");
+};
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -33,9 +44,21 @@ const [showOrderModal, setShowOrderModal] = useState(false);
           item: "T-Shirt",
           date: "2024-03-12",
         },
-        { id: "1236", status: "Unpaid", item: "Watch", date: "2024-03-17" },
-        { id: "1237", status: "Shipped", item: "Backpack", date: "2024-03-20" },
-        { id: "1238", status: "Returns", item: "Jacket", date: "2024-03-22" },
+        { id: "1236",
+           status: "Unpaid", 
+           item: "Watch", 
+           date: "2024-03-17" 
+          },
+        { id: "1237",
+           status: "Shipped", 
+           item: "Backpack", 
+           date: "2024-03-20" 
+          },
+        { id: "1238",
+           status: "Returns",
+            item: "Jacket",
+             date: "2024-03-22" 
+            },
       ];
 
       try {
@@ -57,7 +80,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
         setOrders([...backendOrders, ...staticOrders]);
       } catch (error) {
         console.error("Error fetching backend orders:", error);
-        setOrders([...staticOrders]); // fallback
+        setOrders([...staticOrders]); 
       }
     };
 
@@ -75,8 +98,8 @@ const [showOrderModal, setShowOrderModal] = useState(false);
   const handleAddCard = (e) => {
     e.preventDefault();
     if (newCard.number && newCard.expiry && newCard.cvv) {
-      setSavedCards([...savedCards, newCard]); // Add the new card to the saved cards list
-      setNewCard({ number: "", expiry: "", cvv: "" }); // Clear the form fields
+      setSavedCards([...savedCards, newCard]); 
+      setNewCard({ number: "", expiry: "", cvv: "" }); 
     } else {
       alert("Please fill out all fields.");
     }
@@ -301,7 +324,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
           <div className="text-t_clr dark:text-black">
             <h2 className="text-2xl font-semibold mb-4">Past Orders</h2>
 
-            {/* Filter Buttons with Icons */}
+            
             <div className="flex gap-4 mb-4 flex-wrap justify-center">
               {[
                 { label: "All", img: "/src/Assets/OrderStatus/all.png" },
@@ -337,7 +360,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               ))}
             </div>
 
-            {/* Orders List */}
+           
             {filteredOrders.length > 0 ? (
               <ul className="space-y-2">
                 {filteredOrders.map((order) => (
@@ -376,7 +399,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
           <div className="text-t_clr space-y-6">
             <h2 className="text-2xl font-semibold mb-4">Settings</h2>
 
-            {/* Address Book Input */}
+            
             <div className="space-y-2">
               <button
                 className="dark:border-0 cursor-pointer flex items-center gap-2  font-medium text-left bg-bg_clr border border-[#976c60] p-2 rounded"
@@ -394,7 +417,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               )}
             </div>
 
-            {/* Location Dropdown */}
+            
             <div>
               <label className="block font-semibold mb-2">Country</label>
               <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded dark:border-0 cursor-pointer">
@@ -414,7 +437,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               </select>
             </div>
 
-            {/* Currency Dropdown */}
+            
             <div>
               <label className="block font-semibold mb-2">Currency</label>
               <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded dark:border-0 cursor-pointer">
@@ -428,7 +451,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               </select>
             </div>
 
-            {/* Toggle switches */}
+            
             <div className="flex flex-col gap-4">
               <label className="flex items-center justify-between">
                 <span className="font-semibold">Dark Mode</span>
@@ -440,7 +463,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               </label>
             </div>
 
-            {/* Contact Us Section with Icons */}
+            
             <Disclosure title="Connect to Us">
               <div className="flex items-center gap-4 mt-3 flex-wrap ">
                 <a
@@ -489,7 +512,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               </div>
             </Disclosure>
 
-            {/* Terms & Conditions */}
+            
             <Disclosure title="Terms & Conditions">
               <p className="text-sm mt-2">
                 By using this app, you agree to the terms and conditions. These
@@ -498,8 +521,8 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               </p>
             </Disclosure>
 
-            {/* Logout Button */}
-            <button className="mt--15 bg-bg_clr text-t_clr p-2 rounded hover:bg-cn_clr cursor-pointer">
+            
+            <button onClick={handleLogout} className="mt--15 bg-bg_clr text-t_clr p-2 rounded hover:bg-cn_clr cursor-pointer">
               Logout
             </button>
           </div>
@@ -547,7 +570,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               )}
             </div>
 
-            {/* Active Coupons */}
+            
             <div>
               <h3 className="text-lg font-semibold mb-2">
                 Your Active Coupons
@@ -576,7 +599,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
                   </li>
                 ))}
 
-                {/* QR Code Popup in Center */}
+                
                 {showCopyPopup && (
                   <div className="fixed inset-0 flex items-center justify-center bg-bg_clr/60 bg-opacity-50 z-50">
                     <div className="bg-white p-4 rounded shadow-lg">
@@ -623,14 +646,14 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               )}
             </div>
 
-            {/* Button to Show the Add Card Form */}
+            
             <button
               onClick={() => setIsFormVisible(!isFormVisible)} // Toggle form visibility
               className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition mb-4 ">
               {isFormVisible ? "Cancel" : "Add New Card"}
             </button>
 
-            {/* Add New Card Form */}
+            
             {isFormVisible && (
               <div className="bg-bg_clr p-4 rounded border border-[#976c60] dark:border-0 cursor-pointer">
                 <h3 className="text-lg font-bold mb-2">Add New Card</h3>
@@ -694,7 +717,7 @@ const [showOrderModal, setShowOrderModal] = useState(false);
               </div>
             )}
 
-            {/* Voucher Redemption */}
+           
             <div className="mt-6">
               <h3 className="text-lg font-semibold mb-2">Redeem Voucher</h3>
               <input

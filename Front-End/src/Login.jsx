@@ -42,7 +42,7 @@ const App = () => {
       });
 
       if (response.data.token) {
-        // Login success
+        
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
 
@@ -53,12 +53,12 @@ const App = () => {
           window.location.reload();
         }, 2000);
       } else if (response.data.message) {
-        // Backend responded but with error message
-        setText(response.data.message); // Show backend message
+        
+        setText(response.data.message); 
         handleMessage();
-        setErrors({ password: response.data.message }); // Also show under password field
+        setErrors({ password: response.data.message }); 
       } else {
-        // Unexpected case
+       
         setText("An unknown error occurred.");
         handleMessage();
         setErrors({ password: "An unknown error occurred." });
@@ -70,7 +70,7 @@ const App = () => {
         error.response.data &&
         error.response.data.message
       ) {
-        // Catching server error properly
+        
         setText(error.response.data.message);
         handleMessage();
         setErrors({ password: error.response.data.message });
@@ -91,12 +91,12 @@ const App = () => {
       });
 
       if (response.data._id) {
-        // Always show this text on successful signup
+        
         setText("Signed Up Successfully!");
         handleMessage();
         setTimeout(() => window.location.reload(), 1000);
       } else if (response.data.message) {
-        // If backend sends an error (like email already exists)
+        
         setText(response.data.message);
         handleMessage();
         setErrors({ email: response.data.message });
@@ -163,7 +163,7 @@ const App = () => {
       <main className="relative w-[800px] h-[500px] bg-white rounded-4xl shadow-2xl overflow-hidden">
         <PopUpMessage text={text} show={showMessage} />
 
-        {/* Beige Background with Animation */}
+        
         <section
           className={`absolute top-0 h-full w-1/2 rounded-4xl bg-gradient-to-b from-bg_clr to-t_clr transition-all duration-1000 ease-in-out ${
             activeTab == "SignUp" ? "left-0" : "left-1/2"
@@ -199,7 +199,7 @@ const App = () => {
         </section>
 
         <AnimatePresence mode="wait">
-          {/* Sign In Form */}
+          
           {activeTab == "SignIn" && (
             <motion.section
               key="signIn"
@@ -222,7 +222,7 @@ const App = () => {
                   or use your email password
                 </p>
 
-                {/* Sign In Formik */}
+                
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
@@ -264,7 +264,7 @@ const App = () => {
                           FORGET YOUR PASSWORD?
                         </a>
 
-                        {/* sign in button */}
+                        
                         <button
                           type="submit"
                           disabled={isSubmitting}
@@ -279,7 +279,7 @@ const App = () => {
             </motion.section>
           )}
 
-          {/* Reset password */}
+          
           {showPopup && (
             <div className="fixed inset-0 z-40 bg-white/50 flex items-center justify-center ">
               <div onClick={handleClosePopup} />
@@ -348,7 +348,7 @@ const App = () => {
             </div>
           )}
 
-          {/* // Sign Up Form */}
+          
           {activeTab === "SignUp" && (
             <motion.section
               key="signUp"

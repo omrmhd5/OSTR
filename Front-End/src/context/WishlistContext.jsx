@@ -16,7 +16,7 @@ export function WishlistProvider({ children }) {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        // ✅ Fix: Use 'response', not 'res'
+        
         setWishlist(response.data.wishlist || []);
       } catch (error) {
         console.error("Failed to fetch wishlist:", error);
@@ -41,7 +41,7 @@ export function WishlistProvider({ children }) {
         }
       );
   
-      console.log("💡 Wishlist Response:", response.data);
+      console.log(" Wishlist Response:", response.data);
       setWishlist(
         response.data.wishlist.products || response.data.wishlist || []
       );

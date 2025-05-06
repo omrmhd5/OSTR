@@ -395,7 +395,7 @@ export default function StyleYours() {
 
     setIsAddingToCart(true);
     try {
-      // First, create the custom product in the database
+      
       const customProduct = {
         name: "Custom Designed Product",
         tagline: "Custom Designed Product",
@@ -403,7 +403,7 @@ export default function StyleYours() {
         description: `Custom designed product with color ${color}`,
         photos: [
           {
-            src: "/src/assets/custom.png", // You might want to generate a preview image
+            src: "/src/assets/custom.png", 
           },
         ],
         colors: [
@@ -413,7 +413,7 @@ export default function StyleYours() {
             ring: "ring-black",
           },
         ],
-        category: "680eab0719dd4dd099b11dc3", // Replace with your actual category ID
+        category: "680eab0719dd4dd099b11dc3", 
         quantities: quantities,
         rating: "0",
         reviewCount: "0",
@@ -430,7 +430,7 @@ export default function StyleYours() {
         }
       );
 
-      // Then add it to the cart
+      
       await addToCartFromContext(response.data._id, totalItems);
       await fetchCart();
 
@@ -447,7 +447,7 @@ export default function StyleYours() {
   return (
     <div className="py-10 bg-bg_clr w-full">
       <article className=" py-10 px-10 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
-        {/* Style Your Own  */}
+        
         <header className="flex justify-center items-center py-20 text-6xl font-bold  ">
           <h2>Style Your Own </h2>
           <Select onValueChange={(value) => setItem(value)}>
@@ -468,7 +468,7 @@ export default function StyleYours() {
           </Select>
         </header>
         <main className="w-full flex items-center justify-between ">
-          {/* Choose Size Section */}
+          
           <section className=" w-1/3">
             <div className="bg-white p-5 w-full mt-10 rounded-2xl dark:bg-bg_clr  ">
               <h2 className="text-center text-2xl font-bold">Choose Size</h2>
@@ -600,12 +600,12 @@ export default function StyleYours() {
               show={showMessage}
             />
           </section>
-          {/* product svg section */}
+          
           <figure className="w-1/3 ml-5 ">{selectedItem?.svg}</figure>
 
-          {/*  Color Pickers and Text Size */}
+          
           <section className=" w-1/3 flex flex-col items-center">
-            {/* Color Picker */}
+            
             <h6 className="font-bold text-2xl mb-3">Pick The Color</h6>
             <SketchPicker
               onChange={(color) => {
@@ -615,7 +615,7 @@ export default function StyleYours() {
               color={sketchPickerColor}
             />
 
-            {/* Add Text Section */}
+            
             <div className="p-10 max-w-xl ">
               <div className="border p-4 rounded-2xl shadow  bg-white dark:bg-bg_clr">
                 <input
@@ -626,7 +626,7 @@ export default function StyleYours() {
                   placeholder="Type something..."
                 />
 
-                {/* Text Color */}
+                
                 <div className="flex flex-wrap gap-4 justify-between items-center mt-4 mb-4">
                   <div>
                     <label className="block text-sm font-bold ">Color</label>
@@ -637,7 +637,7 @@ export default function StyleYours() {
                       onChange={(e) => setTextColor(e.target.value)}
                     />
                   </div>
-                  {/* Text Font */}
+                  
                   <div>
                     <label className="block text-sm font-bold ">Font</label>
                     <select
@@ -652,7 +652,7 @@ export default function StyleYours() {
                       ))}
                     </select>
                   </div>
-                  {/* Text Size  */}
+                 
                   <div>
                     <label className="block text-sm font-bold">Size</label>
 
@@ -674,7 +674,7 @@ export default function StyleYours() {
                   </div>
                 </div>
 
-                {/* Text appearance Section */}
+                
                 <div
                   ref={textRef}
                   onMouseDown={handleMouseDown}
