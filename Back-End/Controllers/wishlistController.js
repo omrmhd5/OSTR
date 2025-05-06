@@ -3,10 +3,9 @@ const Product = require("../Models/Product");
 
 exports.toggleWishlist = async (req, res) => {
   try {
-    const userId = req.user.userId; // Get the userId from the decoded JWT
+    const userId = req.user.userId;
     const { productId } = req.body;
 
-    // Check if the product exists
     const product = await Product.findById(productId);
     if (!product) {
       return res
@@ -14,7 +13,6 @@ exports.toggleWishlist = async (req, res) => {
         .json({ success: false, message: "Product not found" });
     }
 
-    // Find the user's wishlist, or create if not exists
     let wishlist = await Wishlist.findOne({ user: userId });
 
     if (!wishlist) {
@@ -26,19 +24,16 @@ exports.toggleWishlist = async (req, res) => {
     );
 
     if (productIndex > -1) {
-      // Product already in wishlist -> remove it
       wishlist.products.splice(productIndex, 1);
     } else {
-      // Product not in wishlist -> add it
       wishlist.products.push(productId);
     }
 
     await wishlist.save();
 
-    // Populate the product details to send back
     await wishlist.populate({
       path: "products",
-      select: "name price photos", // fields you want to return
+      select: "name price photos",
     });
 
     res.status(200).json({ success: true, wishlist });

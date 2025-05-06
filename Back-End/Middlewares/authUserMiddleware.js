@@ -1,10 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const authenticateUser = (req, res, next) => {
-  // Get token from the Authorization header (Bearer token) or cookies (if stored in cookies)
   const token = req.header("Authorization")?.replace("Bearer ", "");
 
-  // If no token is provided, return a 401 Unauthorized response
   if (!token) {
     return res
       .status(401)
@@ -12,14 +10,12 @@ const authenticateUser = (req, res, next) => {
   }
 
   try {
-    // Verify the token using the secret key
-    const decoded = jwt.verify(token, process.env.JWTSECRET); // Replace with your secret key
+    const decoded = jwt.verify(token, process.env.JWTSECRET);
 
     req.user = decoded;
 
     next();
   } catch (error) {
-    // If the token is invalid or expired, return a 401 Unauthorized response
     return res
       .status(401)
       .json({ message: "Invalid or expired token. Access denied." });
