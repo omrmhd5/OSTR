@@ -399,7 +399,7 @@ export default function StyleYours() {
         description: `Custom designed product with color ${color}`,
         photos: [
           {
-            src: "/src/assets/custom.png",
+            src: "/assets/custom.png",
           },
         ],
         colors: [
@@ -506,7 +506,7 @@ export default function StyleYours() {
                       Here's your size chart content...
                     </p>
                     <img
-                      src="src/assets/sizechart.png"
+                      src="/assets/sizechart.png"
                       alt="sizechart"
                       className="w-50 mb-10"
                     />

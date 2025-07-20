@@ -6,7 +6,7 @@ import { BASE_URL } from "./lib/utils";
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [profilePhoto, setProfilePhoto] = useState(
-    "/src/assets/profileDefault.jpg"
+    "/assets/profileDefault.jpg"
   );
   const [orderFilter, setOrderFilter] = useState("All");
   const [darkMode, setDarkMode] = useState(false);
@@ -312,23 +312,23 @@ const Profile = () => {
 
             <div className="flex gap-4 mb-4 flex-wrap justify-center">
               {[
-                { label: "All", img: "/src/Assets/OrderStatus/all.png" },
-                { label: "Unpaid", img: "/src/Assets/OrderStatus/unpaid.png" },
+                { label: "All", img: "/assets/OrderStatus/all.png" },
+                { label: "Unpaid", img: "/assets/OrderStatus/unpaid.png" },
                 {
                   label: "Processing",
-                  img: "/src/Assets/OrderStatus/processing.png",
+                  img: "/assets/OrderStatus/processing.png",
                 },
                 {
                   label: "Shipped",
-                  img: "/src/Assets/OrderStatus/shipped.png",
+                  img: "/assets/OrderStatus/shipped.png",
                 },
                 {
                   label: "Delivered",
-                  img: "/src/Assets/OrderStatus/delivered.png",
+                  img: "/assets/OrderStatus/delivered.png",
                 },
                 {
                   label: "Returns",
-                  img: "/src/Assets/OrderStatus/returns.png",
+                  img: "/assets/OrderStatus/returns.png",
                 },
               ].map(({ label, img }) => (
                 <button
@@ -448,7 +448,7 @@ const Profile = () => {
                   target="_blank"
                   rel="noopener noreferrer">
                   <img
-                    src="/src/assets/facebook.png"
+                    src="/assets/facebook.png"
                     alt="Facebook"
                     className="w-6 h-6"
                   />
@@ -458,7 +458,7 @@ const Profile = () => {
                   target="_blank"
                   rel="noopener noreferrer">
                   <img
-                    src="/src/assets/whatsapp.png"
+                    src="/assets/whatsapp.png"
                     alt="WhatsApp"
                     className="w-6 h-6"
                   />
@@ -468,7 +468,7 @@ const Profile = () => {
                   target="_blank"
                   rel="noopener noreferrer">
                   <img
-                    src="/src/assets/tiktok.png"
+                    src="/assets/tiktok.png"
                     alt="TikTok"
                     className="w-6 h-6"
                   />
@@ -478,7 +478,7 @@ const Profile = () => {
                   target="_blank"
                   rel="noopener noreferrer">
                   <img
-                    src="/src/assets/twitter.png"
+                    src="/assets/twitter.png"
                     alt="Twitter"
                     className="w-6 h-6"
                   />
@@ -532,7 +532,7 @@ const Profile = () => {
               {showWheel && (
                 <div className="mt-4">
                   <img
-                    src="/src/assets/spin-wheel.png"
+                    src="/assets/spin-wheel.png"
                     alt="Spinning Wheel"
                     className="w-50 h-45 mx-auto animate-spin"
                   />
@@ -579,7 +579,7 @@ const Profile = () => {
                   <div className="fixed inset-0 flex items-center justify-center bg-bg_clr/60 bg-opacity-50 z-50">
                     <div className="bg-white p-4 rounded shadow-lg">
                       <img
-                        src="/src/assets/qr-code.jpeg"
+                        src="/assets/qr-code.jpeg"
                         alt="QR Code"
                         className="w-70 h-70"
                       />

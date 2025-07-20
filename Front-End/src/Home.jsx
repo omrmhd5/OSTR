@@ -32,8 +32,7 @@ export default function Home() {
     return (
       <button
         className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer "
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <i className="fa-solid fa-arrow-left"></i>
       </button>
     );
@@ -44,8 +43,7 @@ export default function Home() {
     return (
       <button
         className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 bg-t_clr text-white p-2 px-3 rounded-full  hover:bg-black cursor-pointer"
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <i className="fa-solid fa-arrow-right"></i>
       </button>
     );
@@ -136,7 +134,7 @@ export default function Home() {
         <div className="w-full rounded-xl text-center relative">
           <img
             className="rounded-xl"
-            src="src\assets\Brown and White Minimalist Fashion Presentation.jpg"
+            src="/assets/Brown and White Minimalist Fashion Presentation.jpg"
             alt="Sale"
           />
           <div className="absolute bottom-1/3 left-1/12 rounded-lg justify-content text-3xl p-10 ">
@@ -167,8 +165,7 @@ export default function Home() {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="text-center border-r-2 pr-6 border-gray-300"
-                >
+                  className="text-center border-r-2 pr-6 border-gray-300">
                   <h2 className="text-4xl font-bold">{item.value}</h2>
                   <p className="text-gray-600">{item.label}</p>
                 </div>
@@ -205,9 +202,8 @@ export default function Home() {
               autoPlay
               muted
               loop
-              className="pl-10"
-            >
-              <source src="src\assets\video.mp4" type="video/mp4" />
+              className="pl-10">
+              <source src="/assets/video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -215,7 +211,7 @@ export default function Home() {
         <div className="w-1/2 flex flex-col items-center gap-5">
           <img
             className=" rounded-xl w-1/2"
-            src="src\assets\img2.jpg"
+            src="/assets/img2.jpg"
             alt="Sale"
           />
           <div className=" flex flex-col justify-center gap-2 items-center text-black">
@@ -262,8 +258,7 @@ export default function Home() {
           <Formik
             initialValues={{ name: "", email: "", complaint: "" }}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
+            onSubmit={handleSubmit}>
             {({ isSubmitting }) => (
               <Form className="w-full md:w-1/2 space-y-4">
                 <div className="flex flex-col gap-1">
@@ -312,8 +307,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="cursor-pointer w-full py-3 font-bold bg-bg_clr text-black hover:bg-t_clr hover:text-white transition rounded-full"
-                >
+                  className="cursor-pointer w-full py-3 font-bold bg-bg_clr text-black hover:bg-t_clr hover:text-white transition rounded-full">
                   {isSubmitting ? "Submitting..." : "Submit Now"}
                 </button>
               </Form>

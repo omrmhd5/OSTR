@@ -10,7 +10,6 @@ export default function Wishlist() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  
   if (loading) {
     return (
       <div className="w-full min-h-screen flex justify-center items-center">
@@ -29,7 +28,6 @@ export default function Wishlist() {
         </p>
       ) : (
         <div className="w-full max-w-4xl mx-auto">
-          
           <div className="grid grid-cols-4 font-bold text-lg border-b-2 border-[#976c60] dark:border-black pb-2 mb-4">
             <p>Product Image</p>
             <p>Product Name</p>
@@ -43,14 +41,12 @@ export default function Wishlist() {
             animate="visible"
             variants={{
               visible: { transition: { staggerChildren: 0.15 } },
-            }}
-          >
+            }}>
             {wishlist.map((product) => (
               <motion.div
                 key={product._id || product.id}
                 className="grid grid-cols-4 items-center border-b border-[#976c60] dark:border-black pb-2"
-                variants={itemVariants}
-              >
+                variants={itemVariants}>
                 <div className="flex justify-center">
                   <img
                     src={
@@ -69,10 +65,9 @@ export default function Wishlist() {
 
                 <button
                   className="bg-cn_clr p-2 rounded-md hover:bg-bg_clr transition flex justify-center items-center"
-                  onClick={() => toggleWishlist(product)}
-                >
+                  onClick={() => toggleWishlist(product)}>
                   <img
-                    src="src/assets/trash.png"
+                    src="/assets/trash.png"
                     alt="Remove"
                     className="w-8 h-8"
                   />

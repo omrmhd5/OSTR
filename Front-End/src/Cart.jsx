@@ -134,7 +134,7 @@ export default function Cart() {
                   className="p-2 hover:bg-red-200 dark:hover:bg-black cursor-pointer rounded-full"
                   title="Remove">
                   <img
-                    src="/src/assets/delete.png"
+                    src="/assets/delete.png"
                     alt="delete"
                     className="w-6 h-6"
                   />

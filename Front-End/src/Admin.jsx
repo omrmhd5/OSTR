@@ -15,7 +15,7 @@ export default function Admin() {
     name: "",
     price: "",
     description: "",
-    image: "/src/assets/custom.png",
+    image: "/assets/custom.png",
   });
 
   useEffect(() => {

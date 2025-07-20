@@ -267,7 +267,7 @@ export default function ShopPage() {
                         navigate("/product/" + product._id);
                       }}>
                       <img
-                        src="/src/assets/cart.png"
+                        src="/assets/cart.png"
                         alt="Cart"
                         className="w-6 h-6"
                       />
@@ -289,8 +289,8 @@ export default function ShopPage() {
                       <img
                         src={
                           wishlist.some((item) => item._id === product._id)
-                            ? "/src/assets/RemoveWishlist.png"
-                            : "/src/assets/wishlist.png"
+                            ? "/assets/RemoveWishlist.png"
+                            : "/assets/wishlist.png"
                         }
                         alt="wishlist"
                         className="w-6 h-6"

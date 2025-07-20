@@ -7,68 +7,68 @@ import { Link } from "react-router";
 export default function NewArrivals() {
   const newProducts = [
     {
-      src: "src/assets/new/new1.jpg",
+      src: "/assets/new/new1.jpg",
     },
     {
-      src: "src/assets/new/new2.jpg",
+      src: "/assets/new/new2.jpg",
     },
     {
-      src: "src/assets/new/new3.jpg",
+      src: "/assets/new/new3.jpg",
     },
     {
-      src: "src/assets/new/new4.jpg",
+      src: "/assets/new/new4.jpg",
     },
     {
-      src: "src/assets/new/new5.jpg",
+      src: "/assets/new/new5.jpg",
     },
   ];
   const newCollections = [
     {
       name: "Hoodies",
-      src: "src/assets/new/hoodies.webp",
+      src: "/assets/new/hoodies.webp",
     },
     {
       name: "Male Formal",
-      src: "src/assets/new/maleformal.webp",
+      src: "/assets/new/maleformal.webp",
     },
     {
       name: "Female Pyjamas",
-      src: "src/assets/new/femalesets.webp",
+      src: "/assets/new/femalesets.webp",
     },
     {
       name: "Kids Wear",
-      src: "src/assets/new/kidswear.webp",
+      src: "/assets/new/kidswear.webp",
     },
     {
       name: "Sports Wear",
-      src: "src/assets/new/sportswear.webp",
+      src: "/assets/new/sportswear.webp",
     },
     {
       name: "Bags",
-      src: "src/assets/new/bags.webp",
+      src: "/assets/new/bags.webp",
     },
     {
       name: "Sunglasses",
-      src: "src/assets/new/sunglasses.webp",
+      src: "/assets/new/sunglasses.webp",
     },
     {
       name: "Shoes",
-      src: "src/assets/new/shoes.webp",
+      src: "/assets/new/shoes.webp",
     },
   ];
   const bestSellers = [
     {
-      src: "src/assets/new/best4.webp",
+      src: "/assets/new/best4.webp",
     },
     {
-      src: "src/assets/new/best2.webp",
+      src: "/assets/new/best2.webp",
     },
 
     {
-      src: "src/assets/new/best1.webp",
+      src: "/assets/new/best1.webp",
     },
     {
-      src: "src/assets/new/best3.webp",
+      src: "/assets/new/best3.webp",
     },
   ];
   const settings = {
@@ -88,17 +88,15 @@ export default function NewArrivals() {
 
   const MemoizedSliderAndCountdownSection = memo(() => (
     <section className="relative w-full bg-white">
-      
       <Slider {...settings}>
         {newProducts.map((product, index) => (
           <div
             key={index}
             className="relative flex items-center justify-center w-full overflow-hidden">
-            
             <div
               className="absolute inset-0 bg-center bg-cover filter blur-xs scale-110"
               style={{ backgroundImage: `url(${product.src})` }}></div>
-           
+
             <LazyLoadImage
               src={product.src}
               className="relative z-10 w-full p-72 mb-50"
@@ -108,9 +106,7 @@ export default function NewArrivals() {
         ))}
       </Slider>
 
-      
       <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-cn_clr/55 w-full">
-       
         <div className="text-7xl text-center mt-3">
           <h1>
             New <br />
@@ -118,7 +114,7 @@ export default function NewArrivals() {
           </h1>
           <p className="text-2xl mt-3 italic">Dropping In:</p>
         </div>
-        
+
         <Countdown />
       </div>
     </section>
@@ -127,7 +123,6 @@ export default function NewArrivals() {
     <section className="flex py-30 px-10 w-full justify-between items-center gap-20 bg-white">
       <h1 className="text-5xl">Check What's New!</h1>
 
-      
       <div className="flex gap-7 w-full">
         {newCollections.map((product, index) => (
           <div className="flex flex-col" key={index}>
@@ -146,37 +141,30 @@ export default function NewArrivals() {
   ));
 
   return (
-    
     <div className="w-full bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header transform-gpu ">
-      
       <main>
-        
         <MemoizedSliderAndCountdownSection />
 
-        
         <MemoizedCollectionsGrid />
 
-        
         <section className="flex justify-between px-10 gap-10 bg-cn_clr dark:bg-bg_clr">
-          
           <div className="w-1/2 relative">
-            
             {[
               {
                 name: "Kids",
-                src: "src/assets/new/explorek.webp",
+                src: "/assets/new/explorek.webp",
                 className:
                   "absolute w-2/5 2xl:w-1/3 top-1/6 2xl:top-1/6 left-1/2 -translate-x-1/2",
               },
               {
                 name: "Women",
-                src: "src/assets/new/explorew.webp",
+                src: "/assets/new/explorew.webp",
                 className:
                   "absolute w-1/3 2xl:w-1/4 left-3/5 top-1/3 2xl:top-1/3",
               },
               {
                 name: "Men",
-                src: "src/assets/new/explorem.webp",
+                src: "/assets/new/explorem.webp",
                 className:
                   "absolute w-1/3 2xl:w-1/4 right-3/5 top-1/3 2xl:top-1/3",
               },
@@ -189,12 +177,11 @@ export default function NewArrivals() {
             ))}
           </div>
 
-         
           <div className="flex flex-col gap-2 w-1/2 py-40">
             <h1 className="text-5xl">Explore Now!</h1>
             <p className="text-xl">
               Unveil your unique style with our latest collections. From casual
-              essentials to statement pieces — we’ve got you covered.{" "}
+              essentials to statement pieces — we've got you covered.{" "}
               <span className="font-semibold">
                 Trendy. Timeless. Totally You.
               </span>
@@ -207,11 +194,9 @@ export default function NewArrivals() {
           </div>
         </section>
 
-        
         <section className="flex flex-col items-center py-40 gap-20 w-full bg-white">
-          
           <h1 className="text-7xl font-medium">Best Sellers</h1>
-          
+
           <div className="flex">
             {bestSellers.map((product) => (
               <LazyLoadImage
