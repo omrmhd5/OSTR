@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../lib/utils";
 
 const WishlistContext = createContext();
 
@@ -12,11 +13,10 @@ export function WishlistProvider({ children }) {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/wishlist", {
+        const response = await axios.get(`${BASE_URL}/wishlist`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        
         setWishlist(response.data.wishlist || []);
       } catch (error) {
         console.error("Failed to fetch wishlist:", error);
@@ -32,7 +32,7 @@ export function WishlistProvider({ children }) {
   const toggleWishlist = async (product) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/wishlist/toggle",
+        `${BASE_URL}/wishlist/toggle`,
         { productId: product._id },
         {
           headers: {
@@ -40,7 +40,7 @@ export function WishlistProvider({ children }) {
           },
         }
       );
-  
+
       console.log(" Wishlist Response:", response.data);
       setWishlist(
         response.data.wishlist.products || response.data.wishlist || []
@@ -49,7 +49,7 @@ export function WishlistProvider({ children }) {
       console.error("Failed to toggle wishlist item:", error);
     }
   };
-  
+
   return (
     <WishlistContext.Provider value={{ wishlist, toggleWishlist, loading }}>
       {children}

@@ -1,6 +1,7 @@
 // context/CartContext.js
 import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
+import { BASE_URL } from "../lib/utils";
 
 const CartContext = createContext();
 
@@ -13,7 +14,7 @@ export function CartProvider({ children }) {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/cart", {
+      const res = await axios.get(`${BASE_URL}/cart`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -27,7 +28,7 @@ export function CartProvider({ children }) {
   const addToCart = async (productId, quantity = 1) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/cart/add",
+        `${BASE_URL}/cart/add`,
         { productId, quantity },
         {
           headers: {
@@ -37,11 +38,13 @@ export function CartProvider({ children }) {
       );
       setCart(res.data); // Update local state
     } catch (err) {
-      console.error(" Backend error response:", err.response?.data || err.message); 
+      console.error(
+        " Backend error response:",
+        err.response?.data || err.message
+      );
       throw new Error("Error adding to cart");
     }
   };
-  
 
   useEffect(() => {
     fetchCart();

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "./lib/utils";
 
 const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
   const [paymentMethod, setPaymentMethod] = useState("Cash");
@@ -11,10 +12,10 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
       alert("Please enter card details.");
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("token");
-  
+
       const payload = {
         items: selectedProducts.map((item) => ({
           productId: item.id,
@@ -25,13 +26,13 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
         total,
         paymentMethod,
       };
-  
-      const response = await axios.post("http://localhost:5000/orders/create", payload, {
+
+      const response = await axios.post(`${BASE_URL}/orders/create`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (response.data.success) {
         alert(" Order placed successfully!");
         onConfirm(); // Close modal
@@ -54,8 +55,7 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
-            className="w-full border p-2 rounded"
-          >
+            className="w-full border p-2 rounded">
             <option value="Cash">Cash</option>
             <option value="Visa">Visa</option>
           </select>
@@ -83,14 +83,12 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
         <div className="flex justify-between mt-4">
           <button
             className="bg-gray-300 px-4 py-2 rounded hover:bg-red-500"
-            onClick={onConfirm}
-          >
+            onClick={onConfirm}>
             Cancel
           </button>
           <button
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-bg_clr"
-            onClick={handlePayment}
-          >
+            onClick={handlePayment}>
             Pay ${total.toFixed(2)}
           </button>
         </div>

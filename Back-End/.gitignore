@@ -13,6 +13,9 @@ logs/
 dist/
 build/
 
+# Environment Variables
+.env
+
 # IDE files
 .vscode/
 .idea/

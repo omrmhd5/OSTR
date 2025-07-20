@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "./lib/utils";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("Profile");
@@ -23,17 +24,14 @@ const Profile = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
 
-
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
-const handleLogout = () => {
-  
-  localStorage.removeItem("token"); 
-  
-  navigate("/login");
-};
+  const handleLogout = () => {
+    localStorage.removeItem("token");
 
+    navigate("/login");
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -44,27 +42,15 @@ const handleLogout = () => {
           item: "T-Shirt",
           date: "2024-03-12",
         },
-        { id: "1236",
-           status: "Unpaid", 
-           item: "Watch", 
-           date: "2024-03-17" 
-          },
-        { id: "1237",
-           status: "Shipped", 
-           item: "Backpack", 
-           date: "2024-03-20" 
-          },
-        { id: "1238",
-           status: "Returns",
-            item: "Jacket",
-             date: "2024-03-22" 
-            },
+        { id: "1236", status: "Unpaid", item: "Watch", date: "2024-03-17" },
+        { id: "1237", status: "Shipped", item: "Backpack", date: "2024-03-20" },
+        { id: "1238", status: "Returns", item: "Jacket", date: "2024-03-22" },
       ];
 
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:5000/orders", {
+        const res = await axios.get(`${BASE_URL}/orders`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -80,7 +66,7 @@ const handleLogout = () => {
         setOrders([...backendOrders, ...staticOrders]);
       } catch (error) {
         console.error("Error fetching backend orders:", error);
-        setOrders([...staticOrders]); 
+        setOrders([...staticOrders]);
       }
     };
 
@@ -98,8 +84,8 @@ const handleLogout = () => {
   const handleAddCard = (e) => {
     e.preventDefault();
     if (newCard.number && newCard.expiry && newCard.cvv) {
-      setSavedCards([...savedCards, newCard]); 
-      setNewCard({ number: "", expiry: "", cvv: "" }); 
+      setSavedCards([...savedCards, newCard]);
+      setNewCard({ number: "", expiry: "", cvv: "" });
     } else {
       alert("Please fill out all fields.");
     }
@@ -197,7 +183,7 @@ const handleLogout = () => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/profile", {
+        const response = await axios.get(`${BASE_URL}/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -324,7 +310,6 @@ const handleLogout = () => {
           <div className="text-t_clr dark:text-black">
             <h2 className="text-2xl font-semibold mb-4">Past Orders</h2>
 
-            
             <div className="flex gap-4 mb-4 flex-wrap justify-center">
               {[
                 { label: "All", img: "/src/Assets/OrderStatus/all.png" },
@@ -360,7 +345,6 @@ const handleLogout = () => {
               ))}
             </div>
 
-           
             {filteredOrders.length > 0 ? (
               <ul className="space-y-2">
                 {filteredOrders.map((order) => (
@@ -376,15 +360,13 @@ const handleLogout = () => {
                       </p>
                     </div>
                     <button
-  onClick={() => {
-    setSelectedOrder(order);
-    setShowOrderModal(true);
-  }}
-  className="text-sm underline text-t_clr-500 hover:text-blue-700 cursor-pointer"
->
-  View
-</button>
-
+                      onClick={() => {
+                        setSelectedOrder(order);
+                        setShowOrderModal(true);
+                      }}
+                      className="text-sm underline text-t_clr-500 hover:text-blue-700 cursor-pointer">
+                      View
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -399,7 +381,6 @@ const handleLogout = () => {
           <div className="text-t_clr space-y-6">
             <h2 className="text-2xl font-semibold mb-4">Settings</h2>
 
-            
             <div className="space-y-2">
               <button
                 className="dark:border-0 cursor-pointer flex items-center gap-2  font-medium text-left bg-bg_clr border border-[#976c60] p-2 rounded"
@@ -417,7 +398,6 @@ const handleLogout = () => {
               )}
             </div>
 
-            
             <div>
               <label className="block font-semibold mb-2">Country</label>
               <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded dark:border-0 cursor-pointer">
@@ -437,7 +417,6 @@ const handleLogout = () => {
               </select>
             </div>
 
-            
             <div>
               <label className="block font-semibold mb-2">Currency</label>
               <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded dark:border-0 cursor-pointer">
@@ -451,7 +430,6 @@ const handleLogout = () => {
               </select>
             </div>
 
-            
             <div className="flex flex-col gap-4">
               <label className="flex items-center justify-between">
                 <span className="font-semibold">Dark Mode</span>
@@ -463,7 +441,6 @@ const handleLogout = () => {
               </label>
             </div>
 
-            
             <Disclosure title="Connect to Us">
               <div className="flex items-center gap-4 mt-3 flex-wrap ">
                 <a
@@ -512,7 +489,6 @@ const handleLogout = () => {
               </div>
             </Disclosure>
 
-            
             <Disclosure title="Terms & Conditions">
               <p className="text-sm mt-2">
                 By using this app, you agree to the terms and conditions. These
@@ -521,8 +497,9 @@ const handleLogout = () => {
               </p>
             </Disclosure>
 
-            
-            <button onClick={handleLogout} className="mt--15 bg-bg_clr text-t_clr p-2 rounded hover:bg-cn_clr cursor-pointer">
+            <button
+              onClick={handleLogout}
+              className="mt--15 bg-bg_clr text-t_clr p-2 rounded hover:bg-cn_clr cursor-pointer">
               Logout
             </button>
           </div>
@@ -548,7 +525,7 @@ const handleLogout = () => {
                 </button>
               ) : (
                 <p className="text-sm mt-2">
-                  You’ve already spun today. Come back tomorrow!
+                  You've already spun today. Come back tomorrow!
                 </p>
               )}
 
@@ -570,7 +547,6 @@ const handleLogout = () => {
               )}
             </div>
 
-            
             <div>
               <h3 className="text-lg font-semibold mb-2">
                 Your Active Coupons
@@ -599,7 +575,6 @@ const handleLogout = () => {
                   </li>
                 ))}
 
-                
                 {showCopyPopup && (
                   <div className="fixed inset-0 flex items-center justify-center bg-bg_clr/60 bg-opacity-50 z-50">
                     <div className="bg-white p-4 rounded shadow-lg">
@@ -646,14 +621,12 @@ const handleLogout = () => {
               )}
             </div>
 
-            
             <button
               onClick={() => setIsFormVisible(!isFormVisible)} // Toggle form visibility
               className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition mb-4 ">
               {isFormVisible ? "Cancel" : "Add New Card"}
             </button>
 
-            
             {isFormVisible && (
               <div className="bg-bg_clr p-4 rounded border border-[#976c60] dark:border-0 cursor-pointer">
                 <h3 className="text-lg font-bold mb-2">Add New Card</h3>
@@ -717,7 +690,6 @@ const handleLogout = () => {
               </div>
             )}
 
-           
             <div className="mt-6">
               <h3 className="text-lg font-semibold mb-2">Redeem Voucher</h3>
               <input
@@ -791,29 +763,35 @@ const handleLogout = () => {
           )}
         </ul>
         {showOrderModal && selectedOrder && (
-  <div className="fixed inset-0 flex items-center justify-center bg-bg_clr bg-opacity-500 z-50">
-    <div className="bg-white dark:bg-bg_clr p-6 rounded shadow-lg w-96 text-t_clr dark:text-white">
-      <h2 className="text-xl font-semibold mb-4">Order Details</h2>
-      <p><strong>Order ID:</strong> {selectedOrder.id}</p>
-      <p><strong>Status:</strong> {selectedOrder.status}</p>
-      <p><strong>Items:</strong> {selectedOrder.item}</p>
-      <p><strong>Date:</strong> {selectedOrder.date}</p>
+          <div className="fixed inset-0 flex items-center justify-center bg-bg_clr bg-opacity-500 z-50">
+            <div className="bg-white dark:bg-bg_clr p-6 rounded shadow-lg w-96 text-t_clr dark:text-white">
+              <h2 className="text-xl font-semibold mb-4">Order Details</h2>
+              <p>
+                <strong>Order ID:</strong> {selectedOrder.id}
+              </p>
+              <p>
+                <strong>Status:</strong> {selectedOrder.status}
+              </p>
+              <p>
+                <strong>Items:</strong> {selectedOrder.item}
+              </p>
+              <p>
+                <strong>Date:</strong> {selectedOrder.date}
+              </p>
 
-      <div className="mt-4 flex justify-end">
-        <button
-          onClick={() => setShowOrderModal(false)}
-          className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a]">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={() => setShowOrderModal(false)}
+                  className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a]">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </aside>
       <main className="w-3/4 p-4 bg-cn_clr">{renderContent()}</main>
     </div>
-    
   );
 };
 

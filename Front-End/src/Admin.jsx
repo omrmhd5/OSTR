@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import PopUpMessage from "./components/ui/PopUpMessage";
 import axios from "axios";
+import { BASE_URL } from "./lib/utils";
 
 export default function Admin() {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ export default function Admin() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products/all");
+        const response = await axios.get(`${BASE_URL}/products/all`);
         setExistingProducts(response.data);
         setFilteredProducts(response.data);
       } catch (error) {
@@ -64,9 +65,8 @@ export default function Admin() {
     try {
       const token = localStorage.getItem("token");
 
-      
       const response = await axios.post(
-        "http://localhost:5000/products/add",
+        `${BASE_URL}/products/add`,
         newProduct,
         {
           headers: {
@@ -75,21 +75,17 @@ export default function Admin() {
         }
       );
 
-    
       setExistingProducts([...existingProducts, response.data]);
       setFilteredProducts([...filteredProducts, response.data]);
 
-      
       setNewProduct({ name: "", price: "", description: "", image: "" });
 
-      
       setMessage("Product added successfully to the database");
       setShowMessage(true);
       setTimeout(() => setShowMessage(false), 3000);
     } catch (error) {
       console.error("Error adding product:", error);
       if (error.response) {
-        
         setMessage(
           error.response.data.message || "Error adding product to database"
         );
@@ -105,8 +101,7 @@ export default function Admin() {
     try {
       const token = localStorage.getItem("token");
 
-      
-      await axios.delete(`http://localhost:5000/products/delete/${id}`, {
+      await axios.delete(`${BASE_URL}/products/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

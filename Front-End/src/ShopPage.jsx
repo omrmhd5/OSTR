@@ -4,6 +4,7 @@ import { LayoutGrid, List } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { BASE_URL } from "./lib/utils";
 
 export default function ShopPage() {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ export default function ShopPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products/all");
+        const response = await axios.get(`${BASE_URL}/products/all`);
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -54,7 +55,7 @@ export default function ShopPage() {
       const fetchMenProducts = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:5000/products/category?category=Men"
+            `${BASE_URL}/products/category?category=Men`
           );
           setProducts(response.data);
         } catch (error) {
@@ -66,7 +67,7 @@ export default function ShopPage() {
       const fetchWomenProducts = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:5000/products/category?category=Women"
+            `${BASE_URL}/products/category?category=Women`
           );
           setProducts(response.data);
         } catch (error) {
@@ -78,7 +79,7 @@ export default function ShopPage() {
       const fetchKidsProducts = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:5000/products/category?category=Kids"
+            `${BASE_URL}/products/category?category=Kids`
           );
           setProducts(response.data);
         } catch (error) {
@@ -89,9 +90,7 @@ export default function ShopPage() {
     } else {
       const fetchProducts = async () => {
         try {
-          const response = await axios.get(
-            "http://localhost:5000/products/all"
-          );
+          const response = await axios.get(`${BASE_URL}/products/all`);
           setProducts(response.data);
         } catch (error) {
           console.error("Error fetching products:", error);

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useCart } from "./context/CartContext";
+import { BASE_URL } from "./lib/utils";
 
 import {
   Select,
@@ -78,8 +79,7 @@ export default function StyleYours() {
           xmlnsXlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 512 512"
           xmlSpace="preserve"
-          fill="#000000"
-        >
+          fill="#000000">
           <g id="SVGRepo_bgCarrier" strokeWidth="0" />
           <g
             id="SVGRepo_tracerCarrier"
@@ -167,14 +167,12 @@ export default function StyleYours() {
           xmlnsXlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 512 512"
           xmlSpace="preserve"
-          fill="#000000"
-        >
+          fill="#000000">
           <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
           <g
             id="SVGRepo_tracerCarrier"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          ></g>
+            strokeLinejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
             <g transform="translate(1 1)">
               <g>
@@ -261,8 +259,7 @@ export default function StyleYours() {
           id="Layer_1"
           viewBox="0 0 512 512"
           xmlSpace="preserve"
-          fill="#000000"
-        >
+          fill="#000000">
           <g id="SVGRepo_bgCarrier" strokeWidth="0" />
           <g
             id="SVGRepo_tracerCarrier"
@@ -395,7 +392,6 @@ export default function StyleYours() {
 
     setIsAddingToCart(true);
     try {
-      
       const customProduct = {
         name: "Custom Designed Product",
         tagline: "Custom Designed Product",
@@ -403,7 +399,7 @@ export default function StyleYours() {
         description: `Custom designed product with color ${color}`,
         photos: [
           {
-            src: "/src/assets/custom.png", 
+            src: "/src/assets/custom.png",
           },
         ],
         colors: [
@@ -413,7 +409,7 @@ export default function StyleYours() {
             ring: "ring-black",
           },
         ],
-        category: "680eab0719dd4dd099b11dc3", 
+        category: "680eab0719dd4dd099b11dc3",
         quantities: quantities,
         rating: "0",
         reviewCount: "0",
@@ -421,7 +417,7 @@ export default function StyleYours() {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/products/addCustom",
+        `${BASE_URL}/products/addCustom`,
         customProduct,
         {
           headers: {
@@ -430,7 +426,6 @@ export default function StyleYours() {
         }
       );
 
-      
       await addToCartFromContext(response.data._id, totalItems);
       await fetchCart();
 
@@ -447,7 +442,6 @@ export default function StyleYours() {
   return (
     <div className="py-10 bg-bg_clr w-full">
       <article className=" py-10 px-10 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
-        
         <header className="flex justify-center items-center py-20 text-6xl font-bold  ">
           <h2>Style Your Own </h2>
           <Select onValueChange={(value) => setItem(value)}>
@@ -459,8 +453,7 @@ export default function StyleYours() {
                 <SelectItem
                   className="cursor-pointer"
                   key={item.name}
-                  value={item.name}
-                >
+                  value={item.name}>
                   {item.name}
                 </SelectItem>
               ))}
@@ -468,7 +461,6 @@ export default function StyleYours() {
           </Select>
         </header>
         <main className="w-full flex items-center justify-between ">
-          
           <section className=" w-1/3">
             <div className="bg-white p-5 w-full mt-10 rounded-2xl dark:bg-bg_clr  ">
               <h2 className="text-center text-2xl font-bold">Choose Size</h2>
@@ -476,14 +468,12 @@ export default function StyleYours() {
                 {sizes.map((size) => (
                   <div
                     key={size}
-                    className="flex justify-between items-center border p-2 px-5 rounded-md bg-white font-bold "
-                  >
+                    className="flex justify-between items-center border p-2 px-5 rounded-md bg-white font-bold ">
                     <p className="text-black">{size}</p>
                     <div className="font-medium flex  ">
                       <button
                         className=" cursor-pointer bg-bg_clr p-2 px-4 rounded-l-lg hover:animate-pulse "
-                        onClick={() => handleQuantityChange(size, -1)}
-                      >
+                        onClick={() => handleQuantityChange(size, -1)}>
                         -
                       </button>
                       <p className=" p-2 px-4 w-12 text-center">
@@ -491,8 +481,7 @@ export default function StyleYours() {
                       </p>
                       <button
                         className=" cursor-pointer bg-bg_clr p-2 px-4  rounded-r-lg hover:animate-pulse "
-                        onClick={() => handleQuantityChange(size, 1)}
-                      >
+                        onClick={() => handleQuantityChange(size, 1)}>
                         +
                       </button>
                     </div>
@@ -500,8 +489,7 @@ export default function StyleYours() {
                 ))}
                 <button
                   className="self-end mt-2  bg-gray-700 dark:bg-black text-white py-2 px-5 rounded-md cursor-pointer hover:bg-black "
-                  onClick={toggleModal}
-                >
+                  onClick={toggleModal}>
                   Size Chart
                 </button>
                 {/** Size Chart */}
@@ -511,8 +499,7 @@ export default function StyleYours() {
       isOpen
         ? "opacity-100 scale-100 bg-black/50 bg-opacity-50"
         : "opacity-0 scale-95 pointer-events-none bg-opacity-0"
-    }`}
-                >
+    }`}>
                   <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100 transition-all duration-300 ease-in-out">
                     <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
                     <p className="text-gray-700 mb-5 dark:text-black">
@@ -540,8 +527,7 @@ export default function StyleYours() {
                               index % 2 === 0
                                 ? "bg-gray-100 dark:bg-gray-400 "
                                 : "bg-white "
-                            }
-                          >
+                            }>
                             <td className="py-2 px-4 border text-center font-bold">
                               {item.size}
                             </td>
@@ -560,8 +546,7 @@ export default function StyleYours() {
                     </table>
                     <Button
                       className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer dark:bg-black"
-                      onClick={toggleModal}
-                    >
+                      onClick={toggleModal}>
                       Close
                     </Button>
                   </div>
@@ -600,12 +585,10 @@ export default function StyleYours() {
               show={showMessage}
             />
           </section>
-          
+
           <figure className="w-1/3 ml-5 ">{selectedItem?.svg}</figure>
 
-          
           <section className=" w-1/3 flex flex-col items-center">
-            
             <h6 className="font-bold text-2xl mb-3">Pick The Color</h6>
             <SketchPicker
               onChange={(color) => {
@@ -615,7 +598,6 @@ export default function StyleYours() {
               color={sketchPickerColor}
             />
 
-            
             <div className="p-10 max-w-xl ">
               <div className="border p-4 rounded-2xl shadow  bg-white dark:bg-bg_clr">
                 <input
@@ -626,7 +608,6 @@ export default function StyleYours() {
                   placeholder="Type something..."
                 />
 
-                
                 <div className="flex flex-wrap gap-4 justify-between items-center mt-4 mb-4">
                   <div>
                     <label className="block text-sm font-bold ">Color</label>
@@ -637,14 +618,13 @@ export default function StyleYours() {
                       onChange={(e) => setTextColor(e.target.value)}
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-bold ">Font</label>
                     <select
                       value={fontFamily}
                       onChange={(e) => setFontFamily(e.target.value)}
-                      className="border rounded p-1 cursor-pointer"
-                    >
+                      className="border rounded p-1 cursor-pointer">
                       {fonts.map((f) => (
                         <option key={f} value={f}>
                           {f}
@@ -652,29 +632,26 @@ export default function StyleYours() {
                       ))}
                     </select>
                   </div>
-                 
+
                   <div>
                     <label className="block text-sm font-bold">Size</label>
 
                     <div className="gap-1 flex items-baseline mt-2 ">
                       <button
                         className="cursor-pointer bg-bg_clr p-1 px-3 rounded-l-lg hover:animate-pulse "
-                        onClick={() => setFontSize((s) => Math.max(8, s - 4))}
-                      >
+                        onClick={() => setFontSize((s) => Math.max(8, s - 4))}>
                         −
                       </button>
                       <span className="w-8 text-center">{fontSize}</span>
                       <button
                         className=" cursor-pointer bg-bg_clr p-1 px-3 rounded-r-lg hover:animate-pulse "
-                        onClick={() => setFontSize((s) => s + 4)}
-                      >
+                        onClick={() => setFontSize((s) => s + 4)}>
                         +
                       </button>
                     </div>
                   </div>
                 </div>
 
-                
                 <div
                   ref={textRef}
                   onMouseDown={handleMouseDown}
@@ -687,8 +664,7 @@ export default function StyleYours() {
                     fontFamily: fontFamily,
                     fontSize: `${fontSize}px`,
                     userSelect: "none",
-                  }}
-                >
+                  }}>
                   {text}
                 </div>
               </div>

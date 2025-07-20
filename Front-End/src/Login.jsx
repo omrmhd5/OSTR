@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import PopUpMessage from "./components/ui/PopUpMessage";
 import axios from "axios";
+import { BASE_URL } from "./lib/utils";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("SignIn");
@@ -36,13 +37,12 @@ const App = () => {
 
   const handleSignInSubmit = async (values, { setErrors }) => {
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post(`${BASE_URL}/login`, {
         email: values.email,
         password: values.password,
       });
 
       if (response.data.token) {
-        
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
 
@@ -53,12 +53,10 @@ const App = () => {
           window.location.reload();
         }, 2000);
       } else if (response.data.message) {
-        
-        setText(response.data.message); 
+        setText(response.data.message);
         handleMessage();
-        setErrors({ password: response.data.message }); 
+        setErrors({ password: response.data.message });
       } else {
-       
         setText("An unknown error occurred.");
         handleMessage();
         setErrors({ password: "An unknown error occurred." });
@@ -70,7 +68,6 @@ const App = () => {
         error.response.data &&
         error.response.data.message
       ) {
-        
         setText(error.response.data.message);
         handleMessage();
         setErrors({ password: error.response.data.message });
@@ -84,19 +81,17 @@ const App = () => {
 
   const handleSignUpSubmit = async (values, { setErrors }) => {
     try {
-      const response = await axios.post("http://localhost:5000/register", {
+      const response = await axios.post(`${BASE_URL}/register`, {
         name: values.name,
         email: values.email,
         password: values.password,
       });
 
       if (response.data._id) {
-        
         setText("Signed Up Successfully!");
         handleMessage();
         setTimeout(() => window.location.reload(), 1000);
       } else if (response.data.message) {
-        
         setText(response.data.message);
         handleMessage();
         setErrors({ email: response.data.message });
@@ -121,7 +116,7 @@ const App = () => {
 
   const handleResetPassword = async (values, { setErrors }) => {
     try {
-      const response = await axios.put("http://localhost:5000/changepassword", {
+      const response = await axios.put(`${BASE_URL}/changepassword`, {
         email: values.email,
         password: values.password,
       });
@@ -163,7 +158,6 @@ const App = () => {
       <main className="relative w-[800px] h-[500px] bg-white rounded-4xl shadow-2xl overflow-hidden">
         <PopUpMessage text={text} show={showMessage} />
 
-        
         <section
           className={`absolute top-0 h-full w-1/2 rounded-4xl bg-gradient-to-b from-bg_clr to-t_clr transition-all duration-1000 ease-in-out ${
             activeTab == "SignUp" ? "left-0" : "left-1/2"
@@ -199,7 +193,6 @@ const App = () => {
         </section>
 
         <AnimatePresence mode="wait">
-          
           {activeTab == "SignIn" && (
             <motion.section
               key="signIn"
@@ -222,7 +215,6 @@ const App = () => {
                   or use your email password
                 </p>
 
-                
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
@@ -264,7 +256,6 @@ const App = () => {
                           FORGET YOUR PASSWORD?
                         </a>
 
-                        
                         <button
                           type="submit"
                           disabled={isSubmitting}
@@ -279,7 +270,6 @@ const App = () => {
             </motion.section>
           )}
 
-          
           {showPopup && (
             <div className="fixed inset-0 z-40 bg-white/50 flex items-center justify-center ">
               <div onClick={handleClosePopup} />
@@ -348,7 +338,6 @@ const App = () => {
             </div>
           )}
 
-          
           {activeTab === "SignUp" && (
             <motion.section
               key="signUp"
