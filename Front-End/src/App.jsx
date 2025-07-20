@@ -1,4 +1,4 @@
-import Home from "./home";
+import Home from "./Home";
 import Profile from "./Profile";
 import ShopPage from "./ShopPage";
 import ProductPage from "./ProductPage";
