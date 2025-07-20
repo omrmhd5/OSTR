@@ -55,6 +55,10 @@ An interactive ecommerce fashion platform built with the MERN stack, delivering 
 * **Database:** MongoDB
 * **Authentication:** JSON Web Tokens (JWT)
 
+## Live Demo 🚀
+
+[**View Live Demo**](https://ostr-store.vercel.app/)
+
 ## Author
 
 👤 **Omar Mahmoud**
