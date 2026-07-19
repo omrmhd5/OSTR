@@ -59,11 +59,14 @@ An interactive ecommerce fashion platform built with the MERN stack, delivering 
 
 [**View Live Demo**](https://ostr-store.vercel.app/)
 
-## Author
+## Authors
 
 👤 **Omar Mahmoud**
 📧 [omrmhd54@gmail.com](mailto:omrmhd54@gmail.com)
 💼 [LinkedIn](https://www.linkedin.com/in/omrmhd5/)
 🌐 [Portfolio](https://omarmahmoud.dev/)
-🔗 [GitHub](https://github.com/omrmhd5)
+
+👤 **Salma Mehrez**  
+📧 [salmamehrez85@gmail.com](mailto:salmamehrez85@gmail.com)  
+🔗 [GitHub](https://github.com/salmamehrez85)
 
