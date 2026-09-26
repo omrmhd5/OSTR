@@ -13,10 +13,16 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(null);
 
   const fetchCart = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setCart(null);
+      return;
+    }
+
     try {
       const res = await axios.get(`${BASE_URL}/cart`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       setCart(res.data);
@@ -34,13 +40,13 @@ export function CartProvider({ children }) {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       setCart(res.data); // Update local state
     } catch (err) {
       console.error(
         " Backend error response:",
-        err.response?.data || err.message
+        err.response?.data || err.message,
       );
       throw new Error("Error adding to cart");
     }

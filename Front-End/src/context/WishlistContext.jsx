@@ -12,6 +12,12 @@ export function WishlistProvider({ children }) {
 
   useEffect(() => {
     const fetchWishlist = async () => {
+      if (!token) {
+        setWishlist([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await axios.get(`${BASE_URL}/wishlist`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -27,7 +33,7 @@ export function WishlistProvider({ children }) {
     };
 
     fetchWishlist();
-  }, []);
+  }, [token]);
 
   const toggleWishlist = async (product) => {
     try {
@@ -38,12 +44,12 @@ export function WishlistProvider({ children }) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log(" Wishlist Response:", response.data);
       setWishlist(
-        response.data.wishlist.products || response.data.wishlist || []
+        response.data.wishlist.products || response.data.wishlist || [],
       );
     } catch (error) {
       console.error("Failed to toggle wishlist item:", error);
