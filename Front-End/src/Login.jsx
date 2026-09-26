@@ -1,28 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import PopUpMessage from "./components/ui/PopUpMessage";
+import DemoBanner from "./components/DemoBanner";
+import LanguageSwitch from "./components/LanguageSwitch";
 import axios from "axios";
 import { BASE_URL } from "./lib/utils";
 
+const DEMO_ACCOUNTS = [
+  {
+    id: "shopper",
+    roleKey: "demoLogin.shopper",
+    email: "user@user.com",
+    password: "user123",
+  },
+  {
+    id: "admin",
+    roleKey: "demoLogin.admin",
+    email: "admin@admin.com",
+    password: "admin123",
+  },
+];
+
 const App = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("SignIn");
+  const [prefill, setPrefill] = useState({ email: "", password: "" });
+  const [selectedDemo, setSelectedDemo] = useState("");
 
   const signUpvalidationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().required(t("login.nameRequired")),
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+      .email(t("login.emailInvalid"))
+      .required(t("login.emailRequired")),
+    password: Yup.string().required(t("login.passwordRequired")),
   });
 
   const signInvalidationSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+      .email(t("login.emailInvalid"))
+      .required(t("login.emailRequired")),
+    password: Yup.string().required(t("login.passwordRequired")),
   });
 
   const navigate = useNavigate();
@@ -46,7 +67,7 @@ const App = () => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
 
-        setText("Login Successful!");
+        setText(t("login.loginSuccess"));
         handleMessage();
         setTimeout(() => {
           navigate("/");
@@ -57,9 +78,9 @@ const App = () => {
         handleMessage();
         setErrors({ password: response.data.message });
       } else {
-        setText("An unknown error occurred.");
+        setText(t("login.unknownError"));
         handleMessage();
-        setErrors({ password: "An unknown error occurred." });
+        setErrors({ password: t("login.unknownError") });
       }
     } catch (error) {
       console.error(error);
@@ -72,9 +93,9 @@ const App = () => {
         handleMessage();
         setErrors({ password: error.response.data.message });
       } else {
-        setText("Something went wrong. Please try again.");
+        setText(t("login.genericError"));
         handleMessage();
-        setErrors({ password: "Something went wrong. Please try again." });
+        setErrors({ password: t("login.genericError") });
       }
     }
   };
@@ -88,7 +109,7 @@ const App = () => {
       });
 
       if (response.data._id) {
-        setText("Signed Up Successfully!");
+        setText(t("login.signedUp"));
         handleMessage();
         setTimeout(() => window.location.reload(), 1000);
       } else if (response.data.message) {
@@ -107,9 +128,9 @@ const App = () => {
         handleMessage();
         setErrors({ email: error.response.data.message });
       } else {
-        setText("Something went wrong. Please try again.");
+        setText(t("login.genericError"));
         handleMessage();
-        setErrors({ email: "Something went wrong. Please try again." });
+        setErrors({ email: t("login.genericError") });
       }
     }
   };
@@ -121,12 +142,12 @@ const App = () => {
         password: values.password,
       });
 
-      if (response.data.message === "Password updated successfully") {
-        setText("Password Reset Is Successful!");
+      if (response.data.code === "passwordUpdated") {
+        setText(t("login.resetSuccess"));
         handleMessage();
         setTimeout(() => window.location.reload(), 1000);
       } else {
-        setErrors({ password: "Could not reset password" });
+        setErrors({ password: t("login.resetFailed") });
       }
     } catch (error) {
       console.error(error);
@@ -137,7 +158,7 @@ const App = () => {
       ) {
         setErrors({ password: error.response.data.message });
       } else {
-        setErrors({ password: "Something went wrong. Please try again." });
+        setErrors({ password: t("login.genericError") });
       }
     }
   };
@@ -153,8 +174,19 @@ const App = () => {
     setShowPopup(false);
   };
 
+  const selectDemoAccount = (account) => {
+    setSelectedDemo(account.id);
+    setActiveTab("SignIn");
+    setPrefill({ email: account.email, password: account.password });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+    <div className="min-h-screen bg-gradient-to-r from-blue-100 to-purple-100 text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
+      <DemoBanner />
+      <div className="flex justify-end px-6 py-3">
+        <LanguageSwitch />
+      </div>
+      <div className="flex flex-col items-center gap-8 px-4 pb-12">
       <main className="relative w-[800px] h-[500px] bg-white rounded-4xl shadow-2xl overflow-hidden">
         <PopUpMessage text={text} show={showMessage} />
 
@@ -165,27 +197,26 @@ const App = () => {
           <div className="flex flex-col items-center justify-center h-full text-white dark:text-black px-8">
             {activeTab == "SignUp" ? (
               <>
-                <h3 className="text-3xl font-bold mb-4">Welcome Back!</h3>
+                <h3 className="text-3xl font-bold mb-4">{t("login.welcomeBack")}</h3>
                 <p className="text-center mb-6 ">
-                  Enter your personal details to use all of site features
+                  {t("login.welcomeDetails")}
                 </p>
                 <button
                   onClick={() => setActiveTab("SignIn")}
                   className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition">
-                  SIGN IN
+                  {t("login.signIn")}
                 </button>
               </>
             ) : (
               <>
-                <h2 className="text-3xl font-bold mb-4">Hello, Friend!</h2>
+                <h2 className="text-3xl font-bold mb-4">{t("login.helloFriend")}</h2>
                 <p className="text-center mb-6">
-                  Register with your personal details to use all of site
-                  features
+                  {t("login.registerDetails")}
                 </p>
                 <button
                   onClick={() => setActiveTab("SignUp")}
                   className="cursor-pointer px-15 py-3 mt-8 font-bold border border-white rounded-xl hover:bg-bg_clr hover:text-t_clr transition">
-                  SIGN UP
+                  {t("login.signUp")}
                 </button>
               </>
             )}
@@ -202,7 +233,7 @@ const App = () => {
               transition={{ duration: 0.5 }}
               className="absolute top-0 left-0 h-full w-1/2">
               <div className="flex flex-col items-center justify-center h-full px-8">
-                <h2 className="text-4xl font-bold mb-6">Sign In</h2>
+                <h2 className="text-4xl font-bold mb-6">{t("login.signInTitle")}</h2>
                 <div className="flex space-x-4 mb-6">
                   <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:text-white">
                     <i className="fa-brands fa-google"></i>
@@ -212,11 +243,12 @@ const App = () => {
                   </button>
                 </div>
                 <p className="text-sm text-gray-500 mb-4">
-                  or use your email password
+                  {t("login.orEmailPassword")}
                 </p>
 
                 <Formik
-                  initialValues={{ email: "", password: "" }}
+                  initialValues={{ email: prefill.email, password: prefill.password }}
+                  enableReinitialize
                   validationSchema={signInvalidationSchema}
                   onSubmit={handleSignInSubmit}>
                   {({ isSubmitting }) => (
@@ -224,7 +256,7 @@ const App = () => {
                       <Field
                         type="email"
                         name="email"
-                        placeholder="Email"
+                        placeholder={t("login.email")}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="email">
@@ -237,7 +269,7 @@ const App = () => {
                       <Field
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder={t("login.password")}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
 
@@ -253,14 +285,14 @@ const App = () => {
                           href="#"
                           onClick={handlePopupToggle}
                           className=" text-center text-sm text-gray-500 mb-4 hover:underline">
-                          FORGET YOUR PASSWORD?
+                          {t("login.forgot")}
                         </a>
 
                         <button
                           type="submit"
                           disabled={isSubmitting}
                           className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
-                          SIGN IN
+                          {t("login.signIn")}
                         </button>
                       </div>
                     </Form>
@@ -274,7 +306,7 @@ const App = () => {
             <div className="fixed inset-0 z-40 bg-white/50 flex items-center justify-center ">
               <div onClick={handleClosePopup} />
               <div className="fixed z-50 scale-100 bg-white rounded-2xl border-2 shadow-2xl p-6 w-80 max-w-full">
-                <h2 className="text-lg font-semibold mb-4">Reset Password</h2>
+                <h2 className="text-lg font-semibold mb-4">{t("login.resetTitle")}</h2>
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={signInvalidationSchema}
@@ -283,12 +315,12 @@ const App = () => {
                     <Form>
                       <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 dark:text-black mb-1">
-                          Email
+                          {t("login.email")}
                         </label>
                         <Field
                           type="email"
                           name="email"
-                          placeholder="Email"
+                          placeholder={t("login.email")}
                           className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-950"
                         />
                         <ErrorMessage name="email">
@@ -301,12 +333,12 @@ const App = () => {
                       </div>
                       <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 dark:text-black mb-1">
-                          New Password
+                          {t("login.newPassword")}
                         </label>
                         <Field
                           type="password"
                           name="password"
-                          placeholder="Password"
+                          placeholder={t("login.password")}
                           className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-950"
                         />
                         <ErrorMessage name="password">
@@ -322,13 +354,13 @@ const App = () => {
                           type="button"
                           onClick={handleClosePopup}
                           className="cursor-pointer px-4 py-2 text-sm text-gray-700 dark:text-black dark:hover:text-white border rounded hover:bg-gray-100">
-                          Cancel
+                          {t("login.cancel")}
                         </button>
                         <button
                           type="submit"
                           disabled={isSubmitting}
                           className="cursor-pointer px-4 py-2 text-sm text-white bg-t_clr rounded hover:bg-yellow-950 dark:hover:bg-gray-400">
-                          Submit
+                          {t("login.submit")}
                         </button>
                       </div>
                     </Form>
@@ -347,7 +379,7 @@ const App = () => {
               transition={{ duration: 0.5 }}
               className="absolute top-0 left-1/2 h-full w-1/2">
               <div className="flex flex-col items-center justify-center h-full px-8 mt-8">
-                <h2 className="text-3xl font-bold mb-6 ">Create Account</h2>
+                <h2 className="text-3xl font-bold mb-6 ">{t("login.createAccount")}</h2>
                 <div className="flex space-x-4 mb-6 font-bold">
                   <button className="cursor-pointer w-10 h-10 border rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:text-white">
                     <i className="fa-brands fa-google"></i>
@@ -357,7 +389,7 @@ const App = () => {
                   </button>
                 </div>
                 <p className="text-sm text-gray-500 mb-2">
-                  or use your email for registration
+                  {t("login.orEmailRegister")}
                 </p>
 
                 <Formik
@@ -373,7 +405,7 @@ const App = () => {
                       <Field
                         type="text"
                         name="name"
-                        placeholder="Name"
+                        placeholder={t("login.name")}
                         className="w-full p-2 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="name">
@@ -386,7 +418,7 @@ const App = () => {
                       <Field
                         type="email"
                         name="email"
-                        placeholder="Email"
+                        placeholder={t("login.email")}
                         className="w-full p-2 px-4 border rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="email">
@@ -399,7 +431,7 @@ const App = () => {
                       <Field
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder={t("login.password")}
                         className="w-full p-2 px-4 border rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-500"
                       />
                       <ErrorMessage name="password">
@@ -414,7 +446,7 @@ const App = () => {
                           type="submit"
                           disabled={isSubmitting}
                           className="cursor-pointer px-8 py-2 bg-t_clr text-white rounded-lg hover:bg-bg_clr hover:text-t_clr transition">
-                          SIGN UP
+                          {t("login.signUp")}
                         </button>
                       </div>
                     </Form>
@@ -425,6 +457,32 @@ const App = () => {
           )}
         </AnimatePresence>
       </main>
+
+      <section className="w-[800px] max-w-full bg-white rounded-4xl shadow-2xl p-6">
+        <h2 className="text-2xl font-bold text-center mb-4">{t("demoLogin.title")}</h2>
+        <div className="grid gap-3">
+          {DEMO_ACCOUNTS.map((account) => (
+            <button
+              key={account.id}
+              type="button"
+              onClick={() => selectDemoAccount(account)}
+              className={`w-full text-start border rounded-xl p-4 cursor-pointer transition ${
+                selectedDemo === account.id
+                  ? "border-amber-500 bg-amber-50"
+                  : "border-gray-200 hover:bg-gray-50"
+              }`}>
+              <p className="font-semibold">{t(account.roleKey)}</p>
+              <p className="text-sm">
+                {t("demoLogin.email")}: {account.email}
+              </p>
+              <p className="text-sm">
+                {t("demoLogin.password")}: {account.password}
+              </p>
+            </button>
+          ))}
+        </div>
+      </section>
+      </div>
     </div>
   );
 };

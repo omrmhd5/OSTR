@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import PopUpMessage from "./components/ui/PopUpMessage";
 import axios from "axios";
 import { BASE_URL } from "./lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function Admin() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [existingProducts, setExistingProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -26,7 +28,7 @@ export default function Admin() {
         setFilteredProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
-        setMessage("Error fetching products from database");
+        setMessage(t("admin.fetchError"));
         setShowMessage(true);
         setTimeout(() => setShowMessage(false), 3000);
       }
@@ -56,7 +58,7 @@ export default function Admin() {
       !newProduct.description ||
       !newProduct.image
     ) {
-      setMessage("Please fill in all fields");
+      setMessage(t("admin.fillAll"));
       setShowMessage(true);
       setTimeout(() => setShowMessage(false), 3000);
       return;
@@ -80,17 +82,17 @@ export default function Admin() {
 
       setNewProduct({ name: "", price: "", description: "", image: "" });
 
-      setMessage("Product added successfully to the database");
+      setMessage(t("admin.added"));
       setShowMessage(true);
       setTimeout(() => setShowMessage(false), 3000);
     } catch (error) {
       console.error("Error adding product:", error);
       if (error.response) {
         setMessage(
-          error.response.data.message || "Error adding product to database"
+          error.response.data.message || t("admin.addError")
         );
       } else {
-        setMessage("Error connecting to the server");
+        setMessage(t("admin.connectError"));
       }
       setShowMessage(true);
       setTimeout(() => setShowMessage(false), 3000);
@@ -113,14 +115,14 @@ export default function Admin() {
       setFilteredProducts(
         filteredProducts.filter((product) => product._id !== id)
       );
-      setMessage("Product deleted from database successfully");
+      setMessage(t("admin.deleted"));
       setShowMessage(true);
       setTimeout(() => setShowMessage(false), 3000);
     } catch (error) {
       console.error("Error deleting product:", error);
       if (error.response && error.response.status !== 401) {
         setMessage(
-          error.response.data.message || "Error deleting product from database"
+          error.response.data.message || t("admin.deleteError")
         );
         setShowMessage(true);
         setTimeout(() => setShowMessage(false), 3000);
@@ -132,16 +134,16 @@ export default function Admin() {
     <div className="py-10 bg-bg_clr w-full">
       <article className="py-10 px-10 rounded-lg w-3/4 mx-auto bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
         <header className="flex justify-center items-center py-10">
-          <h2 className="text-4xl font-bold">Admin Dashboard</h2>
+          <h2 className="text-4xl font-bold">{t("admin.title")}</h2>
         </header>
 
         <div className="grid grid-cols-1 gap-10">
           <div className="p-6 rounded-lg shadow-lg bg-white">
-            <h3 className="text-2xl font-semibold mb-6">Add New Product</h3>
+            <h3 className="text-2xl font-semibold mb-6">{t("admin.addTitle")}</h3>
             <form onSubmit={handleAddProduct} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold mb-2">
-                  Product Name
+                  {t("admin.name")}
                 </label>
                 <input
                   type="text"
@@ -150,12 +152,12 @@ export default function Admin() {
                     setNewProduct({ ...newProduct, name: e.target.value })
                   }
                   className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
-                  placeholder="Enter product name"
+                  placeholder={t("admin.namePlaceholder")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-2">
-                  Price
+                  {t("admin.price")}
                 </label>
                 <input
                   type="number"
@@ -169,12 +171,12 @@ export default function Admin() {
                   min="0"
                   step="1"
                   className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
-                  placeholder="Enter price"
+                  placeholder={t("admin.pricePlaceholder")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-2">
-                  Description
+                  {t("admin.description")}
                 </label>
                 <textarea
                   value={newProduct.description}
@@ -185,12 +187,12 @@ export default function Admin() {
                     })
                   }
                   className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
-                  placeholder="Enter product description"
+                  placeholder={t("admin.descriptionPlaceholder")}
                   rows="3"
                 />
               </div>
               <Button type="submit" className="w-full">
-                Add Product
+                {t("admin.add")}
               </Button>
             </form>
           </div>
@@ -198,7 +200,7 @@ export default function Admin() {
           <div className="mt-10 p-6 rounded-lg shadow-lg bg-white">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-2xl font-semibold">
-                Existing Products from Database
+                {t("admin.existing")}
               </h3>
               <div className="relative">
                 <input
@@ -206,7 +208,7 @@ export default function Admin() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-64 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-t_clr"
-                  placeholder="Search products..."
+                  placeholder={t("admin.search")}
                 />
                 <i className="fa-solid fa-magnifying-glass absolute right-3 top-3 text-gray-400"></i>
               </div>
@@ -235,7 +237,7 @@ export default function Admin() {
                   <Button
                     variant="destructive"
                     onClick={() => handleDeleteExistingProduct(product._id)}>
-                    Delete
+                    {t("admin.delete")}
                   </Button>
                 </div>
               ))}

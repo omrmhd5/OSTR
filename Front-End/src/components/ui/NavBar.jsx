@@ -1,9 +1,12 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import DarkModeToggle from "./DarkModeToggle";
 import PopUpMessage from "./PopUpMessage";
+import LanguageSwitch from "../LanguageSwitch";
 
 export default function NavBar() {
+  const { t } = useTranslation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState("");
   const [showMessage, setShowMessage] = useState(false);
@@ -33,7 +36,7 @@ export default function NavBar() {
 
   return (
     <nav className="w-full h-full flex justify-around p-6 z-5 bg-white text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header ">
-      <PopUpMessage text={"Logged Out"} show={showMessage} />
+      <PopUpMessage text={t("nav.loggedOut")} show={showMessage} />
 
       <Link to="/">
         <h3 className="text-4xl font-extrabold delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
@@ -42,13 +45,13 @@ export default function NavBar() {
       </Link>
       <ul className="flex gap-15 font-semibold items-baseline pt-2">
         {[
-          { name: "Home", path: "" },
-          { name: "Shop", path: "shop" },
-          { name: "Style Yours", path: "style" },
-          { name: "Login - SignUp", path: "login", LoggedIn: false },
-          { name: "Profile", path: "profile", LoggedIn: true, role: "user" },
+          { name: t("nav.home"), path: "" },
+          { name: t("nav.shop"), path: "shop" },
+          { name: t("nav.style"), path: "style" },
+          { name: t("nav.login"), path: "login", LoggedIn: false },
+          { name: t("nav.profile"), path: "profile", LoggedIn: true, role: "user" },
           {
-            name: "Admin Dashboard",
+            name: t("nav.admin"),
             path: "admin",
             LoggedIn: true,
             role: "admin",
@@ -83,6 +86,7 @@ export default function NavBar() {
           ...(isLoggedIn
             ? [{ icon: "fa-arrow-right-from-bracket", path: handleLogout }]
             : []),
+          { component: <LanguageSwitch /> },
           { component: <DarkModeToggle /> },
         ].map((item, index) =>
           item.component ? (

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { t } = require("../utils/i18n");
 
 const authenticateUser = (req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
@@ -6,7 +7,7 @@ const authenticateUser = (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ message: "Access denied. No token provided." });
+      .json({ message: t(req, "errors.noToken") });
   }
 
   try {
@@ -18,7 +19,7 @@ const authenticateUser = (req, res, next) => {
   } catch (error) {
     return res
       .status(401)
-      .json({ message: "Invalid or expired token. Access denied." });
+      .json({ message: t(req, "errors.invalidToken") });
   }
 };
 

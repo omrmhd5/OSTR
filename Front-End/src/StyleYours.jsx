@@ -13,8 +13,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import PopUpMessage from "./components/ui/PopUpMessage";
+import { useTranslation } from "react-i18next";
 
 export default function StyleYours() {
+  const { t } = useTranslation();
   const [sketchPickerColor, setSketchPickerColor] = useState({
     r: "241",
     g: "112",
@@ -432,7 +434,7 @@ export default function StyleYours() {
       handleMessage();
     } catch (error) {
       console.error("Error adding custom product:", error);
-      setText("Failed to add custom product to cart");
+      setText(t("style.failed"));
       handleMessage();
     } finally {
       setIsAddingToCart(false);
@@ -443,10 +445,10 @@ export default function StyleYours() {
     <div className="py-10 bg-bg_clr w-full">
       <article className=" py-10 px-10 rounded-lg w-3/4 justify-self-center  bg-cn_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
         <header className="flex justify-center items-center py-20 text-6xl font-bold  ">
-          <h2>Style Your Own </h2>
+          <h2>{t("style.title")} </h2>
           <Select onValueChange={(value) => setItem(value)}>
             <SelectTrigger className="w-[200px] ml-5 mt-3 text-4xl px-4 py-6 bg-white h-[200px] cursor-pointer hover:animate-pulse">
-              <SelectValue placeholder="Hoodie" />
+              <SelectValue placeholder={t("style.hoodie")} />
             </SelectTrigger>
             <SelectContent>
               {items.map((item) => (
@@ -454,7 +456,13 @@ export default function StyleYours() {
                   className="cursor-pointer"
                   key={item.name}
                   value={item.name}>
-                  {item.name}
+                  {t(
+                    item.name === "Jeans"
+                      ? "style.jeans"
+                      : item.name === "T-Shirt"
+                        ? "style.tshirt"
+                        : "style.hoodie"
+                  )}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -463,7 +471,7 @@ export default function StyleYours() {
         <main className="w-full flex items-center justify-between ">
           <section className=" w-1/3">
             <div className="bg-white p-5 w-full mt-10 rounded-2xl dark:bg-bg_clr  ">
-              <h2 className="text-center text-2xl font-bold">Choose Size</h2>
+              <h2 className="text-center text-2xl font-bold">{t("style.chooseSize")}</h2>
               <div className="flex flex-col divide-y divide-gray-300 ">
                 {sizes.map((size) => (
                   <div
@@ -490,7 +498,7 @@ export default function StyleYours() {
                 <button
                   className="self-end mt-2  bg-gray-700 dark:bg-black text-white py-2 px-5 rounded-md cursor-pointer hover:bg-black "
                   onClick={toggleModal}>
-                  Size Chart
+                  {t("style.sizeChart")}
                 </button>
                 {/** Size Chart */}
                 <div
@@ -501,22 +509,22 @@ export default function StyleYours() {
         : "opacity-0 scale-95 pointer-events-none bg-opacity-0"
     }`}>
                   <div className="bg-bg_clr p-6 rounded-lg shadow-lg w-100 transition-all duration-300 ease-in-out">
-                    <h2 className="text-xl font-semibold mb-4">Size Chart</h2>
+                    <h2 className="text-xl font-semibold mb-4">{t("style.sizeChart")}</h2>
                     <p className="text-gray-700 mb-5 dark:text-black">
-                      Here's your size chart content...
+                      {t("style.sizeChartIntro")}
                     </p>
                     <img
                       src="/assets/sizechart.png"
-                      alt="sizechart"
+                      alt={t("style.sizeChartAlt")}
                       className="w-50 mb-10"
                     />
                     <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md w-80">
                       <thead>
                         <tr className="bg-gray-200 text-gray-700 uppercase text-sm">
-                          <th className="py-2 px-4 border">Size</th>
-                          <th className="py-2 px-4 border">A (in)</th>
-                          <th className="py-2 px-4 border">B (in)</th>
-                          <th className="py-2 px-4 border">C (in)</th>
+                          <th className="py-2 px-4 border">{t("style.size")}</th>
+                          <th className="py-2 px-4 border">{t("style.a")}</th>
+                          <th className="py-2 px-4 border">{t("style.b")}</th>
+                          <th className="py-2 px-4 border">{t("style.c")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -547,22 +555,22 @@ export default function StyleYours() {
                     <Button
                       className="mt-4 w-20 bg-gray-600 text-white py-2 rounded-md cursor-pointer dark:bg-black"
                       onClick={toggleModal}>
-                      Close
+                      {t("style.close")}
                     </Button>
                   </div>
                 </div>
                 {/* Product price section */}
                 <div className="mt-4 border-t pt-4">
                   <p className=" text-m text-gray-500">
-                    Product Price: ${pricePerItem.toFixed(2)}
+                    {t("style.price", { amount: pricePerItem.toFixed(2) })}
                   </p>
                   {discount > 0 && (
                     <p className=" absolute text-sm  text-red-500">
-                      4+ Products – 10% off
+                      {t("style.bulk")}
                     </p>
                   )}
                   <p className="mt-6 font-semibold mb-2">
-                    Total: ${totalPrice.toFixed(2)}
+                    {t("style.total", { amount: totalPrice.toFixed(2) })}
                   </p>
                 </div>
               </div>
@@ -576,12 +584,12 @@ export default function StyleYours() {
         : "bg-gray-800 text-white cursor-pointer hover:animate-bounce dark:bg-black"
     }`}
               onClick={handleAddToCart}>
-              {isAddingToCart ? "Adding to Cart..." : "Add To Cart"}{" "}
+              {isAddingToCart ? t("style.adding") : t("style.addToCart")}{" "}
               <i className="fas fa-shopping-cart"></i>
             </Button>
 
             <PopUpMessage
-              text={"Your Item Has Been Added To The Cart"}
+              text={t("style.added")}
               show={showMessage}
             />
           </section>
@@ -589,7 +597,7 @@ export default function StyleYours() {
           <figure className="w-1/3 ml-5 ">{selectedItem?.svg}</figure>
 
           <section className=" w-1/3 flex flex-col items-center">
-            <h6 className="font-bold text-2xl mb-3">Pick The Color</h6>
+            <h6 className="font-bold text-2xl mb-3">{t("style.pickColor")}</h6>
             <SketchPicker
               onChange={(color) => {
                 setSketchPickerColor(color.rgb);
@@ -605,12 +613,12 @@ export default function StyleYours() {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   className="w-full p-2 border-b focus:outline-none text-center text-lg"
-                  placeholder="Type something..."
+                  placeholder={t("style.typeSomething")}
                 />
 
                 <div className="flex flex-wrap gap-4 justify-between items-center mt-4 mb-4">
                   <div>
-                    <label className="block text-sm font-bold ">Color</label>
+                    <label className="block text-sm font-bold ">{t("style.color")}</label>
                     <input
                       className="cursor-pointer rounded-full"
                       type="color"
@@ -620,7 +628,7 @@ export default function StyleYours() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold ">Font</label>
+                    <label className="block text-sm font-bold ">{t("style.font")}</label>
                     <select
                       value={fontFamily}
                       onChange={(e) => setFontFamily(e.target.value)}
@@ -634,7 +642,7 @@ export default function StyleYours() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold">Size</label>
+                    <label className="block text-sm font-bold">{t("style.textSize")}</label>
 
                     <div className="gap-1 flex items-baseline mt-2 ">
                       <button

@@ -5,8 +5,10 @@ import CheckoutC from "./Checkout";
 
 import axios from "axios";
 import { BASE_URL } from "./lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function Cart() {
+  const { t } = useTranslation();
   const { cart, fetchCart } = useCart();
   const [filter, setFilter] = useState("all");
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -90,34 +92,34 @@ export default function Cart() {
   }, 0);
 
   if (!cart) {
-    return <div className="text-center text-2xl font-bold">Loading...</div>;
+    return <div className="text-center text-2xl font-bold">{t("cart.loading")}</div>;
   }
 
   return (
     <div className="p-4 bg-bg_clr text-t_clr font-paragraph">
-      <h2 className="text-2xl mb-4 font-semibold">Your Cart</h2>
+      <h2 className="text-2xl mb-4 font-semibold">{t("cart.title")}</h2>
 
       <div className="mb-6 flex gap-4">
         <button
           onClick={() => setFilter("all")}
           className="px-4 py-2 bg-t_clr text-white rounded-full">
-          All
+          {t("cart.all")}
         </button>
         <button
           onClick={() => setFilter("almost")}
           className="px-4 py-2 bg-t_clr text-white rounded-full">
-          Almost Out of Stock
+          {t("cart.almost")}
         </button>
         <button
           onClick={() => setFilter("flash")}
           className="px-4 py-2 bg-t_clr text-white rounded-full">
-          Flash Sale
+          {t("cart.flash")}
         </button>
       </div>
 
       {filteredProducts.length === 0 ? (
         <div className="text-center text-3xl font-medium text-t_clr py-12">
-          Your cart is empty
+          {t("cart.empty")}
         </div>
       ) : (
         <div className="space-y-4">
@@ -132,10 +134,10 @@ export default function Cart() {
                 <button
                   onClick={() => removeFromCart(product.id)}
                   className="p-2 hover:bg-red-200 dark:hover:bg-black cursor-pointer rounded-full"
-                  title="Remove">
+                  title={t("cart.remove")}>
                   <img
                     src="/assets/delete.png"
-                    alt="delete"
+                    alt={t("cart.deleteAlt")}
                     className="w-6 h-6"
                   />
                 </button>
@@ -189,12 +191,12 @@ export default function Cart() {
 
       <div className="mt-6 text-lg font-semibold flex justify-between items-center">
         <p className="text-2xl font-bold">
-          Total Price: ${totalPrice.toFixed(2)}
+          {t("cart.total", { amount: totalPrice.toFixed(2) })}
         </p>
         <button
           onClick={() => setShowCheckout(true)}
           className="px-6 py-2 text-xl bg-t_clr text-white rounded-full">
-          Checkout
+          {t("cart.checkout")}
         </button>
       </div>
       {showCheckout && (

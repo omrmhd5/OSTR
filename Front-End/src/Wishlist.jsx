@@ -1,8 +1,10 @@
 import React from "react";
 import { useWishlist } from "./context/WishlistContext";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function Wishlist() {
+  const { t } = useTranslation();
   const { wishlist, toggleWishlist, loading } = useWishlist();
 
   const itemVariants = {
@@ -13,26 +15,26 @@ export default function Wishlist() {
   if (loading) {
     return (
       <div className="w-full min-h-screen flex justify-center items-center">
-        <p className="text-2xl font-bold">Loading Wishlist...</p>
+        <p className="text-2xl font-bold">{t("wishlist.loading")}</p>
       </div>
     );
   }
 
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header relative p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">My Wishlist ❤️</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">{t("wishlist.title")}</h1>
 
       {wishlist.length === 0 ? (
         <p className="text-center text-xl font-semibold text-t_clr">
-          Your wishlist is empty. Start adding your favorite products! 🛍️
+          {t("wishlist.empty")}
         </p>
       ) : (
         <div className="w-full max-w-4xl mx-auto">
           <div className="grid grid-cols-4 font-bold text-lg border-b-2 border-[#976c60] dark:border-black pb-2 mb-4">
-            <p>Product Image</p>
-            <p>Product Name</p>
-            <p>Price</p>
-            <p>Remove From Wishlist</p>
+            <p>{t("wishlist.image")}</p>
+            <p>{t("wishlist.name")}</p>
+            <p>{t("wishlist.price")}</p>
+            <p>{t("wishlist.remove")}</p>
           </div>
 
           <motion.div
@@ -68,7 +70,7 @@ export default function Wishlist() {
                   onClick={() => toggleWishlist(product)}>
                   <img
                     src="/assets/trash.png"
-                    alt="Remove"
+                    alt={t("wishlist.removeAlt")}
                     className="w-8 h-8"
                   />
                 </button>

@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { BASE_URL } from "./lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function ShopPage() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -114,12 +116,17 @@ export default function ShopPage() {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const categoryList = ["men", "women", "kids", "all"];
+  const categoryList = [
+    { id: "men", label: t("shop.men") },
+    { id: "women", label: t("shop.women") },
+    { id: "kids", label: t("shop.kids") },
+    { id: "all", label: t("shop.all") },
+  ];
 
   return (
     <div className="w-full min-h-screen bg-bg_clr text-t_clr relative font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
       <header className="flex justify-between items-center border-b pb-2 mb-4 p-4">
-        <h1 className="text-3xl font-bold font-header">Shop</h1>
+        <h1 className="text-3xl font-bold font-header">{t("shop.title")}</h1>
       </header>
 
       {message && (
@@ -131,7 +138,7 @@ export default function ShopPage() {
       <div className="flex justify-between items-center mb-4 px-4">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder={t("shop.search")}
           className="p-2 border rounded w-1/4 text-t_clr bg-white"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -140,14 +147,14 @@ export default function ShopPage() {
         <div className="flex space-x-2">
           {categoryList.map((category) => (
             <button
-              key={category}
-              onClick={() => handleCategoryChange(category)}
+              key={category.id}
+              onClick={() => handleCategoryChange(category.id)}
               className={`px-4 py-2 font-semibold rounded cursor-pointer ${
-                activeCategory === category
+                activeCategory === category.id
                   ? "bg-cn_clr text-white dark:text-gray-400"
                   : "bg-bg_clr text-t_clr hover:bg-cn_clr"
               }`}>
-              {category.charAt(0).toUpperCase() + category.slice(1)}
+              {category.label}
             </button>
           ))}
         </div>
@@ -158,13 +165,13 @@ export default function ShopPage() {
             value={sortBy}
             onChange={handleSort}>
             <option className="bg-bg_clr" value="">
-              Sort By
+              {t("shop.sortBy")}
             </option>
             <option className="bg-bg_clr" value="low-to-high">
-              Price: Low to High
+              {t("shop.lowToHigh")}
             </option>
             <option className="bg-bg_clr" value="high-to-low">
-              Price: High to Low
+              {t("shop.highToLow")}
             </option>
           </select>
 
@@ -174,12 +181,12 @@ export default function ShopPage() {
             {isGridView ? (
               <>
                 <List className="w-5 h-5" />
-                <span>List View</span>
+                <span>{t("shop.listView")}</span>
               </>
             ) : (
               <>
                 <LayoutGrid className="w-5 h-5" />
-                <span>Grid View</span>
+                <span>{t("shop.gridView")}</span>
               </>
             )}
           </button>
@@ -268,7 +275,7 @@ export default function ShopPage() {
                       }}>
                       <img
                         src="/assets/cart.png"
-                        alt="Cart"
+                        alt={t("shop.cartAlt")}
                         className="w-6 h-6"
                       />
                     </button>
@@ -282,8 +289,8 @@ export default function ShopPage() {
                         toggleWishlist(product);
                         showMessage(
                           isInWishlist
-                            ? "Item Removed From Wishlist!"
-                            : "Item Added To Wishlist Successfully!"
+                            ? t("shop.removedWishlist")
+                            : t("shop.addedWishlist")
                         );
                       }}>
                       <img
@@ -292,7 +299,7 @@ export default function ShopPage() {
                             ? "/assets/RemoveWishlist.png"
                             : "/assets/wishlist.png"
                         }
-                        alt="wishlist"
+                        alt={t("shop.wishlistAlt")}
                         className="w-6 h-6"
                       />
                     </button>
@@ -302,7 +309,7 @@ export default function ShopPage() {
             ))
           ) : (
             <p className="text-center col-span-4 text-t_clr text-2xl font-semibold">
-              No products found.
+              {t("shop.empty")}
             </p>
           )}
         </motion.div>

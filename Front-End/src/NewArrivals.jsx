@@ -3,8 +3,10 @@ import Countdown from "./components/ui/Countdown";
 import { memo } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export default function NewArrivals() {
+  const { t } = useTranslation();
   const newProducts = [
     {
       src: "/assets/new/new1.jpg",
@@ -24,35 +26,35 @@ export default function NewArrivals() {
   ];
   const newCollections = [
     {
-      name: "Hoodies",
+      name: t("newArrivals.hoodies"),
       src: "/assets/new/hoodies.webp",
     },
     {
-      name: "Male Formal",
+      name: t("newArrivals.maleFormal"),
       src: "/assets/new/maleformal.webp",
     },
     {
-      name: "Female Pyjamas",
+      name: t("newArrivals.femalePyjamas"),
       src: "/assets/new/femalesets.webp",
     },
     {
-      name: "Kids Wear",
+      name: t("newArrivals.kidsWear"),
       src: "/assets/new/kidswear.webp",
     },
     {
-      name: "Sports Wear",
+      name: t("newArrivals.sportsWear"),
       src: "/assets/new/sportswear.webp",
     },
     {
-      name: "Bags",
+      name: t("newArrivals.bags"),
       src: "/assets/new/bags.webp",
     },
     {
-      name: "Sunglasses",
+      name: t("newArrivals.sunglasses"),
       src: "/assets/new/sunglasses.webp",
     },
     {
-      name: "Shoes",
+      name: t("newArrivals.shoes"),
       src: "/assets/new/shoes.webp",
     },
   ];
@@ -100,7 +102,7 @@ export default function NewArrivals() {
             <LazyLoadImage
               src={product.src}
               className="relative z-10 w-full p-72 mb-50"
-              alt="New Product"
+              alt={t("newArrivals.photoAlt")}
             />
           </div>
         ))}
@@ -109,10 +111,9 @@ export default function NewArrivals() {
       <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-cn_clr/55 w-full">
         <div className="text-7xl text-center mt-3">
           <h1>
-            New <br />
-            Collection
+            {t("newArrivals.title")} <br />
           </h1>
-          <p className="text-2xl mt-3 italic">Dropping In:</p>
+          <p className="text-2xl mt-3 italic">{t("newArrivals.dropping")}</p>
         </div>
 
         <Countdown />
@@ -121,14 +122,14 @@ export default function NewArrivals() {
   ));
   const MemoizedCollectionsGrid = memo(() => (
     <section className="flex py-30 px-10 w-full justify-between items-center gap-20 bg-white">
-      <h1 className="text-5xl">Check What's New!</h1>
+      <h1 className="text-5xl">{t("newArrivals.checkNew")}</h1>
 
       <div className="flex gap-7 w-full">
         {newCollections.map((product, index) => (
           <div className="flex flex-col" key={index}>
             <LazyLoadImage
               src={product.src}
-              alt="New Collections"
+              alt={t("newArrivals.collectionAlt")}
               className="size-35 h-23 2xl:size-35 rounded-full object-cover hover:scale-110 transition-all duration-300 ease-in-out hover:shadow-lg cursor-pointer"
             />
             <p className="text-center text-md 2xl:text-lg mt-2">
@@ -151,19 +152,19 @@ export default function NewArrivals() {
           <div className="w-1/2 relative">
             {[
               {
-                name: "Kids",
+                name: t("newArrivals.kids"),
                 src: "/assets/new/explorek.webp",
                 className:
                   "absolute w-2/5 2xl:w-1/3 top-1/6 2xl:top-1/6 left-1/2 -translate-x-1/2",
               },
               {
-                name: "Women",
+                name: t("newArrivals.women"),
                 src: "/assets/new/explorew.webp",
                 className:
                   "absolute w-1/3 2xl:w-1/4 left-3/5 top-1/3 2xl:top-1/3",
               },
               {
-                name: "Men",
+                name: t("newArrivals.men"),
                 src: "/assets/new/explorem.webp",
                 className:
                   "absolute w-1/3 2xl:w-1/4 right-3/5 top-1/3 2xl:top-1/3",
@@ -178,24 +179,23 @@ export default function NewArrivals() {
           </div>
 
           <div className="flex flex-col gap-2 w-1/2 py-40">
-            <h1 className="text-5xl">Explore Now!</h1>
+            <h1 className="text-5xl">{t("newArrivals.explore")}</h1>
             <p className="text-xl">
-              Unveil your unique style with our latest collections. From casual
-              essentials to statement pieces — we've got you covered.{" "}
+              {t("newArrivals.exploreBody")}{" "}
               <span className="font-semibold">
-                Trendy. Timeless. Totally You.
+                {t("newArrivals.exploreEmphasis")}
               </span>
             </p>
             <Link to="/shop">
               <button className="cursor-pointer w-full border-2 border-black py-2 text-2xl mt-10 hover:scale-105 duration-300 text-black bg-white">
-                <i class="ri-arrow-left-long-line"></i> Shop Now!
+                <i class="ri-arrow-left-long-line"></i> {t("newArrivals.shopNow")}
               </button>
             </Link>
           </div>
         </section>
 
         <section className="flex flex-col items-center py-40 gap-20 w-full bg-white">
-          <h1 className="text-7xl font-medium">Best Sellers</h1>
+          <h1 className="text-7xl font-medium">{t("newArrivals.bestSellers")}</h1>
 
           <div className="flex">
             {bestSellers.map((product) => (

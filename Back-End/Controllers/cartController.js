@@ -1,5 +1,6 @@
 const Cart = require("../Models/Cart");
 const Product = require("../Models/Product");
+const { t } = require("../utils/i18n");
 
 // Get user's cart
 exports.getCart = async (req, res) => {
@@ -7,11 +8,11 @@ exports.getCart = async (req, res) => {
     const cart = await Cart.findOne({ user: req.user.userId }).populate(
       "products.product"
     );
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
+    if (!cart) return res.status(404).json({ message: t(req, "errors.cartNotFound") });
 
     res.json(cart);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -23,7 +24,7 @@ exports.addToCart = async (req, res) => {
   try {
     let cart = await Cart.findOne({ user: userId });
     const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: "Product not found" });
+    if (!product) return res.status(404).json({ message: t(req, "errors.productNotFound") });
 
     if (!cart) {
       cart = new Cart({
@@ -53,7 +54,7 @@ exports.addToCart = async (req, res) => {
     await cart.save();
     res.json(cart);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -63,13 +64,13 @@ exports.updateQuantity = async (req, res) => {
   const { productId, amount } = req.body;
   try {
     const cart = await Cart.findOne({ user: userId });
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
+    if (!cart) return res.status(404).json({ message: t(req, "errors.cartNotFound") });
 
     const productIndex = cart.products.findIndex(
       (p) => p.product.toString() === productId
     );
     if (productIndex === -1)
-      return res.status(404).json({ message: "Product not found in cart" });
+      return res.status(404).json({ message: t(req, "errors.cartItemMissing") });
 
     cart.products[productIndex].quantity = amount;
     if (cart.products[productIndex].quantity < 1)
@@ -85,7 +86,7 @@ exports.updateQuantity = async (req, res) => {
     await cart.save();
     res.json(cart);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -95,7 +96,7 @@ exports.removeFromCart = async (req, res) => {
   const { productId } = req.body;
   try {
     const cart = await Cart.findOne({ user: userId });
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
+    if (!cart) return res.status(404).json({ message: t(req, "errors.cartNotFound") });
 
     cart.products = cart.products.filter(
       (p) => p.product.toString() !== productId
@@ -111,6 +112,6 @@ exports.removeFromCart = async (req, res) => {
     await cart.save();
     res.json(cart);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };

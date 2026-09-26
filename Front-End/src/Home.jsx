@@ -7,8 +7,11 @@ import StarRating from "./components/ui/StarRating";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import PopUpMessage from "./components/ui/PopUpMessage";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
+
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     console.log("Form Submitted:", values);
     setShowMessage(true);
@@ -20,9 +23,11 @@ export default function Home() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    complaint: Yup.string().required("Please enter your complaint"),
+    name: Yup.string().required(t("home.nameRequired")),
+    email: Yup.string()
+      .email(t("home.emailInvalid"))
+      .required(t("home.emailRequired")),
+    complaint: Yup.string().required(t("home.complaintRequired")),
   });
 
   const [showMessage, setShowMessage] = useState(false);
@@ -60,33 +65,13 @@ export default function Home() {
     "Calvin Klein",
   ];
 
-  const reviews = [
-    {
-      name: "Sarah M.",
-      review:
-        "I'm blown away by the quality and style of the clothes I received from ostor. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations. I'm sure this will not be the last order!",
-    },
-    {
-      name: "Alex K.",
-      review:
-        "Finding clothes that align with my personal style used to be a challenge until I discovered ostor. The range of options they offer is truly remarkable, catering to a variety of tastes. Thanks ostor!",
-    },
-    {
-      name: "James L.",
-      review:
-        "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon ostor. The selection of clothes is not only diverse but also on-point with the latest trends.",
-    },
-    {
-      name: "Bernice Levy",
-      review:
-        "I love the clothes from this website!! I am so glad I found them.....everything has been spot on, fits wonderfully, styles are trendy and lots to choose from!! Thanks for being here for us!!!",
-    },
-    {
-      name: "Connie",
-      review:
-        "I absolutely adore the trendy styles this store offers. The clothes fit so well and they look amazing on a curvy figure. I really appreciate this option and the quality of the goods is so great that I will order product in the future!",
-    },
-  ];
+  const translatedReviews = t("home.reviews", { returnObjects: true });
+  const reviews = Array.isArray(translatedReviews)
+    ? translatedReviews.map((review) => ({
+        name: review.name,
+        review: review.text,
+      }))
+    : [];
 
   const settings = {
     dots: false,
@@ -135,22 +120,21 @@ export default function Home() {
           <img
             className="rounded-xl"
             src="/assets/Brown and White Minimalist Fashion Presentation.jpg"
-            alt="Sale"
+            alt={t("home.saleAlt")}
           />
           <div className="absolute bottom-1/3 left-1/12 rounded-lg justify-content text-3xl p-10 ">
             <h2 className=" mb-10 text-6xl text-blue-950">
-              Get Up to <span className="font-semibold">45%</span> <br />
-              off new products
+              {t("home.saleLead")} <span className="font-semibold">45%</span> <br />
+              {t("home.saleOff")}
             </h2>
             <p className="text-left text-2xl ">
-              The biggest sale of the year is at{" "}
-              <span className="text-blue-950">OSTR Clothes</span>
+              {t("home.saleSub")}
             </p>
 
             <div className="flex gap-10 text-right">
               <Link to="/new">
                 <button className="cursor-pointer bg-sky-900 dark:bg-gray-700 text-[#FBE4D6] px-10 mt-20 ml-60 bg- rounded-xl p-4 text-m font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-blue-950 ">
-                  New Collections !
+                  {t("home.newCollections")}
                 </button>
               </Link>
             </div>
@@ -159,9 +143,9 @@ export default function Home() {
           <div className="bg-gray-100 dark:bg-blue-950 p-10">
             <div className="flex justify-center items-center space-x-10">
               {[
-                { value: "200+", label: "International Brands" },
-                { value: "2,000+", label: "High-Quality Products" },
-                { value: "30,000+", label: "Happy Customers" },
+                { value: "200+", label: t("home.statsBrands") },
+                { value: "2,000+", label: t("home.statsProducts") },
+                { value: "30,000+", label: t("home.statsCustomers") },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -187,11 +171,11 @@ export default function Home() {
         <div className="flex flex-col gap-10 justify-center items-center w-1/2 ">
           <div className="flex flex-col gap-5 items-end">
             <h2 className="text-4xl italic">
-              If You Can't Stop Thinking About It ...{" "}
+              {t("home.cantStop")}{" "}
             </h2>
             <Link to="/shop">
               <button className=" cursor-pointer bg-orange-900 text-[#FBE4D6] px-6 rounded-xl p-3 text-xl font-semibold inline-block transition-all delay-100 duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-orange-950 ">
-                Shop Now
+                {t("home.shopNow")}
               </button>
             </Link>
           </div>
@@ -204,7 +188,7 @@ export default function Home() {
               loop
               className="pl-10">
               <source src="/assets/video.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
+              {t("home.videoFallback")}
             </video>
           </div>
         </div>
@@ -212,7 +196,7 @@ export default function Home() {
           <img
             className=" rounded-xl w-1/2"
             src="/assets/img2.jpg"
-            alt="Sale"
+            alt={t("home.saleAlt")}
           />
           <div className=" flex flex-col justify-center gap-2 items-center text-black">
             <h1 className=" text-5xl font-serif">Los Angeles</h1>
@@ -223,7 +207,7 @@ export default function Home() {
 
       <div className="bg-gray-100 dark:text-blue-950 p-10">
         <h2 className="text-4xl font-bold text-left ml-5 mt-10 mb-20">
-          OUR HAPPY CUSTOMERS ... OUR FOCUS
+          {t("home.happyCustomers")}
         </h2>
         <div className="max-w-5xl mx-auto px-3 ">
           <Slider {...settings2}>
@@ -246,13 +230,13 @@ export default function Home() {
           </Slider>
         </div>
         <PopUpMessage
-          text={"You've Subscribed successfully!"}
+          text={t("home.subscribed")}
           show={showMessage}
         />
 
         <div className="bg-cn_clr text-t_clr p-10 mt-12 rounded-3xl flex flex-col md:flex-row items-center justify-around gap-8">
           <h3 className="text-4xl font-bold animate-bounce text-center md:w-1/2">
-            CONTACT US TO STAY UP TO DATE
+            {t("home.contactTitle")}
           </h3>
 
           <Formik
@@ -265,7 +249,7 @@ export default function Home() {
                   <Field
                     type="text"
                     name="name"
-                    placeholder="Your full name"
+                    placeholder={t("home.namePlaceholder")}
                     className="p-3 rounded-md text-black border-2"
                   />
                   <ErrorMessage
@@ -279,7 +263,7 @@ export default function Home() {
                   <Field
                     type="email"
                     name="email"
-                    placeholder="Enter your email address"
+                    placeholder={t("home.emailPlaceholder")}
                     className="p-3 rounded-md text-black border-2"
                   />
                   <ErrorMessage
@@ -293,7 +277,7 @@ export default function Home() {
                   <Field
                     as="textarea"
                     name="complaint"
-                    placeholder="Your complaint or message"
+                    placeholder={t("home.complaintPlaceholder")}
                     rows="4"
                     className="p-3 rounded-md text-black border-2"
                   />
@@ -308,7 +292,7 @@ export default function Home() {
                   type="submit"
                   disabled={isSubmitting}
                   className="cursor-pointer w-full py-3 font-bold bg-bg_clr text-black hover:bg-t_clr hover:text-white transition rounded-full">
-                  {isSubmitting ? "Submitting..." : "Submit Now"}
+                  {isSubmitting ? t("home.submitting") : t("home.submitNow")}
                 </button>
               </Form>
             )}
@@ -316,7 +300,7 @@ export default function Home() {
         </div>
       </div>
       <PopUpMessage
-        text={"Your complaint has been submitted successfully!"}
+        text={t("home.complaintSent")}
         show={showMessage}
       />
     </div>

@@ -2,18 +2,19 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const User = require("../Models/User");
+const { t } = require("../utils/i18n");
 
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ message: "Invalid email format" });
+      return res.status(400).json({ message: t(req, "errors.invalidEmail") });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: t(req, "errors.userExists") });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -37,17 +38,17 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ message: "Invalid email format" });
+      return res.status(400).json({ message: t(req, "errors.invalidEmail") });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: t(req, "errors.invalidCredentials") });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: t(req, "errors.invalidCredentials") });
     }
 
     const token = jwt.sign(
@@ -57,7 +58,7 @@ const login = async (req, res) => {
     );
 
     return res.status(200).json({
-      message: "Login successful",
+      message: t(req, "success.login"),
       token,
       role: user.role,
     });
@@ -72,12 +73,12 @@ const updateProfile = async (req, res) => {
     const userId = req.user.userId;
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ message: "Invalid email format" });
+      return res.status(400).json({ message: t(req, "errors.invalidEmail") });
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: t(req, "errors.userNotFound") });
     }
 
     user.name = name || user.name;
@@ -89,7 +90,7 @@ const updateProfile = async (req, res) => {
     await user.save();
     return res
       .status(200)
-      .json({ message: "Profile updated successfully", user });
+      .json({ message: t(req, "success.profileUpdated"), user });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
@@ -102,13 +103,16 @@ const changePassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ message: "Email does not exist" });
+      return res.status(404).json({ message: t(req, "errors.emailNotFound") });
     }
 
-    // Update password
     user.password = await bcrypt.hash(password, 12);
+    await user.save();
 
-    return res.status(200).json({ message: "Password updated successfully" });
+    return res.status(200).json({
+      code: "passwordUpdated",
+      message: t(req, "success.passwordUpdated"),
+    });
   } catch (error) {
     console.error(error);
     return res.status(400).json({ message: error.message });

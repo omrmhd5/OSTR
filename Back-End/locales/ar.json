@@ -1,0 +1,37 @@
+{
+  "errors": {
+    "invalidEmail": "صيغة البريد الإلكتروني غير صحيحة",
+    "userExists": "المستخدم موجود بالفعل",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "userNotFound": "المستخدم غير موجود",
+    "emailNotFound": "البريد الإلكتروني غير موجود",
+    "adminOnly": "تم رفض الوصول. للمسؤولين فقط.",
+    "noToken": "تم رفض الوصول. لم يتم إرسال رمز الدخول.",
+    "invalidToken": "رمز الدخول غير صالح أو منتهي. تم رفض الوصول.",
+    "productNotFound": "المنتج غير موجود",
+    "productMissing": "المنتج غير موجود",
+    "categoryNotFound": "التصنيف غير موجود",
+    "categoryMissing": "التصنيف '{{name}}' غير موجود.",
+    "categoryExists": "التصنيف موجود بالفعل",
+    "invalidProducts": "بيانات غير صالحة. أرسل مصفوفة من المنتجات.",
+    "requiredFields": "يرجى إدخال جميع الحقول المطلوبة",
+    "cartNotFound": "سلة التسوق غير موجودة",
+    "cartItemMissing": "المنتج غير موجود في السلة",
+    "server": "خطأ في الخادم",
+    "serverGeneric": "خطأ في الخادم",
+    "somethingWrong": "حدث خطأ ما",
+    "createProduct": "حدث خطأ أثناء إضافة المنتج",
+    "deleteProduct": "حدث خطأ أثناء حذف المنتج",
+    "createCustom": "حدث خطأ أثناء إضافة المنتج المخصص",
+    "createOrder": "تعذر إنشاء الطلب",
+    "fetchOrders": "تعذر جلب الطلبات"
+  },
+  "success": {
+    "login": "تم تسجيل الدخول بنجاح",
+    "profileUpdated": "تم تحديث الملف الشخصي بنجاح",
+    "passwordUpdated": "تم تحديث كلمة المرور بنجاح",
+    "productsAdded": "تمت إضافة المنتجات بنجاح",
+    "productDeleted": "تم حذف المنتج بنجاح",
+    "categoryAdded": "تمت إضافة التصنيف بنجاح"
+  }
+}

@@ -2,8 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "./lib/utils";
+import { useTranslation } from "react-i18next";
+
+const DISCOUNT_KEYS = {
+  "10% off": "discounts.tenOff",
+  "20% off": "discounts.twentyOff",
+  "25% off": "discounts.twentyFiveOff",
+  "50% off": "discounts.fiftyOff",
+  "Free Shipping": "discounts.freeShipping",
+  "Buy 1 Get 1 Free": "discounts.bogo",
+  "Buy 2 Get 1 Free": "discounts.b2g1",
+};
 
 const Profile = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("Profile");
   const [profilePhoto, setProfilePhoto] = useState(
     "/assets/profileDefault.jpg"
@@ -21,6 +33,7 @@ const Profile = () => {
   const [balance, setBalance] = useState(0);
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState("");
+  const [voucherOk, setVoucherOk] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
 
@@ -59,7 +72,7 @@ const Profile = () => {
         const backendOrders = res.data.orders.map((order) => ({
           id: order._id,
           status: order.status || "Processing",
-          item: `${order.items?.length || 0} item(s)`,
+          itemCount: order.items?.length || 0,
           date: new Date(order.createdAt).toISOString().split("T")[0],
         }));
 
@@ -87,15 +100,17 @@ const Profile = () => {
       setSavedCards([...savedCards, newCard]);
       setNewCard({ number: "", expiry: "", cvv: "" });
     } else {
-      alert("Please fill out all fields.");
+      alert(t("profile.fillCard"));
     }
   };
   const handleRedeemVoucher = () => {
     if (voucherCode === "OSTR209") {
       setBalance(balance + 25);
-      setVoucherMessage("Voucher redeemed successfully! You received $25.");
+      setVoucherMessage(t("profile.voucherSuccess"));
+      setVoucherOk(true);
     } else {
-      setVoucherMessage("Invalid voucher code.");
+      setVoucherMessage(t("profile.voucherInvalid"));
+      setVoucherOk(false);
     }
     setVoucherCode("");
   };
@@ -105,16 +120,16 @@ const Profile = () => {
         <div
           key={index}
           className="bg-bg_clr p-3 rounded border border-[#976c60] mb-2">
-          <p className="font-semibold">Card {index + 1}</p>
+          <p className="font-semibold">{t("profile.cardLabel", { index: index + 1 })}</p>
           <p className="text-sm">
-            Number: **** **** **** {card.number.slice(-4)}
+            {t("profile.cardNumberLine", { last4: card.number.slice(-4) })}
           </p>
-          <p className="text-sm">Expiry: {card.expiry}</p>
-          <p className="text-sm">CVV: ***</p>
+          <p className="text-sm">{t("profile.expiryLine", { expiry: card.expiry })}</p>
+          <p className="text-sm">{t("profile.cvvHidden")}</p>
         </div>
       ))
     ) : (
-      <p>No saved cards. Add a new card below!</p>
+      <p>{t("profile.noCardsHint")}</p>
     );
   };
 
@@ -199,7 +214,7 @@ const Profile = () => {
     fetchUserData();
   }, []);
 
-  if (!userData) return <div>Loading profile...</div>;
+  if (!userData) return <div>{t("profile.loading")}</div>;
 
   const [fName, lName] = userData.name.split(" ", 2);
   const email = userData.email;
@@ -210,19 +225,19 @@ const Profile = () => {
         return (
           <div className="text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header">
             <h1 className=" text-center text-2xl font-semibold ">
-              Account Details
+              {t("profile.account")}
             </h1>
             <div className="relative w-32 h-32 m-4 group">
               <img
                 src={profilePhoto}
-                alt="profile"
+                alt={t("profile.photoAlt")}
                 className="w-full h-full object-cover rounded-full border"
               />
               <div className="absolute inset-0 bg-bg_clr bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 cursor-pointer p-3">
                 <label
                   htmlFor="fileUpload"
                   className="text-t_clr text-sm font-medium cursor-pointer ">
-                  Click to change <span className="pl-8">photo</span>
+                  {t("profile.changePhoto")}
                 </label>
                 <input
                   type="file"
@@ -236,7 +251,7 @@ const Profile = () => {
 
             <form className="grid grid-cols-2 gap-4 mt-10">
               <label className="block">
-                <span className="font-bold">First Name</span>
+                <span className="font-bold">{t("profile.firstName")}</span>
                 <input
                   type="text"
                   className="border-[#976c60] border-1 bg-bg_clr dark:border-0 p-2 w-full h-10 mt-3"
@@ -244,7 +259,7 @@ const Profile = () => {
                 />
               </label>
               <label className="block">
-                <span className="font-bold">Last Name</span>
+                <span className="font-bold">{t("profile.lastName")}</span>
                 <input
                   type="text"
                   className="border-[#976c60] border-1 bg-bg_clr p-2 dark:border-0 w-full h-10 mt-3"
@@ -252,7 +267,7 @@ const Profile = () => {
                 />
               </label>
               <label className="block">
-                <span className="font-bold">Username</span>
+                <span className="font-bold">{t("profile.username")}</span>
                 <input
                   type="text"
                   className="border-[#976c60] border-1 bg-bg_clr p-2 dark:border-0 w-full h-10 mt-3"
@@ -260,7 +275,7 @@ const Profile = () => {
                 />
               </label>
               <label className="block">
-                <span className="font-bold">Email</span>
+                <span className="font-bold">{t("profile.email")}</span>
                 <input
                   type="email"
                   className="border-[#976c60] border-1 bg-bg_clr p-2 dark:border-0 w-full h-10 mt-3"
@@ -268,7 +283,7 @@ const Profile = () => {
                 />
               </label>
               <label className="block">
-                <span className="font-bold">Phone Number</span>
+                <span className="font-bold">{t("profile.phone")}</span>
                 <input
                   type="text"
                   className="border-[#976c60] border-1 bg-bg_clr dark:border-0 p-2 w-full mt-3"
@@ -276,7 +291,7 @@ const Profile = () => {
                 />
               </label>
               <div className="block">
-                <span className="font-bold">Gender</span>
+                <span className="font-bold">{t("profile.gender")}</span>
                 <div className="flex gap-4 mt-3">
                   <label className="flex items-center border-[#976c60] border-1 dark:border-0 bg-bg_clr w-55 p-1 ">
                     <input
@@ -285,7 +300,7 @@ const Profile = () => {
                       value="male"
                       className="mr-2 h-8"
                     />{" "}
-                    Male
+                    {t("profile.male")}
                   </label>
                   <label className="flex items-center border-[#976c60] border-1 dark:border-0 bg-bg_clr w-55 p-1">
                     <input
@@ -294,21 +309,21 @@ const Profile = () => {
                       value="female"
                       className="mr-2 h-8"
                     />{" "}
-                    Female
+                    {t("profile.female")}
                   </label>
                 </div>
               </div>
             </form>
 
             <button className="mt-8 bg-bg_clr p-1 w-40 cursor-pointer">
-              Save
+              {t("profile.save")}
             </button>
           </div>
         );
       case "Orders History":
         return (
           <div className="text-t_clr dark:text-black">
-            <h2 className="text-2xl font-semibold mb-4">Past Orders</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t("profile.pastOrders")}</h2>
 
             <div className="flex gap-4 mb-4 flex-wrap justify-center">
               {[
@@ -339,8 +354,8 @@ const Profile = () => {
                       ? "bg-[#976c60] text-white dark:text-black dark:bg-gray-500"
                       : "bg-bg_clr text-t_clr"
                   }`}>
-                  <img src={img} alt={label} className="w-8 h-8 mb-1" />
-                  <span className="text-sm">{label}</span>
+                  <img src={img} alt={t(`status.${label}`)} className="w-8 h-8 mb-1" />
+                  <span className="text-sm">{t(`status.${label}`)}</span>
                 </button>
               ))}
             </div>
@@ -353,10 +368,21 @@ const Profile = () => {
                     className="p-4 bg-bg_clr border rounded-lg shadow-sm flex justify-between items-center">
                     <div>
                       <p>
-                        <strong>Order #{order.id}</strong> - {order.item}
+                        <strong>
+                          {t("profile.orderId", { id: order.id })}
+                        </strong>{" "}
+                        -{" "}
+                        {order.itemCount != null
+                          ? t("profile.itemCount", { count: order.itemCount })
+                          : order.item}
                       </p>
                       <p className="text-sm text-white dark:text-gray-400">
-                        Status: {order.status} | Date: {order.date}
+                        {t("profile.orderMeta", {
+                          status: t(`status.${order.status}`, {
+                            defaultValue: order.status,
+                          }),
+                          date: order.date,
+                        })}
                       </p>
                     </div>
                     <button
@@ -365,13 +391,17 @@ const Profile = () => {
                         setShowOrderModal(true);
                       }}
                       className="text-sm underline text-t_clr-500 hover:text-blue-700 cursor-pointer">
-                      View
+                      {t("profile.view")}
                     </button>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm">No orders found for "{orderFilter}".</p>
+              <p className="text-sm">
+                {t("profile.noOrders", {
+                  filter: t(`status.${orderFilter}`, { defaultValue: orderFilter }),
+                })}
+              </p>
             )}
           </div>
         );
@@ -379,27 +409,27 @@ const Profile = () => {
       case "Settings":
         return (
           <div className="text-t_clr space-y-6">
-            <h2 className="text-2xl font-semibold mb-4">Settings</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t("profile.settings")}</h2>
 
             <div className="space-y-2">
               <button
                 className="dark:border-0 cursor-pointer flex items-center gap-2  font-medium text-left bg-bg_clr border border-[#976c60] p-2 rounded"
                 onClick={() => setShowAddressInput(!showAddressInput)}>
-                Add New Address
+                {t("profile.addAddress")}
               </button>
               {showAddressInput && (
                 <input
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter your location"
+                  placeholder={t("profile.addressPlaceholder")}
                   className="w-full p-2 border border-[#976c60] bg-bg_clr rounded"
                 />
               )}
             </div>
 
             <div>
-              <label className="block font-semibold mb-2">Country</label>
+              <label className="block font-semibold mb-2">{t("profile.country")}</label>
               <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded dark:border-0 cursor-pointer">
                 {[
                   "Egypt",
@@ -411,14 +441,14 @@ const Profile = () => {
                   "UAE",
                 ].map((country) => (
                   <option key={country} value={country}>
-                    {country}
+                    {t(`profile.countries.${country}`)}
                   </option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block font-semibold mb-2">Currency</label>
+              <label className="block font-semibold mb-2">{t("profile.currency")}</label>
               <select className="w-full p-2 bg-bg_clr border border-[#976c60] rounded dark:border-0 cursor-pointer">
                 {["USD ($)", "EUR (€)", "EGP (E£)", "JPY (¥)", "AED (د.إ)"].map(
                   (currency) => (
@@ -432,16 +462,16 @@ const Profile = () => {
 
             <div className="flex flex-col gap-4">
               <label className="flex items-center justify-between">
-                <span className="font-semibold">Dark Mode</span>
+                <span className="font-semibold">{t("profile.darkMode")}</span>
                 <input type="checkbox" className="h-5 w-5" />
               </label>
               <label className="flex items-center justify-between">
-                <span className="font-semibold">Push Notifications</span>
+                <span className="font-semibold">{t("profile.notifications")}</span>
                 <input type="checkbox" className="h-5 w-5" />
               </label>
             </div>
 
-            <Disclosure title="Connect to Us">
+            <Disclosure title={t("profile.connect")}>
               <div className="flex items-center gap-4 mt-3 flex-wrap ">
                 <a
                   href="https://facebook.com"
@@ -449,7 +479,7 @@ const Profile = () => {
                   rel="noopener noreferrer">
                   <img
                     src="/assets/facebook.png"
-                    alt="Facebook"
+                    alt={t("profile.facebook")}
                     className="w-6 h-6"
                   />
                 </a>
@@ -459,7 +489,7 @@ const Profile = () => {
                   rel="noopener noreferrer">
                   <img
                     src="/assets/whatsapp.png"
-                    alt="WhatsApp"
+                    alt={t("profile.whatsapp")}
                     className="w-6 h-6"
                   />
                 </a>
@@ -469,7 +499,7 @@ const Profile = () => {
                   rel="noopener noreferrer">
                   <img
                     src="/assets/tiktok.png"
-                    alt="TikTok"
+                    alt={t("profile.tiktok")}
                     className="w-6 h-6"
                   />
                 </a>
@@ -479,28 +509,26 @@ const Profile = () => {
                   rel="noopener noreferrer">
                   <img
                     src="/assets/twitter.png"
-                    alt="Twitter"
+                    alt={t("profile.twitter")}
                     className="w-6 h-6"
                   />
                 </a>
                 <p className="text-sm mt-2 w-full">
-                  You can also email us at support@OSTR.com
+                  {t("profile.emailUs")}
                 </p>
               </div>
             </Disclosure>
 
-            <Disclosure title="Terms & Conditions">
+            <Disclosure title={t("profile.terms")}>
               <p className="text-sm mt-2">
-                By using this app, you agree to the terms and conditions. These
-                include your responsibility for data usage, proper account
-                conduct, and abiding by platform rules.
+                {t("profile.termsBody")}
               </p>
             </Disclosure>
 
             <button
               onClick={handleLogout}
               className="mt--15 bg-bg_clr text-t_clr p-2 rounded hover:bg-cn_clr cursor-pointer">
-              Logout
+              {t("profile.logout")}
             </button>
           </div>
         );
@@ -508,24 +536,22 @@ const Profile = () => {
       case "Coupons":
         return (
           <div className="text-t_clr space-y-6">
-            <h2 className="text-2xl font-semibold">Coupons</h2>
+            <h2 className="text-2xl font-semibold">{t("profile.coupons")}</h2>
 
             {/* Spin Wheel Section */}
             <div className="bg-bg_clr border border-[#976c60] p-4 rounded text-center dark:border-0">
-              <h3 className="text-lg font-bold mb-2">🎡 Daily Spin Wheel</h3>
-              <p className="mb-4">
-                Spin once a day to win exclusive discounts!
-              </p>
+              <h3 className="text-lg font-bold mb-2">{t("profile.spinTitle")}</h3>
+              <p className="mb-4">{t("profile.spinBody")}</p>
 
               {!hasSpun ? (
                 <button
                   onClick={handleSpin}
                   className="bg-[#976c60] dark:border-0 cursor-pointer dark:bg-white dark:text-black text-white px-4 py-2 rounded hover:bg-[#7e554a] transition">
-                  Spin Now
+                  {t("profile.spinNow")}
                 </button>
               ) : (
                 <p className="text-sm mt-2">
-                  You've already spun today. Come back tomorrow!
+                  {t("profile.alreadySpun")}
                 </p>
               )}
 
@@ -533,23 +559,28 @@ const Profile = () => {
                 <div className="mt-4">
                   <img
                     src="/assets/spin-wheel.png"
-                    alt="Spinning Wheel"
+                    alt={t("profile.wheelAlt")}
                     className="w-50 h-45 mx-auto animate-spin"
                   />
-                  <p className="text-sm mt-2">Spinning...</p>
+                  <p className="text-sm mt-2">{t("profile.spinning")}</p>
                 </div>
               )}
 
               {wonCoupon && (
                 <p className="text-[#f0140f] font-semibold mt-4">
-                  🎉 You won: {wonCoupon.discount} (Code: {wonCoupon.code})
+                  {t("profile.won", {
+                    discount: DISCOUNT_KEYS[wonCoupon.discount]
+                      ? t(DISCOUNT_KEYS[wonCoupon.discount])
+                      : wonCoupon.discount,
+                    code: wonCoupon.code,
+                  })}
                 </p>
               )}
             </div>
 
             <div>
               <h3 className="text-lg font-semibold mb-2">
-                Your Active Coupons
+                {t("profile.activeCoupons")}
               </h3>
               <ul className="space-y-2">
                 {userCoupons.map((coupon) => (
@@ -559,7 +590,12 @@ const Profile = () => {
                     <div>
                       <p className="font-semibold">{coupon.code}</p>
                       <p className="text-sm">
-                        {coupon.discount} — Expires {coupon.expiry}
+                        {t("profile.expires", {
+                          discount: DISCOUNT_KEYS[coupon.discount]
+                            ? t(DISCOUNT_KEYS[coupon.discount])
+                            : coupon.discount,
+                          date: coupon.expiry,
+                        })}
                       </p>
                     </div>
 
@@ -570,7 +606,7 @@ const Profile = () => {
                         setTimeout(() => setShowCopyPopup(null), 2000);
                       }}
                       className="text-sm text-t_clr hover:text-blue-400 hover:underline cursor-pointer">
-                      View QR Code
+                      {t("profile.viewQr")}
                     </button>
                   </li>
                 ))}
@@ -580,10 +616,10 @@ const Profile = () => {
                     <div className="bg-white p-4 rounded shadow-lg">
                       <img
                         src="/assets/qr-code.jpeg"
-                        alt="QR Code"
+                        alt={t("profile.qrAlt")}
                         className="w-70 h-70"
                       />
-                      <p className="text-center text-sm mt-2">Scan QR Code!</p>
+                      <p className="text-center text-sm mt-2">{t("profile.scanQr")}</p>
                     </div>
                   </div>
                 )}
@@ -595,27 +631,27 @@ const Profile = () => {
       case "Wallet":
         return (
           <div className="text-t_clr space-y-6">
-            <h2 className="text-2xl font-semibold">Wallet</h2>
+            <h2 className="text-2xl font-semibold">{t("profile.wallet")}</h2>
 
             {/* Current Balance Section */}
             <div className="bg-bg_clr p-4 rounded border border-[#976c60] mb-6 dark:border-0">
-              <h3 className="text-lg font-semibold">Current Balance</h3>
+              <h3 className="text-lg font-semibold">{t("profile.balance")}</h3>
               <p className="text-xl font-semibold">${balance}</p>{" "}
               {/* Display dynamic balance */}
             </div>
 
             {/* Saved Cards Section */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Your Saved Cards</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("profile.savedCards")}</h3>
               {savedCards.length === 0 ? (
-                <p>No saved cards yet.</p>
+                <p>{t("profile.noCards")}</p>
               ) : (
                 savedCards.map((card, index) => (
                   <div
                     key={index}
                     className="bg-bg_clr p-3 rounded border border-[#976c60] mb-2 dark:border-0">
                     <p className="font-semibold">{card.number}</p>
-                    <p className="text-sm">Expires {card.expiry}</p>
+                    <p className="text-sm">{t("profile.expiresCard", { expiry: card.expiry })}</p>
                   </div>
                 ))
               )}
@@ -624,17 +660,17 @@ const Profile = () => {
             <button
               onClick={() => setIsFormVisible(!isFormVisible)} // Toggle form visibility
               className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition mb-4 ">
-              {isFormVisible ? "Cancel" : "Add New Card"}
+              {isFormVisible ? t("profile.cancel") : t("profile.addCard")}
             </button>
 
             {isFormVisible && (
               <div className="bg-bg_clr p-4 rounded border border-[#976c60] dark:border-0 cursor-pointer">
-                <h3 className="text-lg font-bold mb-2">Add New Card</h3>
+                <h3 className="text-lg font-bold mb-2">{t("profile.addCard")}</h3>
                 <form onSubmit={handleAddCard}>
                   <div className="space-y-4">
                     <div>
                       <label htmlFor="cardNumber" className="text-sm">
-                        Card Number
+                        {t("profile.cardNumber")}
                       </label>
                       <input
                         type="text"
@@ -643,14 +679,14 @@ const Profile = () => {
                         value={newCard.number}
                         onChange={handleCardInputChange}
                         className="w-full p-2 mt-2 border border-[#976c60] rounded dark:border-0 cursor-pointer"
-                        placeholder="Enter card number"
+                        placeholder={t("profile.cardPlaceholder")}
                         required
                       />
                     </div>
 
                     <div>
                       <label htmlFor="expiryDate" className="text-sm">
-                        Expiry Date
+                        {t("profile.expiry")}
                       </label>
                       <input
                         type="text"
@@ -659,14 +695,14 @@ const Profile = () => {
                         value={newCard.expiry}
                         onChange={handleCardInputChange}
                         className="w-full p-2 mt-2 border border-[#976c60] rounded"
-                        placeholder="MM/YY"
+                        placeholder={t("profile.expiryPlaceholder")}
                         required
                       />
                     </div>
 
                     <div>
                       <label htmlFor="cvv" className="text-sm">
-                        CVV
+                        {t("profile.cvv")}
                       </label>
                       <input
                         type="text"
@@ -675,7 +711,7 @@ const Profile = () => {
                         value={newCard.cvv}
                         onChange={handleCardInputChange}
                         className="w-full p-2 mt-2 border border-[#976c60] rounded"
-                        placeholder="CVV"
+                        placeholder={t("profile.cvv")}
                         required
                       />
                     </div>
@@ -683,7 +719,7 @@ const Profile = () => {
                     <button
                       type="submit"
                       className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition">
-                      Add Card
+                      {t("profile.addCardButton")}
                     </button>
                   </div>
                 </form>
@@ -691,23 +727,23 @@ const Profile = () => {
             )}
 
             <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Redeem Voucher</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("profile.redeem")}</h3>
               <input
                 type="text"
                 value={voucherCode}
                 onChange={(e) => setVoucherCode(e.target.value)}
                 className="w-full p-2 border border-[#976c60] rounded mb-4"
-                placeholder="Enter voucher code"
+                placeholder={t("profile.voucherPlaceholder")}
               />
               <button
                 onClick={handleRedeemVoucher}
                 className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a] transition">
-                Redeem
+                {t("profile.redeemButton")}
               </button>
               {voucherMessage && (
                 <p
                   className={`mt-4 text-sm ${
-                    voucherMessage.includes("Invalid")
+                    voucherOk === false
                       ? "text-red-500"
                       : "text-green-500"
                   }`}>
@@ -729,14 +765,14 @@ const Profile = () => {
         <div className="relative w-32 h-32 m-4 group">
           <img
             src={profilePhoto}
-            alt="profile"
+            alt={t("profile.photoAlt")}
             className="w-full h-full object-cover rounded-full border"
           />
           <div className="absolute inset-0 bg-bg_clr bg-opacity-30 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 cursor-pointer">
             <label
               htmlFor="sidebarFileUpload"
               className="text-t_clr text-sm font-medium cursor-pointer ">
-              Click to change <span className="pl-8">photo</span>
+              {t("profile.changePhoto")}
             </label>
             <input
               type="file"
@@ -749,41 +785,51 @@ const Profile = () => {
         </div>
 
         <ul>
-          {["Profile", "Orders History", "Settings", "Coupons", "Wallet"].map(
-            (item) => (
+          {[
+            { id: "Profile", label: t("profile.tabs.profile") },
+            { id: "Orders History", label: t("profile.tabs.orders") },
+            { id: "Settings", label: t("profile.tabs.settings") },
+            { id: "Coupons", label: t("profile.tabs.coupons") },
+            { id: "Wallet", label: t("profile.tabs.wallet") },
+          ].map((item) => (
               <li
-                key={item}
+                key={item.id}
                 className={`p-2 hover:bg-cn_clr cursor-pointer ${
-                  activeTab === item ? "bg-cn_clr" : ""
+                  activeTab === item.id ? "bg-cn_clr" : ""
                 }`}
-                onClick={() => setActiveTab(item)}>
-                {item}
+                onClick={() => setActiveTab(item.id)}>
+                {item.label}
               </li>
-            )
-          )}
+            ))}
         </ul>
         {showOrderModal && selectedOrder && (
           <div className="fixed inset-0 flex items-center justify-center bg-bg_clr bg-opacity-500 z-50">
             <div className="bg-white dark:bg-bg_clr p-6 rounded shadow-lg w-96 text-t_clr dark:text-white">
-              <h2 className="text-xl font-semibold mb-4">Order Details</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("profile.orderDetails")}</h2>
               <p>
-                <strong>Order ID:</strong> {selectedOrder.id}
+                <strong>{t("profile.orderIdLabel")}</strong> {selectedOrder.id}
               </p>
               <p>
-                <strong>Status:</strong> {selectedOrder.status}
+                <strong>{t("profile.statusLabel")}</strong>{" "}
+                {t(`status.${selectedOrder.status}`, {
+                  defaultValue: selectedOrder.status,
+                })}
               </p>
               <p>
-                <strong>Items:</strong> {selectedOrder.item}
+                <strong>{t("profile.itemsLabel")}</strong>{" "}
+                {selectedOrder.itemCount != null
+                  ? t("profile.itemCount", { count: selectedOrder.itemCount })
+                  : selectedOrder.item}
               </p>
               <p>
-                <strong>Date:</strong> {selectedOrder.date}
+                <strong>{t("profile.dateLabel")}</strong> {selectedOrder.date}
               </p>
 
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={() => setShowOrderModal(false)}
                   className="bg-[#976c60] text-white px-4 py-2 rounded hover:bg-[#7e554a]">
-                  Close
+                  {t("profile.close")}
                 </button>
               </div>
             </div>

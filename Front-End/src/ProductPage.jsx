@@ -8,8 +8,10 @@ import { useWishlist } from "./context/WishlistContext";
 import axios from "axios";
 import { useCart } from "./context/CartContext";
 import { BASE_URL } from "./lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function ProductPage() {
+  const { t } = useTranslation();
   const [product, setProduct] = useState({});
   const [products, setProducts] = useState([]);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -87,12 +89,12 @@ export default function ProductPage() {
 
   const addToCart = async () => {
     if (!size) {
-      setText("Please Select A Size");
+      setText(t("product.selectSize"));
       handleMessage();
       return;
     }
     if (!selectedColor) {
-      setText("Please Select A Color");
+      setText(t("product.selectColor"));
       handleMessage();
       return;
     }
@@ -100,12 +102,12 @@ export default function ProductPage() {
     try {
       await addToCartFromContext(product._id, count);
       await fetchCart();
-      setText("Item Added To Cart");
+      setText(t("product.addedToCart"));
       handleMessage();
       setAdded(true);
     } catch (error) {
       console.error("Failed to add to cart:", error);
-      setText("User Must Be Signed In");
+      setText(t("product.mustSignIn"));
       handleMessage();
     }
   };
@@ -124,7 +126,7 @@ export default function ProductPage() {
                     key={photo.src}
                     src={photo.src}
                     className="w-full max-h-[768px] rounded-lg object-cover flex-shrink-0"
-                    alt="Product Photo"
+                    alt={t("product.photoAlt")}
                   />
                 )) || []
               }
@@ -139,7 +141,10 @@ export default function ProductPage() {
             <div className="flex items-baseline gap-3">
               <StarRating rating={rating} />
               <p className="font-medium text-l">
-                {rating} ({reviewCount} Review)
+                {t("product.reviewsLine", {
+                  rating,
+                  count: reviewCount,
+                })}
               </p>
             </div>
             <h1 className="font-bold text-2xl mt-5 animate-pulse">
@@ -148,8 +153,8 @@ export default function ProductPage() {
             <hr className="border border-gray-300 my-2" />
 
             <div className="flex gap-20 mt-4">
-              <h1 className="font-medium">Available Sizes</h1>
-              <h1 className="font-medium">Colors</h1>
+              <h1 className="font-medium">{t("product.sizes")}</h1>
+              <h1 className="font-medium">{t("product.colors")}</h1>
             </div>
             <div className="flex gap-10">
               <div className="flex gap-2 ">
@@ -218,8 +223,8 @@ export default function ProductPage() {
                 onClick={() => {
                   setText(
                     isWishlisted
-                      ? "Item Removed From Wishlist"
-                      : "Item Added To Wishlist"
+                      ? t("product.removedWishlist")
+                      : t("product.addedWishlist")
                   );
                   handleMessage();
                   toggleWishlist(product);
@@ -229,7 +234,7 @@ export default function ProductPage() {
                     ? "bg-t_clr text-cn_clr scale-105 w-3/5 ml-[-25px] "
                     : "scale-100"
                 }`}>
-                {isWishlisted ? "Remove From Wishlist" : "Add To Wishlist"}
+                {isWishlisted ? t("product.removeWishlist") : t("product.addWishlist")}
                 <i
                   className={`transition-all duration-300 ease-in-out ${
                     isWishlisted
@@ -246,10 +251,10 @@ export default function ProductPage() {
               onClick={addToCart}>
               {added ? (
                 <>
-                  Added <i className="ri-check-line text-white text-lg"></i>
+                  {t("product.added")} <i className="ri-check-line text-white text-lg"></i>
                 </>
               ) : (
-                "Add To Cart"
+                t("product.addToCart")
               )}
             </button>
           </section>
@@ -277,7 +282,7 @@ export default function ProductPage() {
             onClick={() => {
               setActiveTab("description");
             }}>
-            Description
+            {t("product.description")}
           </h1>
           <h1
             className={`cursor-pointer ease duration-100 ${
@@ -286,7 +291,7 @@ export default function ProductPage() {
             onClick={() => {
               setActiveTab("reviews");
             }}>
-            Reviews
+            {t("product.reviews")}
           </h1>
         </div>
 
@@ -301,7 +306,7 @@ export default function ProductPage() {
                     <div className="flex items-center gap-3">
                       <img
                         src={review.user.avatar}
-                        alt="User Photo"
+                        alt={t("product.userPhotoAlt")}
                         className="rounded-full size-12 object-cover"
                       />
                       <h1 className="text-xl flex items-center gap-2">
@@ -329,7 +334,7 @@ export default function ProductPage() {
         <section className="mt-20">
           <div className="flex justify-between border-b-2 border-gray-300 my-1 pb-1">
             <h1 className="text-2xl font-semibold self-end ">
-              Related Products
+              {t("product.related")}
             </h1>
             <div className="flex gap-2 justify-center">
               <button
@@ -356,7 +361,7 @@ export default function ProductPage() {
                 className="px-3 mt-3 flex flex-col w-full content-end">
                 <img
                   src={product.photos[0].src}
-                  alt="Product Photo"
+                  alt={t("product.photoAlt")}
                   className="rounded-lg w-full h-[500px] object-cover cursor-pointer hover:scale-105 hover:-translate-y-0.5 ease-in-out transition-all duration-300 hover:shadow-xl hover:shadow-gray-500/40"
                   onClick={() => {
                     window.scrollTo(0, 100);

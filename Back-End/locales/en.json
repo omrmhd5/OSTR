@@ -1,0 +1,37 @@
+{
+  "errors": {
+    "invalidEmail": "Invalid email format",
+    "userExists": "User already exists",
+    "invalidCredentials": "Invalid email or password",
+    "userNotFound": "User not found",
+    "emailNotFound": "Email does not exist",
+    "adminOnly": "Access denied. Admins only.",
+    "noToken": "Access denied. No token provided.",
+    "invalidToken": "Invalid or expired token. Access denied.",
+    "productNotFound": "Product not found",
+    "productMissing": "Product Does Not Exist",
+    "categoryNotFound": "Category not found",
+    "categoryMissing": "Category '{{name}}' not found.",
+    "categoryExists": "Category already exists",
+    "invalidProducts": "Invalid input. Please provide an array of products.",
+    "requiredFields": "Please provide all required fields",
+    "cartNotFound": "Cart not found",
+    "cartItemMissing": "Product not found in cart",
+    "server": "Internal Server Error",
+    "serverGeneric": "Server Error",
+    "somethingWrong": "Something went wrong",
+    "createProduct": "Server error while creating product",
+    "deleteProduct": "Server error while deleting product",
+    "createCustom": "Server error while creating custom product",
+    "createOrder": "Failed to create order",
+    "fetchOrders": "Failed to fetch orders"
+  },
+  "success": {
+    "login": "Login successful",
+    "profileUpdated": "Profile updated successfully",
+    "passwordUpdated": "Password updated successfully",
+    "productsAdded": "Products added successfully",
+    "productDeleted": "Product deleted successfully",
+    "categoryAdded": "Category added successfully"
+  }
+}

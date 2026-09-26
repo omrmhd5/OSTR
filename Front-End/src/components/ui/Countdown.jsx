@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { useTranslation } from "react-i18next";
 
 export default function Countdown() {
+  const { t } = useTranslation();
   const minuteToSeconds = 60;
   const hourToSeconds = 3600;
   const dayToSeconds = 86400;
@@ -58,7 +60,7 @@ export default function Countdown() {
         initialRemainingTime={remainingTime}>
         {({ elapsedTime, color }) => (
           <span style={{ color }}>
-            {renderTime("Days", getTimeDays(daysDuration - elapsedTime))}
+            {renderTime(t("countdown.days"), getTimeDays(daysDuration - elapsedTime))}
           </span>
         )}
       </CountdownCircleTimer>
@@ -72,7 +74,7 @@ export default function Countdown() {
         })}>
         {({ elapsedTime, color }) => (
           <span style={{ color }}>
-            {renderTime("Hours", getTimeHours(dayToSeconds - elapsedTime))}
+            {renderTime(t("countdown.hours"), getTimeHours(dayToSeconds - elapsedTime))}
           </span>
         )}
       </CountdownCircleTimer>
@@ -86,7 +88,7 @@ export default function Countdown() {
         })}>
         {({ elapsedTime, color }) => (
           <span style={{ color }}>
-            {renderTime("Minutes", getTimeMinutes(hourToSeconds - elapsedTime))}
+            {renderTime(t("countdown.minutes"), getTimeMinutes(hourToSeconds - elapsedTime))}
           </span>
         )}
       </CountdownCircleTimer>
@@ -100,7 +102,7 @@ export default function Countdown() {
         })}>
         {({ elapsedTime, color }) => (
           <span style={{ color }}>
-            {renderTime("Seconds", getTimeSeconds(elapsedTime))}
+            {renderTime(t("countdown.seconds"), getTimeSeconds(elapsedTime))}
           </span>
         )}
       </CountdownCircleTimer>

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "./lib/utils";
+import { useTranslation } from "react-i18next";
 
 const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
+  const { t } = useTranslation();
   const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [cardNumber, setCardNumber] = useState("");
   const [cvv, setCvv] = useState("");
 
   const handlePayment = async () => {
     if (paymentMethod === "Visa" && (!cardNumber || !cvv)) {
-      alert("Please enter card details.");
+      alert(t("checkout.cardRequired"));
       return;
     }
 
@@ -34,30 +36,30 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
       });
 
       if (response.data.success) {
-        alert(" Order placed successfully!");
+        alert(t("checkout.success"));
         onConfirm(); // Close modal
       } else {
-        alert(" Order failed. Try again.");
+        alert(t("checkout.failed"));
       }
     } catch (error) {
       console.error("Order creation error:", error);
-      alert("Something went wrong while creating the order.");
+      alert(t("checkout.error"));
     }
   };
 
   return (
     <div className="fixed inset-0 bg-bg_clr bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg max-w-sm w-full space-y-4">
-        <h2 className="text-xl font-bold mb-4">Confirm Your Order</h2>
+        <h2 className="text-xl font-bold mb-4">{t("checkout.title")}</h2>
 
         <div>
-          <label className="block mb-2 font-semibold">Payment Method</label>
+          <label className="block mb-2 font-semibold">{t("checkout.method")}</label>
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
             className="w-full border p-2 rounded">
-            <option value="Cash">Cash</option>
-            <option value="Visa">Visa</option>
+            <option value="Cash">{t("checkout.cash")}</option>
+            <option value="Visa">{t("checkout.visa")}</option>
           </select>
         </div>
 
@@ -65,14 +67,14 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
           <>
             <input
               type="text"
-              placeholder="Card Number"
+              placeholder={t("checkout.cardNumber")}
               value={cardNumber}
               onChange={(e) => setCardNumber(e.target.value)}
               className="w-full border p-2 rounded mt-2"
             />
             <input
               type="text"
-              placeholder="CVV"
+              placeholder={t("checkout.cvv")}
               value={cvv}
               onChange={(e) => setCvv(e.target.value)}
               className="w-full border p-2 rounded mt-2"
@@ -84,12 +86,12 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
           <button
             className="bg-gray-300 px-4 py-2 rounded hover:bg-red-500"
             onClick={onConfirm}>
-            Cancel
+            {t("checkout.cancel")}
           </button>
           <button
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-bg_clr"
             onClick={handlePayment}>
-            Pay ${total.toFixed(2)}
+            {t("checkout.pay", { amount: total.toFixed(2) })}
           </button>
         </div>
       </div>

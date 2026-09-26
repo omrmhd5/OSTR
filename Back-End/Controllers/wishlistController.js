@@ -1,5 +1,6 @@
 const Wishlist = require("../Models/Wishlist");
 const Product = require("../Models/Product");
+const { t } = require("../utils/i18n");
 
 exports.toggleWishlist = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ exports.toggleWishlist = async (req, res) => {
     if (!product) {
       return res
         .status(404)
-        .json({ success: false, message: "Product not found" });
+        .json({ success: false, message: t(req, "errors.productNotFound") });
     }
 
     let wishlist = await Wishlist.findOne({ user: userId });
@@ -39,7 +40,7 @@ exports.toggleWishlist = async (req, res) => {
     res.status(200).json({ success: true, wishlist });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server Error" });
+    res.status(500).json({ success: false, message: t(req, "errors.serverGeneric") });
   }
 };
 
@@ -59,6 +60,6 @@ exports.getWishlist = async (req, res) => {
     res.status(200).json({ success: true, wishlist: wishlist.products });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server Error" });
+    res.status(500).json({ success: false, message: t(req, "errors.serverGeneric") });
   }
 };

@@ -1,4 +1,5 @@
 const Order = require("../Models/Order");
+const { t } = require("../utils/i18n");
 
 const createOrder = async (req, res) => {
   try {
@@ -17,7 +18,7 @@ const createOrder = async (req, res) => {
     res.status(201).json({ success: true, order: newOrder });
   } catch (err) {
     console.error("Create order error:", err);
-    res.status(500).json({ success: false, message: "Failed to create order" });
+    res.status(500).json({ success: false, message: t(req, "errors.createOrder") });
   }
 };
 
@@ -29,7 +30,7 @@ const getUserOrders = async (req, res) => {
     res.status(200).json({ success: true, orders });
   } catch (err) {
     console.error("Get orders error:", err);
-    res.status(500).json({ success: false, message: "Failed to fetch orders" });
+    res.status(500).json({ success: false, message: t(req, "errors.fetchOrders") });
   }
 };
 

@@ -1,5 +1,6 @@
 const Product = require("../Models/Product");
 const Category = require("../Models/Category");
+const { t } = require("../utils/i18n");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -7,7 +8,7 @@ const getAllProducts = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     console.error("Error fetching products:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -17,12 +18,12 @@ const getProductByID = async (req, res) => {
     const product = await Product.findById(id);
 
     if (!product) {
-      return res.status(404).json({ message: "Product Does Not Exist" });
+      return res.status(404).json({ message: t(req, "errors.productMissing") });
     }
     res.status(200).json(product);
   } catch (error) {
     console.error("Error fetching product:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -31,7 +32,7 @@ const getProductsByCategory = async (req, res) => {
   try {
     const categoryDoc = await Category.findOne({ name: category });
     if (!categoryDoc) {
-      return res.status(404).json({ message: "Category not found" });
+      return res.status(404).json({ message: t(req, "errors.categoryNotFound") });
     }
     const products = await Product.find({ category: categoryDoc._id }).populate(
       "category",
@@ -41,7 +42,7 @@ const getProductsByCategory = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     console.error("Error fetching products by category:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -51,7 +52,7 @@ const addProducts = async (req, res) => {
   if (!Array.isArray(productsData) || productsData.length === 0) {
     return res
       .status(400)
-      .json({ message: "Invalid input. Please provide an array of products." });
+      .json({ message: t(req, "errors.invalidProducts") });
   }
 
   try {
@@ -63,7 +64,7 @@ const addProducts = async (req, res) => {
       if (!categoryDoc) {
         return res
           .status(404)
-          .json({ message: `Category '${product.category}' not found.` });
+          .json({ message: t(req, "errors.categoryMissing", { name: product.category }) });
       }
 
       const updatedProduct = {
@@ -77,12 +78,12 @@ const addProducts = async (req, res) => {
     const addedProducts = await Product.insertMany(updatedProductsData);
 
     res.status(201).json({
-      message: "Products added successfully",
+      message: t(req, "success.productsAdded"),
       products: addedProducts,
     });
   } catch (error) {
     console.error("Error adding products:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: t(req, "errors.server") });
   }
 };
 
@@ -93,7 +94,7 @@ const addProduct = async (req, res) => {
     if (!name || !price || !description || !image) {
       return res
         .status(400)
-        .json({ message: "Please provide all required fields" });
+        .json({ message: t(req, "errors.requiredFields") });
     }
 
     const newProduct = new Product({
@@ -122,7 +123,7 @@ const addProduct = async (req, res) => {
     res.status(201).json(newProduct);
   } catch (error) {
     console.error("Error creating product:", error);
-    res.status(500).json({ message: "Server error while creating product" });
+    res.status(500).json({ message: t(req, "errors.createProduct") });
   }
 };
 
@@ -131,14 +132,14 @@ const deleteProduct = async (req, res) => {
     const product = await Product.findById(req.params.id);
 
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({ message: t(req, "errors.productNotFound") });
     }
 
     await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Product deleted successfully" });
+    res.status(200).json({ message: t(req, "success.productDeleted") });
   } catch (error) {
     console.error("Error deleting product:", error);
-    res.status(500).json({ message: "Server error while deleting product" });
+    res.status(500).json({ message: t(req, "errors.deleteProduct") });
   }
 };
 
@@ -158,7 +159,7 @@ const addCustomProduct = async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ message: "Please provide all required fields" });
+        .json({ message: t(req, "errors.requiredFields") });
     }
 
     const newProduct = new Product({
@@ -181,7 +182,7 @@ const addCustomProduct = async (req, res) => {
     console.error("Error creating custom product:", error);
     res
       .status(500)
-      .json({ message: "Server error while creating custom product" });
+      .json({ message: t(req, "errors.createCustom") });
   }
 };
 

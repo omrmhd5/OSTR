@@ -1,6 +1,28 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const columns = [
+    {
+      title: t("footer.company"),
+      links: ["about", "features", "works", "career"],
+    },
+    {
+      title: t("footer.help"),
+      links: ["support", "delivery", "terms", "privacy"],
+    },
+    {
+      title: t("footer.faq"),
+      links: ["account", "manageDeliveries", "orders", "payments"],
+    },
+    {
+      title: t("footer.resources"),
+      links: ["ebooks", "tutorial", "blog", "youtube"],
+    },
+  ];
+
   return (
     <footer className=" text-t_clr text-center bg-grey-900 p-10 bg-white font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header ">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-6 mb-15">
@@ -12,8 +34,7 @@ export default function Footer() {
           </Link>
 
           <p className="text-sm mt-5 text-left">
-            We have clothes that suit your style and which you’re proud to wear.{" "}
-            <br /> From women to men.
+            {t("footer.taglineLine1")} <br /> {t("footer.taglineLine2")}
           </p>
           <div className="flex gap-4 mt-5 text-2xl">
             {["fa-facebook", "fa-instagram", "fa-tiktok", "fa-twitter"].map(
@@ -28,36 +49,15 @@ export default function Footer() {
           </div>
         </div>
 
-        {[
-          { COMPANY: ["About", "Features", "Works", "Career"] },
-          {
-            HELP: [
-              "Customer Support",
-              "Delivery Details",
-              "Terms & Conditions",
-              "Privacy Policy",
-            ],
-          },
-          {
-            FAQ: ["Account", "Manage Deliveries", "Orders", "Payments"],
-          },
-          {
-            RESOURCES: [
-              "Free eBooks",
-              "Development Tutorial",
-              "How to - Blog",
-              "Youtube Playlist",
-            ],
-          },
-        ].map((section, index) => (
-          <div key={index}>
-            <h4 className="font-semibold mb-5">{Object.keys(section)[0]}</h4>
+        {columns.map((section) => (
+          <div key={section.title}>
+            <h4 className="font-semibold mb-5">{section.title}</h4>
             <ul className="mt-2 space-y-2 text-sm">
-              {Object.values(section)[0].map((content, index) => (
+              {section.links.map((content) => (
                 <li
                   className="hover:text-sky-950 hover:underline underline-offset-4 cursor-pointer"
-                  key={index}>
-                  {content}
+                  key={content}>
+                  {t(`footer.links.${content}`)}
                 </li>
               ))}
             </ul>
@@ -66,9 +66,7 @@ export default function Footer() {
       </div>
 
       <hr />
-      <p className="text-sm text-left mt-5">
-        Ostor © 2020-2025, All Rights Reserved
-      </p>
+      <p className="text-sm text-left mt-5">{t("footer.copyright")}</p>
       <div className="flex gap-4 text-3xl justify-end -mt-5">
         {["visa", "mastercard", "paypal", "apple-pay"].map((payment, index) => (
           <i key={index} className={`fa-brands fa-cc-${payment}`} />
