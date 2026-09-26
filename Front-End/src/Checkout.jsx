@@ -48,12 +48,14 @@ const CheckoutComponent = ({ selectedProducts, total, onConfirm }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-bg_clr bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-bg_clr bg-opacity-50 flex items-center justify-center z-[90]">
       <div className="bg-white p-6 rounded-lg max-w-sm w-full space-y-4">
         <h2 className="text-xl font-bold mb-4">{t("checkout.title")}</h2>
 
         <div>
-          <label className="block mb-2 font-semibold">{t("checkout.method")}</label>
+          <label className="block mb-2 font-semibold">
+            {t("checkout.method")}
+          </label>
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}

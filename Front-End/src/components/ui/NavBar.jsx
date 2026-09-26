@@ -35,7 +35,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="w-full h-full flex justify-around p-6 z-5 bg-white text-t_clr font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header ">
+    <nav className="sticky top-[var(--demo-banner-h,0px)] z-[70] w-full flex justify-around border-b border-black/5 bg-white p-6 text-t_clr shadow-sm dark:border-white/10 dark:bg-neutral-950 font-paragraph [&_h1]:font-header [&_h2]:font-header [&_h3]:font-header [&_h4]:font-header [&_h5]:font-header [&_h6]:font-header ">
       <PopUpMessage text={t("nav.loggedOut")} show={showMessage} />
 
       <Link to="/">
@@ -49,7 +49,12 @@ export default function NavBar() {
           { name: t("nav.shop"), path: "shop" },
           { name: t("nav.style"), path: "style" },
           { name: t("nav.login"), path: "login", LoggedIn: false },
-          { name: t("nav.profile"), path: "profile", LoggedIn: true, role: "user" },
+          {
+            name: t("nav.profile"),
+            path: "profile",
+            LoggedIn: true,
+            role: "user",
+          },
           {
             name: t("nav.admin"),
             path: "admin",
@@ -72,8 +77,7 @@ export default function NavBar() {
                 `transition-all ease-linear duration-100 
             hover:text-sky-950 hover:underline underline-offset-4
             ${isActive ? "text-sky-950 underline" : ""}`
-              }
-            >
+              }>
               <li className="text-base">{item.name}</li>
             </NavLink>
           ))}
@@ -116,7 +120,7 @@ export default function NavBar() {
               }>
               <i className={`fa-solid ${item.icon}`} />
             </NavLink>
-          )
+          ),
         )}
       </div>
     </nav>
